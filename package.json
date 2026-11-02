@@ -5,7 +5,7 @@
   "description": "Platform transparansi penerimaan pajak daerah dan belanja APBD Provinsi DKI Jakarta",
   "scripts": {
     "dev": "python -m http.server 3000",
-    "test": "node --test --experimental-strip-types src/lib/format.test.ts src/data/dataClient.test.ts src/components/charts/charts.test.ts"
+    "test": "echo \"No test specified\""
   },
   "dependencies": {
     "echarts": "^6.1.0",

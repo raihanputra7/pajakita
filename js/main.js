@@ -223,11 +223,11 @@ function initNavbar() {
 // HERO BACKGROUND SLIDESHOW (Crossfade 1.2s + Smooth Ken Burns Scale 1.0 -> 1.08)
 // =========================================================================
 const HERO_IMAGES = [
-  { src: 'assets/hero-1-monas.jpg', alt: 'Monumen Nasional Jakarta', position: '50% 35%' },
-  { src: 'assets/hero-2-sudirman-kaca.jpg', alt: 'Gedung Kaca Sudirman Jakarta', position: '50% 50%' },
-  { src: 'assets/hero-3-skyline-malam.jpg', alt: 'Cakrawala Malam Jakarta', position: '50% 40%' },
-  { src: 'assets/hero-4-jalan-sudirman.jpg', alt: 'Koridor Jalan Sudirman Jakarta', position: '50% 60%' },
-  { src: 'assets/hero-5-jpo-senja.jpg', alt: 'JPO Sudirman Senja Jakarta', position: '50% 50%' }
+  { src: 'public/assets/hero-1-monas.jpg', alt: 'Monumen Nasional Jakarta', position: '50% 35%' },
+  { src: 'public/assets/hero-2-sudirman-kaca.jpg', alt: 'Gedung Kaca Sudirman Jakarta', position: '50% 50%' },
+  { src: 'public/assets/hero-3-skyline-malam.jpg', alt: 'Cakrawala Malam Jakarta', position: '50% 40%' },
+  { src: 'public/assets/hero-4-jalan-sudirman.jpg', alt: 'Koridor Jalan Sudirman Jakarta', position: '50% 60%' },
+  { src: 'public/assets/hero-5-jpo-senja.jpg', alt: 'JPO Sudirman Senja Jakarta', position: '50% 50%' }
 ];
 
 function initHeroSlideshow() {

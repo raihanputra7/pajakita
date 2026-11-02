@@ -47,10 +47,10 @@ export async function loadData() {
   if (cachedData) return cachedData;
 
   const candidateUrls = [
-    'data/data.anggaran.json',
-    '/data/data.anggaran.json',
     'public/data/pajak-kita-data-anggaran.json',
     '/public/data/pajak-kita-data-anggaran.json',
+    'data/pajak-kita-data-anggaran.json',
+    '/data/pajak-kita-data-anggaran.json',
   ];
 
   for (const url of candidateUrls) {
@@ -141,7 +141,10 @@ export async function getTurunan() {
 export async function getInsight(wilayah) {
   try {
     let facts = [];
-    const urls = ['/content/insight-facts.json', 'content/insight-facts.json'];
+    const urls = [
+      'public/data/insight-facts.json',
+      '/public/data/insight-facts.json',
+    ];
     for (const u of urls) {
       try {
         const res = await fetch(u);
@@ -218,10 +221,10 @@ export async function loadRealisasiData() {
   if (cachedRealisasiData) return cachedRealisasiData;
 
   const urls = [
-    '/public/data/pajak-kita-data-realisasi.json',
-    '/data/data.realisasi.json',
     'public/data/pajak-kita-data-realisasi.json',
-    'data/data.realisasi.json',
+    '/public/data/pajak-kita-data-realisasi.json',
+    'data/pajak-kita-data-realisasi.json',
+    '/data/pajak-kita-data-realisasi.json',
   ];
 
   for (const url of urls) {

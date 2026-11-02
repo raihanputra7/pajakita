@@ -33,11 +33,7 @@
    * Mengambil data 158 istilah glosarium dari file JSON
    */
   async function loadGlossaryData() {
-    const urls = [
-      'data/glosarium-pajak-keuangan-daerah.json',
-      'public/data/glosarium-pajak-keuangan-daerah.json',
-      '/data/glosarium-pajak-keuangan-daerah.json'
-    ];
+    const urls = ['public/data/glosarium-pajak-keuangan-daerah.json', '/public/data/glosarium-pajak-keuangan-daerah.json', 'data/glosarium-pajak-keuangan-daerah.json', '/data/glosarium-pajak-keuangan-daerah.json'];
 
     for (const url of urls) {
       try {

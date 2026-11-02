@@ -14,7 +14,7 @@ import {
   formatRupiahRingkas,
   formatPersen,
   formatTanggalIndonesia,
-} from '../src/lib/format.ts';
+} from '../js/format.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -140,7 +140,7 @@ for (const unit of wilayahUnits) {
   });
 }
 
-const outputPath = path.join(rootDir, 'content/insight-facts.json');
+const outputPath = path.join(rootDir, 'public/data/insight-facts.json');
 fs.writeFileSync(outputPath, JSON.stringify(facts, null, 2), 'utf-8');
 
 console.log(`[generate-insight-facts] Berhasil membuat ${facts.length} fakta insight ke ${outputPath}`);

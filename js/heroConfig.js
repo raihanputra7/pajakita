@@ -8,27 +8,27 @@
 
 export const HERO_SLIDES = [
   {
-    src: 'assets/hero-1-monas.jpg',
+    src: 'public/assets/hero-1-monas.jpg',
     objectPosition: '50% 35%',
     label: 'Monumen Nasional Jakarta',
   },
   {
-    src: 'assets/hero-2-sudirman-kaca.jpg',
+    src: 'public/assets/hero-2-sudirman-kaca.jpg',
     objectPosition: '50% 50%',
     label: 'Gedung Kaca Sudirman Jakarta',
   },
   {
-    src: 'assets/hero-3-skyline-malam.jpg',
+    src: 'public/assets/hero-3-skyline-malam.jpg',
     objectPosition: '50% 40%',
     label: 'Cakrawala Malam Jakarta',
   },
   {
-    src: 'assets/hero-4-jalan-sudirman.jpg',
+    src: 'public/assets/hero-4-jalan-sudirman.jpg',
     objectPosition: '50% 60%',
     label: 'Koridor Jalan Sudirman Jakarta',
   },
   {
-    src: 'assets/hero-5-jpo-senja.jpg',
+    src: 'public/assets/hero-5-jpo-senja.jpg',
     objectPosition: '50% 50%',
     label: 'JPO Sudirman Senja Jakarta',
   },

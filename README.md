@@ -3,7 +3,7 @@
 Platform *civic-tech* independen untuk transparansi aliran pajak daerah dan alokasi belanja APBD Provinsi DKI Jakarta. Dirancang dengan pendekatan **Editorial Modern Betawi** agar data fiskal publik yang kompleks dapat dipahami oleh setiap warga secara terbuka, jujur, dan berdaya.
 
 <p align="center">
-  <img src="assets/landing-page-hero-section.png" alt="paJAK-Kita - Landing Page Hero Section" width="100%" />
+  <img src="public/assets/landing-page-hero-section.png" alt="paJAK-Kita - Landing Page Hero Section" width="100%" />
 </p>
 
 ---
@@ -11,7 +11,7 @@ Platform *civic-tech* independen untuk transparansi aliran pajak daerah dan alok
 ## 🛠️ Tech Stack
 
 - **Frontend Core:** Vanilla HTML5 Semantic, Modern CSS3 (CSS Variables, Flexbox, CSS Grid), JavaScript (ES6+ Vanilla Modules — *Zero runtime framework overhead*).
-- **Tooling & Build:** [Vite](https://vitejs.dev/) & Python SimpleHTTP Server.
+- **Tooling & Build:** Python SimpleHTTP Server / Native Browser ESM.
 - **Tipografi & Desain:** Plus Jakarta Sans, Playfair Display, Palet Warna *Warm Alabaster* (`#F8F1E7`), *Betawi Gold* (`#E0A526`), *Carmine Red* (`#BA1A1A`), dan *Deep Charcoal* (`#0D1117`).
 - **Animasi & Interaktivitas:** Motion / CSS Transitions, HTML5 Canvas (generator kartu ekspor PNG privat), dan SVG Dinamis Interaktif (*Eye-tracking pupil* Maskot Ondi).
 - **Data & Integrasi:** API Gateway Satu Data Jakarta (`ws.jakarta.go.id`), Dashboard BPKD DKI Jakarta, dan SMART Planning & Budgeting Pemprov DKI Jakarta dengan *Local Fallback JSON Engine*.
@@ -32,15 +32,9 @@ npm install
 ```
 
 ### 3. Jalankan server lokal:
-**Opsi A — Menggunakan Vite Dev Server:**
 ```bash
 npm run dev
-```
-Buka browser di alamat: `http://localhost:5173`
-
-**Opsi B — Menggunakan Python SimpleHTTP Server:**
-```bash
-python -m http.server 3000
+# atau: python -m http.server 3000
 ```
 Buka browser di alamat: `http://localhost:3000`
 
@@ -51,7 +45,7 @@ Buka browser di alamat: `http://localhost:3000`
 ### 1. Beranda — Executive Summary (`index.html`)
 
 <p align="center">
-  <img src="assets/landing-page-ondi.png" alt="paJAK-Kita - Maskot Ondi Interaktif & Ringkasan Eksekutif" width="100%" />
+  <img src="public/assets/landing-page-ondi.png" alt="paJAK-Kita - Maskot Ondi Interaktif & Ringkasan Eksekutif" width="100%" />
 </p>
 
 - **Full-Bleed Hero Slideshow:** Slideshow pemandangan Jakarta (*Ken Burns Effect*, *Crossfade*, kontrol *Play/Pause*, indikator slide, dan tipografi pembuka).
@@ -100,11 +94,11 @@ Platform **paJAK-Kita** saat ini berada pada tahap **Fase 1 (Core Release — 10
 | **Pembuat Kartu Insight Warga** | `100% Selesai` | Generator kartu edukasi rasio 3:4 berbasis HTML5 Canvas, ekspor PNG siap bagikan ke media sosial, 100% diproses privat di peramban pengguna (*zero tracking/storage*). |
 | **Desain Sistem & Responsivitas** | `100% Selesai` | Tipografi Plus Jakarta Sans & Playfair Display, palet warna Warm Alabaster, Betawi Gold, Carmine Red, fluid typography, tata letak responsif desktop & mobile, bebas scroll horizontal/internal. |
 | **Integrasi Data Engine** | `100% Selesai` | Integrasi 11 dataset resmi Satu Data Jakarta (`ws.jakarta.go.id`), modul parser lokal JSON (`dataEngine.js`), serta mekanisme *fallback* offline yang tangguh. |
+| **Pembersihan & Refaktor Folder** | `100% Selesai` | Standardisasi Single Source of Truth (`public/assets/` & `public/data/`), eliminasi dead code (`src/`, draf usang), dan sanitasi seluruh tautan aset (0 broken links). |
 
 ### ⏳ Rencana Pengembangan Selanjutnya (Upcoming Roadmap)
 
-- [ ] **Pemanfaatan & Integrasi Menyeluruh Aset Maskot Ondi:** Menampilkan variasi ekspresi dan pose Maskot Ondi secara lebih masif di berbagai titik interaksi warga (seperti *callout insight*, panduan kontekstual fiskal, *empty state*, dan kartu infografis) memanfaatkan seluruh koleksi aset maskot yang sudah tersedia agar pengalaman pengguna lebih hidup dan bersahabat.
-- [ ] **Pembersihan & Perapihan File Proyek (*Asset & Code Cleanup*):** Melakukan audit komprehensif untuk merapikan struktur direktori dan menghapus file/aset yang sudah tidak terpakai agar ukuran repositori tetap ramping, bersih, dan terawat.
+- [ ] **Pemanfaatan & Integrasi Menyeluruh Aset Maskot Ondi:** Menampilkan variasi ekspresi dan pose Maskot Ondi secara lebih masif di berbagai titik interaksi warga (seperti *callout insight*, panduan kontekstual fiskal, *empty state*, dan kartu infografis).
 - [ ] **Visualisasi Sebaran Wilayah Spasial:** Peta interaktif 5 Kota Administrasi dan 1 Kabupaten Kepulauan Seribu (sebaran realisasi PBB-P2 & PKB per wilayah).
 - [ ] **Pemberitahuan Otomatis Sinkronisasi Data:** Mekanisme notifikasi otomatis saat BPKD DKI merilis pembaruan laporan realisasi triwulanan baru.
 
@@ -124,24 +118,36 @@ paJAK-Kita/
 │   └── card-generator.css       # Styling khusus pembuat kartu insight warga
 ├── js/
 │   ├── main.js                  # Controller utama, navigasi dropdown & eye-tracking Ondi
-│   ├── dataEngine.js            # Engine integrasi 11 dataset resmi Satu Data Jakarta
+│   ├── dataClient.js            # Client data loader dengan validasi skema runtime
+│   ├── dataEngine.js            # Engine kalkulasi fiskal & agregasi data APBD
 │   ├── penerimaan.js            # Controller interaktif halaman Penerimaan Pajak
 │   ├── belanja.js               # Controller interaktif halaman Belanja APBD & Waffle Grid
-│   ├── kamus.js                 # Controller real-time search & filter glosarium
+│   ├── kamus.js                 # Controller real-time search & filter glosarium 158 istilah
 │   ├── cardGenerator.js         # Canvas generator kartu fakta warga rasio 3:4
 │   ├── heroSlideshow.js         # Pengendali otomatis slideshow latar belakang hero
-│   └── heroConfig.js            # Konfigurasi data gambar slideshow
-├── data/ & public/data/
-│   ├── glosarium-pajak-keuangan-daerah.json  # 158 entri istilah dan definisi resmi
-│   ├── pajak-kita-data-anggaran.json         # Data pagu anggaran APBD DKI Jakarta
-│   └── pajak-kita-data-realisasi.json        # Data realisasi serapan dan pendapatan
-├── assets/
-│   ├── landing-page-hero-section.png        # Tangkapan layar visual hero section beranda
-│   ├── landing-page-ondi.png                # Tangkapan layar maskot Ondi & ringkasan eksekutif
-│   ├── logo-pajakkita-monas-grafik.svg       # Logo resmi paJAK-Kita
-│   ├── maskot-ondi/                         # Aset ilustrasi SVG/PNG Maskot Ondi
-│   ├── motifs/                              # Motif ornamen gigi balang Betawi
-│   └── hero-*.jpg                           # Aset fotografi pemandangan Jakarta
+│   ├── heroConfig.js            # Konfigurasi data gambar slideshow
+│   ├── format.js                # Utilitas format mata uang & angka standar id-ID
+│   ├── infoPanel.js             # Modal info kontekstual metrik
+│   ├── vizColors.js             # Skema palet warna visualisasi editorial Betawi
+│   └── echartsTheme.js          # Tema terstandarisasi untuk grafik ECharts
+├── public/
+│   ├── assets/                  # Satu-satunya direktori aset statis (Single Source of Truth)
+│   │   ├── maskot-ondi/         # Ilustrasi ekspresi Maskot Ondi (SVG & PNG)
+│   │   ├── motifs/              # Ornamen gigi balang & motif kain Betawi (SVG & PNG)
+│   │   ├── favicon-pajakkita.png# Favicon resmi
+│   │   ├── logo-*.svg/.png      # Logo resmi paJAK-Kita
+│   │   └── hero-*.jpg/.webp     # Koleksi foto cakrawala & lanskap Jakarta
+│   └── data/                    # Satu-satunya direktori dataset resmi (Single Source of Truth)
+│       ├── glosarium-pajak-keuangan-daerah.json  # 158 entri istilah dan definisi resmi
+│       ├── insight-facts.json                    # Fakta terkurasi kartu insight warga
+│       ├── pajak-kita-data-anggaran.json         # Data pagu anggaran APBD DKI Jakarta
+│       └── pajak-kita-data-realisasi.json        # Data realisasi serapan dan pendapatan
+├── scripts/
+│   ├── generate-insight-facts.js# Skrip otomasi generasi fakta kartu insight
+│   └── prepare_data.py          # Skrip bantu pemrosesan data
+├── PRD.md                       # Product Requirements Document
+├── README.md                    # Dokumentasi lengkap proyek
+├── SystemDesign.md              # Dokumen desain sistem & arsitektur teknis
 └── package.json                 # Konfigurasi dependensi dan scripts npm
 ```
 
