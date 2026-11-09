@@ -6,7 +6,7 @@
 @import url('card-fonts.css');
 
 /* --- 4. Header Section Ringkas --- */
-.card-section-wrapper {
+.card-section-wrapper:not(#card-experience) {
   background: var(--color-surface-warm);
   border-block: 1px solid var(--color-border);
   padding-top: 36px;
@@ -535,4 +535,111 @@
     transition: none !important;
     animation: none !important;
   }
+}
+
+/* =========================================================================
+   STUDIO PEMBUAT KARTU INSIGHT (buat-kartu.html)
+   ========================================================================= */
+.page-card-generator {
+  background-color: #FAF6EF;
+  min-height: 100vh;
+}
+
+.card-studio-hero {
+  padding: 5.5rem 0 2.25rem;
+  background: linear-gradient(180deg, #F3ECE1 0%, #FAF6EF 100%);
+  border-bottom: 1px solid rgba(140, 74, 28, 0.12);
+}
+
+.card-studio-hero-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.card-studio-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  color: #8C4A1C;
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
+}
+
+.studio-kicker-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #BA1A1A;
+}
+
+.card-studio-headline {
+  font-size: clamp(2.2rem, 4.2vw, 3.4rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  color: #0F172A;
+  line-height: 1.1;
+  margin: 0 0 1rem;
+}
+
+.card-studio-subline {
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: #475569;
+  max-width: 680px;
+  margin: 0 0 1.75rem;
+}
+
+.card-studio-trust-strip {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px 28px;
+}
+
+.studio-trust-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: #1E293B;
+}
+
+.trust-check {
+  color: #15803D;
+  font-weight: 900;
+}
+
+.card-studio-workspace {
+  padding: 3rem 0 5rem;
+}
+
+.card-config-header {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--color-border, #E4D8C5);
+}
+
+.card-config-subtitle {
+  font-size: 0.875rem;
+  color: #64748B;
+  margin: 4px 0 0;
+}
+
+.card-privacy-notice {
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: #64748B;
+  background: rgba(0, 0, 0, 0.03);
+  padding: 10px 14px;
+  border-radius: 8px;
+  border-left: 3px solid #E0A526;
+  margin-top: 12px;
 }

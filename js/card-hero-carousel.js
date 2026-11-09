@@ -8,13 +8,25 @@ const CARD_POOL = [
 
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 const facts = getDynamicInsightFacts();
-const hero = document.querySelector('#kartu.card-story-hero');
-const fan = hero?.querySelector('.card-story-fan');
-const gallery = hero?.querySelector('.card-story-gallery');
-const progressTrack = hero?.querySelector('.card-story-progress');
-const progressFill = hero?.querySelector('.card-story-progress-fill');
-const progressMascot = hero?.querySelector('.card-story-progress-mascot');
-const backgroundLayers = [...(hero?.querySelectorAll('.card-story-background-layer') || [])];
+let hero = document.getElementById('card-experience') || document.getElementById('kartu') || document.querySelector('.card-story-hero');
+let fan = hero?.querySelector('.card-story-fan');
+let gallery = hero?.querySelector('.card-story-gallery');
+let progressTrack = hero?.querySelector('.card-story-progress');
+let progressFill = hero?.querySelector('.card-story-progress-fill');
+let progressMascot = hero?.querySelector('.card-story-progress-mascot');
+let backgroundLayers = [...(hero?.querySelectorAll('.card-story-background-layer') || [])];
+
+function refreshDOMElements() {
+  if (!hero || !fan) {
+    hero = document.getElementById('card-experience') || document.getElementById('kartu') || document.querySelector('.card-story-hero');
+    fan = hero?.querySelector('.card-story-fan');
+    gallery = hero?.querySelector('.card-story-gallery');
+    progressTrack = hero?.querySelector('.card-story-progress');
+    progressFill = hero?.querySelector('.card-story-progress-fill');
+    progressMascot = hero?.querySelector('.card-story-progress-mascot');
+    backgroundLayers = [...(hero?.querySelectorAll('.card-story-background-layer') || [])];
+  }
+}
 
 let centerIndex = 0;
 let transitionTimer = 0;
@@ -241,10 +253,19 @@ function bindGroupTilt() {
 }
 
 function initCarousel() {
-  if (!fan || !window.PajakCards?.mount) {
-    console.error('Hero carousel requires the existing PajakCards renderer.');
+  refreshDOMElements();
+
+  if (!window.PajakCards?.mount) {
+    setTimeout(initCarousel, 50);
     return;
   }
+
+  if (!fan) {
+    console.error('Hero carousel requires a valid .card-story-fan container.');
+    return;
+  }
+
+  if (fan.children.length > 0) return; // Prevent duplicate cards
 
   CARD_POOL.forEach((sample, index) => {
     const card = createHeroCard(sample, index);

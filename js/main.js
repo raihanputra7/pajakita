@@ -427,25 +427,84 @@ async function updateNavbarDataBadge() {
 // ONDI EYE TRACKING (Pupil Mata Mengikuti Gerakan Kursor Mouse)
 // =========================================================================
 function initOndiEyeTracking() {
-  const pupils = document.querySelectorAll('#ondi-pupil-left, #ondi-pupil-right');
-  const ondiContainer = document.querySelector('.ondi-visual-container') || document.querySelector('.ondi-intro-media');
-  if (!ondiContainer || pupils.length === 0) return;
+  const pupilLeft = document.getElementById('ondi-pupil-left');
+  const pupilRight = document.getElementById('ondi-pupil-right');
+  const svgEl = document.querySelector('.ondi-avatar-svg');
+  if (!pupilLeft || !pupilRight || !svgEl) return;
 
+  // Pastikan transisi awal adalah none agar tidak ada lag/delay
+  pupilLeft.style.transition = 'none';
+  pupilRight.style.transition = 'none';
+
+  let mouseX = 0, mouseY = 0;
+  let rafId = null;
+  let isLeaving = false;
+
+  function renderEyes() {
+    rafId = null;
+    if (isLeaving) return;
+
+    // Hitung posisi mata presisi berdasarkan bounding box SVG viewBox(60 230 460 630)
+    // Mata kiri: cx=254, cy=476 -> x=(254-60)/460 = 0.4217, y=(476-230)/630 = 0.3905
+    // Mata kanan: cx=326, cy=476 -> x=(326-60)/460 = 0.5783, y=(476-230)/630 = 0.3905
+    const rect = svgEl.getBoundingClientRect();
+    const eyeY = rect.top + rect.height * 0.3905;
+    const leftEyeX = rect.left + rect.width * 0.4217;
+    const rightEyeX = rect.left + rect.width * 0.5783;
+
+    // Batas radius gerak pupil mata (px)
+    const maxRadius = 7.5;
+
+    // Mata Kiri
+    const dxL = mouseX - leftEyeX;
+    const dyL = mouseY - eyeY;
+    const angleL = Math.atan2(dyL, dxL);
+    const distL = Math.hypot(dxL, dyL);
+    const moveDistL = distL < 1 ? 0 : Math.min(distL / 4.5, maxRadius);
+    const mxL = (Math.cos(angleL) * moveDistL).toFixed(2);
+    const myL = (Math.sin(angleL) * moveDistL).toFixed(2);
+
+    // Mata Kanan
+    const dxR = mouseX - rightEyeX;
+    const dyR = mouseY - eyeY;
+    const angleR = Math.atan2(dyR, dxR);
+    const distR = Math.hypot(dxR, dyR);
+    const moveDistR = distR < 1 ? 0 : Math.min(distR / 4.5, maxRadius);
+    const mxR = (Math.cos(angleR) * moveDistR).toFixed(2);
+    const myR = (Math.sin(angleR) * moveDistR).toFixed(2);
+
+    // Update instan tanpa reflow berulang
+    pupilLeft.style.transform = `translate(${mxL}px, ${myL}px)`;
+    pupilRight.style.transform = `translate(${mxR}px, ${myR}px)`;
+  }
+
+  // Event listener mousemove instan
   window.addEventListener('mousemove', (e) => {
-    const rect = ondiContainer.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
+    mouseX = e.clientX;
+    mouseY = e.clientY;
 
-    const angle = Math.atan2(e.clientY - centerY, e.clientX - centerX);
-    const maxDistance = 6; // Jarak radius batas bola mata bergerak (px)
+    if (isLeaving) {
+      isLeaving = false;
+      pupilLeft.style.transition = 'none';
+      pupilRight.style.transition = 'none';
+    }
 
-    const moveX = Math.cos(angle) * maxDistance;
-    const moveY = Math.sin(angle) * maxDistance;
+    if (!rafId) {
+      rafId = requestAnimationFrame(renderEyes);
+    }
+  }, { passive: true });
 
-    pupils.forEach((pupil) => {
-      pupil.style.transform = `translate(${moveX}px, ${moveY}px)`;
-      pupil.style.transition = 'transform 0.08s ease-out';
-    });
+  // Fallback halus saat mouse keluar dari layar dokumen
+  document.addEventListener('mouseleave', () => {
+    isLeaving = true;
+    if (rafId) {
+      cancelAnimationFrame(rafId);
+      rafId = null;
+    }
+    pupilLeft.style.transition = 'transform 0.3s ease-out';
+    pupilRight.style.transition = 'transform 0.3s ease-out';
+    pupilLeft.style.transform = 'translate(0px, 0px)';
+    pupilRight.style.transform = 'translate(0px, 0px)';
   });
 }
 

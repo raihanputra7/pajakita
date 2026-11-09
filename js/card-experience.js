@@ -127,7 +127,7 @@ function buildCommunityCard(sample, facts, isCurrent = false) {
 }
 
 function createCommunityArtwork(template, data) {
-  const scale = 0.29;
+  const scale = 0.38;
   const frame = document.createElement('div');
   frame.className = 'card-community-artwork';
   frame.style.width = `${540 * scale}px`;
@@ -486,7 +486,7 @@ function initPreviewControls() {
 
 async function initCardExperience() {
   if (!window.PajakCards?.mount) {
-    console.error('Card experience requires the existing PajakCards renderer.');
+    setTimeout(startCardExperience, 50);
     return;
   }
 
@@ -500,7 +500,9 @@ async function initCardExperience() {
 
   const cta = document.querySelector('.card-story-cta');
   cta?.addEventListener('click', event => {
-    const target = document.querySelector(cta.getAttribute('href'));
+    const href = cta.getAttribute('href');
+    if (!href || !href.startsWith('#')) return; // Allow normal navigation for external/page links
+    const target = document.querySelector(href);
     if (!target) return;
     event.preventDefault();
     target.scrollIntoView({ behavior: prefersReducedMotion.matches ? 'auto' : 'smooth' });

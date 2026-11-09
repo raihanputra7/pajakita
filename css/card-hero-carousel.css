@@ -1,10 +1,24 @@
-/* card hero carousel */
+/* =========================================================================
+   paJAK-Kita — Card Hero Carousel / Card Experience Section
+   ========================================================================= */
 
-#kartu.card-story-hero {
+#card-experience,
+.card-story-hero {
+  width: 100%;
+  min-height: calc(100dvh - 72px);
+  max-height: calc(100dvh - 72px);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
   position: relative;
-  z-index: 1;
-  overflow: visible;
+  background-color: #FDFBF7;
+  scroll-margin-top: 72px;
   isolation: isolate;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
   --story-headline-primary: #1c1917;
   --story-headline-secondary: #8a2a0a;
   --story-copy: #2a1f17;
@@ -14,7 +28,108 @@
   --story-progress-color: var(--color-primary);
 }
 
-#kartu[data-theme="sunburst"] {
+/* --- Top & Bottom Batik Ribbons (Asset Kain Batik dari Kenalan Ondi) --- */
+#card-experience .motif-band,
+#card-experience .ondi-motif-strip,
+.batik-ribbon-top,
+.batik-ribbon-bottom {
+  position: relative;
+  width: 100%;
+  height: 38px;
+  background: var(--color-primary, #BA1A1A);
+  border-block: 2.5px solid var(--color-gold, #E0A526);
+  overflow: hidden;
+  flex-shrink: 0;
+  display: block;
+  margin: 0 !important;
+  padding: 0 !important;
+  z-index: 10;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+#card-experience .batik-ribbon-top {
+  top: 0;
+  margin-top: 0 !important;
+}
+
+#card-experience .batik-ribbon-bottom {
+  bottom: 0;
+  margin-bottom: 0 !important;
+}
+
+#card-experience .motif-pattern {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+  background-repeat: repeat-x;
+  background-position: center;
+  background-size: auto 100%;
+  animation: dominoJalan 25s linear infinite !important;
+}
+
+#card-experience .batik-ribbon-bottom .motif-pattern {
+  animation-direction: reverse !important;
+}
+
+@keyframes dominoJalan {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #card-experience .motif-pattern {
+    animation: none !important;
+  }
+}
+
+/* --- Background Layers (Sunburst, Kuning, Blob) --- */
+.card-story-background {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.card-story-background-layer {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  transition: opacity 1.2s ease;
+}
+
+.card-story-background-layer--sunburst {
+  background-image: url("../public/assets/bg-koleksi-sunburst.png");
+}
+
+.card-story-background-layer--kuning {
+  background-image: url("../public/assets/bg-kuning-ceria.png");
+}
+
+.card-story-background-layer--blob {
+  background-image: url("../public/assets/bg-blob-lengkung.png");
+}
+
+.card-story-background-layer.is-active {
+  opacity: 1;
+}
+
+/* --- Dynamic Themes --- */
+#card-experience[data-theme="sunburst"],
+.card-story-hero[data-theme="sunburst"] {
   --story-headline-primary: #ffffff;
   --story-headline-secondary: #ffd45c;
   --story-copy: #fbefd3;
@@ -24,206 +139,181 @@
   --story-progress-color: #ffd45c;
 }
 
-#kartu[data-theme="kuning"] {
+#card-experience[data-theme="kuning"],
+.card-story-hero[data-theme="kuning"] {
   --story-headline-primary: #fbf3e4;
   --story-headline-secondary: #fbf3e4;
   --story-copy: #0e3b2a;
   --story-bullet: #b91c1c;
+  --story-cta-background: #b91c1c;
+  --story-cta-color: #ffffff;
   --story-progress-color: #ffffff;
 }
 
-#kartu[data-theme="blob"] {
+#card-experience[data-theme="blob"],
+.card-story-hero[data-theme="blob"] {
   --story-headline-primary: #1c1917;
   --story-headline-secondary: #8a2a0a;
   --story-copy: #2a1f17;
   --story-bullet: #b91c1c;
+  --story-cta-background: #b91c1c;
+  --story-cta-color: #ffffff;
+  --story-progress-color: var(--color-primary);
 }
 
-#kartu .card-story-background {
-  position: absolute;
-  z-index: 0;
-  top: -37px;
-  bottom: 0;
-  left: 50%;
-  width: 100vw;
-  transform: translateX(-50%);
-  pointer-events: none;
+#card-experience[data-theme="kuning"] .card-story-copy h2,
+.card-story-hero[data-theme="kuning"] .card-story-copy h2 {
+  text-shadow: 2px 2px 0 #14533a, -1px -1px 0 #14533a, 1px -1px 0 #14533a, -1px 1px 0 #14533a;
 }
 
-#kartu .card-story-motif {
-  position: absolute;
-  z-index: 1;
-  left: 50%;
-  width: 100vw;
-  height: 40px;
-  overflow: hidden;
-  transform: translateX(-50%);
-  background: var(--color-primary);
-  border-block: 2.5px solid var(--color-gold);
-  pointer-events: none;
-}
-
-#kartu .card-story-motif--top {
-  top: -37px;
-}
-
-#kartu .card-story-motif--top .motif-pattern {
-  animation-direction: reverse;
-}
-
-#kartu .card-story-motif--bottom {
-  bottom: -18px;
-}
-
-#kartu .card-story-motif .motif-pattern {
-  height: 100%;
-}
-
-#kartu .card-story-background-layer {
-  position: absolute;
-  z-index: 0;
-  inset: 0;
-  opacity: 0;
-  background-position: center;
-  background-size: cover;
-  transition: opacity 1.2s ease;
-}
-
-#kartu .card-story-background-layer--sunburst {
-  background-image: url("../public/assets/bg-koleksi-sunburst.png");
-}
-
-#kartu .card-story-background-layer--kuning {
-  background-image: url("../public/assets/bg-kuning-ceria.png");
-}
-
-#kartu .card-story-background-layer--blob {
-  background-image: url("../public/assets/bg-blob-lengkung.png");
-}
-
-#kartu .card-story-background-layer.is-active {
-  opacity: 1;
-}
-
-#kartu .card-story-wash-layer {
-  position: absolute;
-  z-index: 1;
-  inset: 0;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 600ms ease;
-}
-
-#kartu .card-story-wash-layer--sunburst {
-  background: linear-gradient(90deg, rgba(110, 10, 10, .55), transparent 60%);
-}
-
-#kartu .card-story-wash-layer--kuning {
-  background: linear-gradient(90deg, rgba(251, 239, 211, .7), transparent 55%);
-}
-
-#kartu .card-story-wash-layer--blob {
-  background: linear-gradient(90deg, rgba(246, 236, 221, .92), transparent 62%);
-}
-
-#kartu[data-theme="sunburst"] .card-story-wash-layer--sunburst,
-#kartu[data-theme="kuning"] .card-story-wash-layer--kuning,
-#kartu[data-theme="blob"] .card-story-wash-layer--blob {
-  opacity: 1;
-}
-
-.card-story-copy,
-.card-story-gallery {
+/* --- Middle Body: Clean 2-Column Layout --- */
+.card-experience-body,
+.card-story-content-wrap {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.18fr);
+  align-items: center;
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 clamp(1.5rem, 3.2vw, 3.5rem);
+  flex: 1;
+  min-height: 0;
   position: relative;
   z-index: 2;
+  box-sizing: border-box;
+  gap: clamp(2rem, 4vw, 4.5rem);
 }
 
-#kartu[data-theme="kuning"] .card-story-copy {
-  isolation: isolate;
+/* --- Left Column: Copywriting & Actions --- */
+.card-experience-left,
+.card-story-copy {
+  max-width: 560px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  position: relative;
+  z-index: 2;
+  box-sizing: border-box;
 }
 
-#kartu[data-theme="kuning"] .card-story-copy::before {
-  position: absolute;
-  z-index: -1;
-  inset: -12px;
-  background: radial-gradient(ellipse at 15% 50%, rgba(251, 243, 228, .7), transparent 75%);
+.card-story-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 18px;
+  margin-bottom: clamp(10px, 1.6vh, 18px);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--color-primary, #ba1a1a);
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.card-experience-left h2,
+.card-story-copy h2 {
+  font-size: clamp(2.4rem, 4.5vw, 4.2rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.02;
+  margin: 0;
+  color: var(--story-headline-primary);
+  transition: color 600ms ease;
+  text-align: left;
+}
+
+.card-experience-left h2 span,
+.card-story-copy h2 span {
+  color: var(--story-headline-secondary);
+  transition: color 600ms ease;
+}
+
+.card-story-description {
+  max-width: 500px;
+  margin: clamp(12px, 1.8vh, 20px) 0 clamp(18px, 2.4vh, 26px);
+  font-size: clamp(1rem, 1.28vw, 1.2rem);
+  line-height: 1.65;
+  color: var(--story-copy);
+  transition: color 600ms ease;
+  text-align: left;
+}
+
+.card-story-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 50px;
+  padding: 0 28px;
+  border-radius: 999px;
+  background: var(--story-cta-background);
+  color: var(--story-cta-color);
+  font-weight: 700;
+  font-size: 1.05rem;
+  text-decoration: none;
+  box-shadow: 0 5px 18px rgba(185, 28, 28, 0.22);
+  transition: background-color 600ms ease, color 600ms ease, transform 180ms ease;
+}
+
+.card-story-cta:hover {
+  transform: translateY(-2px);
+}
+
+.card-story-steps {
+  display: flex;
+  gap: 18px;
+  list-style: none;
+  padding: 0;
+  margin: clamp(14px, 2vh, 22px) 0 0;
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+.card-story-steps li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--story-copy);
+  transition: color 600ms ease;
+}
+
+.card-story-steps li::before {
   content: "";
-  pointer-events: none;
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--story-bullet);
+  transition: background-color 600ms ease;
 }
 
-#kartu[data-theme="kuning"] .card-story-copy h2 {
-  text-shadow: 3px 3px 0 #14533a, -1px -1px 0 #14533a, 1px -1px 0 #14533a, -1px 1px 0 #14533a;
-}
-
+/* --- Right Column: Card Carousel --- */
+.card-experience-right,
 .card-story-gallery {
-  perspective: 1000px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  perspective: 1100px;
   touch-action: pan-y;
   transform-style: preserve-3d;
-}
-
-.card-story-progress {
-  position: absolute;
-  z-index: 4;
-  bottom: -21px;
-  left: 50%;
-  width: min(220px, 42%);
-  height: 36px;
-  border-radius: 999px;
-  transform: translateX(-50%);
-  pointer-events: none;
-}
-
-.card-story-progress::before {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  height: 4px;
-  border-radius: inherit;
-  background: rgba(31, 26, 23, .16);
-  content: "";
-}
-
-.card-story-progress-fill {
-  position: absolute;
-  z-index: 1;
-  bottom: 0;
-  left: 0;
-  display: block;
-  width: 100%;
-  height: 4px;
-  border-radius: inherit;
-  background: var(--story-progress-color);
-  transition: background-color 600ms ease;
-  transform: scaleX(0);
-  transform-origin: left center;
-}
-
-.card-story-progress-mascot {
-  position: absolute;
   z-index: 2;
-  bottom: 2px;
-  left: 10px;
-  width: 22px;
-  height: 31px;
-  transform: translateX(-50%);
-}
-
-.card-story-progress-mascot img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  animation: card-story-mascot-walk 240ms ease-in-out infinite alternate;
-  transform-origin: center bottom;
-}
-
-@keyframes card-story-mascot-walk {
-  from { transform: translateY(0) rotate(-3deg); }
-  to { transform: translateY(-2px) rotate(3deg); }
+  box-sizing: border-box;
 }
 
 .card-story-fan {
+  position: relative;
+  width: clamp(380px, 35vw, 480px);
+  height: clamp(480px, 58vh, 560px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1000px;
+  margin: 0 auto;
+  overflow: visible; /* Prevents card edges and shadows from getting clipped */
   touch-action: pan-y;
   transform: rotateX(0deg) rotateY(0deg) translateZ(0);
   transform-origin: center;
@@ -236,8 +326,9 @@
   top: 50%;
   left: 50%;
   display: block;
-  width: 270px;
-  height: 380px;
+  width: 290px;
+  height: 408px;
+  aspect-ratio: 540 / 760;
   overflow: visible;
   opacity: 0;
   border: 0;
@@ -256,49 +347,49 @@
 .card-story-card[data-hero-slot="left"] {
   z-index: 1;
   opacity: .94;
-  --hero-slot-x: -145px;
-  --hero-slot-scale: .86;
-  --hero-slot-rotation: -10deg;
+  --hero-slot-x: -140px;
+  --hero-slot-scale: .88;
+  --hero-slot-rotation: -9deg;
 }
 
 .card-story-card[data-hero-slot="center"] {
   z-index: 3;
   opacity: 1;
   --hero-slot-x: 0px;
-  --hero-slot-scale: 1;
+  --hero-slot-scale: 1.03;
   --hero-slot-rotation: 0deg;
 }
 
 .card-story-card[data-hero-slot="right"] {
   z-index: 2;
   opacity: .94;
-  --hero-slot-x: 145px;
-  --hero-slot-scale: .86;
-  --hero-slot-rotation: 10deg;
+  --hero-slot-x: 140px;
+  --hero-slot-scale: .88;
+  --hero-slot-rotation: 9deg;
 }
 
 .card-story-card[data-hero-slot="off-left"] {
   z-index: 0;
   opacity: 0;
-  --hero-slot-x: -440px;
-  --hero-slot-scale: .72;
-  --hero-slot-rotation: -16deg;
+  --hero-slot-x: -400px;
+  --hero-slot-scale: .7;
+  --hero-slot-rotation: -15deg;
 }
 
 .card-story-card[data-hero-slot="off-right"] {
   z-index: 0;
   opacity: 0;
-  --hero-slot-x: 440px;
-  --hero-slot-scale: .72;
-  --hero-slot-rotation: 16deg;
+  --hero-slot-x: 400px;
+  --hero-slot-scale: .7;
+  --hero-slot-rotation: 15deg;
 }
 
 .card-story-card[data-hero-slot="far-right"] {
   z-index: 0;
   opacity: 0;
-  --hero-slot-x: 740px;
-  --hero-slot-scale: .65;
-  --hero-slot-rotation: 20deg;
+  --hero-slot-x: 650px;
+  --hero-slot-scale: .62;
+  --hero-slot-rotation: 18deg;
 }
 
 .card-story-card[data-hero-card-index] {
@@ -310,8 +401,9 @@
 }
 
 .card-story-float {
-  width: 270px;
-  height: 380px;
+  width: 290px;
+  height: 408px;
+  aspect-ratio: 540 / 760;
   transform-origin: center;
   transform-style: preserve-3d;
 }
@@ -329,25 +421,14 @@
 }
 
 .card-story-hover {
-  width: 270px;
-  height: 380px;
+  width: 290px;
+  height: 408px;
+  aspect-ratio: 540 / 760;
   perspective: 1000px;
   transform-style: preserve-3d;
-}
-
-.card-story-hover > .card-experience-mount {
-  width: 540px;
-  height: 760px;
-  transform: scale(.5);
-  transform-origin: top left;
-  transform-style: preserve-3d;
-}
-
-.card-story-hover {
   position: relative;
   overflow: clip;
-  border-radius: 18px;
-  transform-style: preserve-3d;
+  border-radius: 19px;
   transition: none;
   box-shadow:
     var(--card-shadow-x, 0px)
@@ -355,6 +436,17 @@
     var(--card-shadow-blur, 20px)
     rgba(31, 26, 23, .22);
   will-change: transform;
+}
+
+.card-story-hover > .card-experience-mount {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 540px;
+  height: 760px;
+  transform: scale(calc(290 / 540));
+  transform-origin: top left;
+  transform-style: preserve-3d;
 }
 
 .card-story-card .card-experience-stage {
@@ -398,7 +490,7 @@
   inset: 0;
   z-index: 4;
   overflow: hidden;
-  border-radius: 18px;
+  border-radius: 19px;
   opacity: 0;
   pointer-events: none;
   transition: opacity 180ms ease;
@@ -435,6 +527,67 @@
   opacity: .72;
 }
 
+/* --- Progress Bar --- */
+.card-story-progress {
+  position: relative;
+  z-index: 4;
+  margin-top: 14px;
+  width: min(250px, 50%);
+  height: 32px;
+  border-radius: 999px;
+  pointer-events: none;
+}
+
+.card-story-progress::before {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 4px;
+  border-radius: inherit;
+  background: rgba(31, 26, 23, .16);
+  content: "";
+}
+
+.card-story-progress-fill {
+  position: absolute;
+  z-index: 1;
+  bottom: 0;
+  left: 0;
+  display: block;
+  width: 100%;
+  height: 4px;
+  border-radius: inherit;
+  background: var(--story-progress-color);
+  transition: background-color 600ms ease;
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+.card-story-progress-mascot {
+  position: absolute;
+  z-index: 2;
+  bottom: 2px;
+  left: 10px;
+  width: 24px;
+  height: 32px;
+  transform: translateX(-50%);
+}
+
+.card-story-progress-mascot img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  animation: card-story-mascot-walk 240ms ease-in-out infinite alternate;
+  transform-origin: center bottom;
+}
+
+@keyframes card-story-mascot-walk {
+  from { transform: translateY(0) rotate(-3deg); }
+  to { transform: translateY(-2px) rotate(3deg); }
+}
+
 @keyframes card-story-float-a {
   0%, 100% { transform: translateY(0) rotate(-.6deg); }
   50% { transform: translateY(-8px) rotate(.8deg); }
@@ -450,48 +603,62 @@
   50% { transform: translateY(-9px) rotate(1deg); }
 }
 
+/* --- Mobile Breakpoint --- */
 @media (max-width: 900px) {
+  #card-experience,
+  .card-story-hero {
+    min-height: calc(100dvh - 72px);
+    max-height: none;
+    height: auto;
+  }
+
+  .card-experience-body,
+  .card-story-content-wrap {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 1.25rem 1.25rem;
+  }
+
+  .card-experience-left,
+  .card-story-copy {
+    max-width: 100%;
+    align-items: center;
+    text-align: center;
+  }
+
+  .card-experience-left h2,
+  .card-story-copy h2 {
+    text-align: center;
+  }
+
+  .card-story-description {
+    text-align: center;
+  }
+
   .card-story-background-layer {
     background-position: 50% 40%;
   }
-}
 
-@media (max-width: 600px) {
   .card-story-fan {
-    width: calc(100vw - 32px);
-    max-width: 540px;
+    width: clamp(340px, 90vw, 440px);
+    height: clamp(440px, 55vh, 520px);
+    max-width: none;
     overflow: visible;
   }
 
-  .card-story-progress {
-    width: min(220px, 56%);
-  }
-
   .card-story-card[data-hero-slot="left"] {
-    --hero-slot-x: clamp(-115px, -24vw, -82px);
-    --hero-slot-scale: .68;
+    --hero-slot-x: -105px;
+    --hero-slot-scale: .82;
   }
 
   .card-story-card[data-hero-slot="center"] {
     --hero-slot-x: 0px;
-    --hero-slot-scale: .78;
+    --hero-slot-scale: .98;
   }
 
   .card-story-card[data-hero-slot="right"] {
-    --hero-slot-x: clamp(82px, 24vw, 115px);
-    --hero-slot-scale: .68;
-  }
-
-  .card-story-card[data-hero-slot="off-left"] {
-    --hero-slot-x: -250px;
-  }
-
-  .card-story-card[data-hero-slot="off-right"] {
-    --hero-slot-x: 250px;
-  }
-
-  .card-story-card[data-hero-slot="far-right"] {
-    --hero-slot-x: 390px;
+    --hero-slot-x: 105px;
+    --hero-slot-scale: .82;
   }
 }
 
@@ -507,7 +674,7 @@
     transition-duration: 220ms;
   }
 
-  #kartu .card-story-background-layer,
+  .card-story-background-layer,
   .card-story-hover {
     transition: none;
   }

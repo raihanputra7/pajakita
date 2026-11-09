@@ -554,6 +554,7 @@ body.nav-locked {
 .hero-viewport-100 {
   position: relative;
   width: 100%;
+  max-width: 100%;
   height: 100dvh;
   min-height: 100dvh;
   max-height: 100dvh;
@@ -562,9 +563,10 @@ body.nav-locked {
   flex-direction: column;
   justify-content: space-between;
   margin: 0;
-  padding: 0;
+  padding: clamp(1rem, 2.5vh, 2rem) clamp(1rem, 4vw, 3rem);
   background: #0b111e;
   box-sizing: border-box;
+  overflow-x: hidden;
   user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
@@ -578,7 +580,8 @@ body.nav-locked {
 }
 
 .hero-viewport-100 *::selection,
-.hero-section *::selection {
+.hero-section *::selection,
+.card-hero-carousel *::selection {
   background: transparent;
   color: inherit;
 }
@@ -647,18 +650,20 @@ body.nav-locked {
 /* Hero Content Grid & Flex Alignment */
 .hero-content-wrap,
 .hero-viewport-100 .hero-content-wrap,
-.hero-section .hero-content-wrap {
+.hero-section .hero-content-wrap,
+.card-hero-carousel .hero-content-wrap {
   position: relative;
   z-index: 2;
+  flex: 1;
   width: 100%;
   max-width: 100%;
   margin-inline: 0;
-  padding-inline: clamp(1.75rem, 3.5vw, 3.5rem);
-  padding-bottom: clamp(3.25rem, 6.5vh, 4.5rem);
+  padding-inline: 0;
+  padding-bottom: clamp(2.5rem, 5vh, 4rem);
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  gap: clamp(2rem, 4vw, 4rem);
+  gap: clamp(1.5rem, 3vw, 3.5rem);
   box-sizing: border-box;
 }
 
@@ -845,7 +850,7 @@ body.nav-locked {
    ========================================================================== */
 .ondi-intro-section {
   padding: 80px 0;
-  background: var(--color-surface);
+  background: #F3ECE1;
   border-bottom: 1px solid var(--color-border);
   position: relative;
 }
@@ -860,12 +865,13 @@ body.nav-locked {
   }
   .hero-content-wrap,
   .hero-viewport-100 .hero-content-wrap,
-  .hero-section .hero-content-wrap {
+  .hero-section .hero-content-wrap,
+  .card-hero-carousel .hero-content-wrap {
     flex-direction: column;
     align-items: flex-start;
     gap: 20px;
-    padding-inline: 1.5rem;
-    padding-bottom: 4rem;
+    padding-inline: 0;
+    padding-bottom: clamp(3rem, 6vh, 4.5rem);
   }
   .hero-headline {
     font-size: clamp(2rem, 7.5vw, 3.25rem);
@@ -936,14 +942,12 @@ body.nav-locked {
 .ondi-intro-section {
   position: relative;
   width: 100%;
-  height: 100dvh;
-  min-height: 100dvh;
-  max-height: 100dvh;
+  height: auto;
+  min-height: auto;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  background-color: #FDFBF7;
+  background-color: #F3ECE1;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -968,11 +972,31 @@ body.nav-locked {
   display: flex;
   align-items: center;
   justify-content: center;
-  max-width: 1280px;
+  max-width: 1200px;
   margin: 0 auto;
   width: 100%;
-  padding: 1.5rem 2.5rem;
+  padding: clamp(3rem, 5.5vh, 4.5rem) 2rem;
   box-sizing: border-box;
+}
+
+.editorial-ondi-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 1.5rem;
+}
+
+.editorial-badge-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 14px;
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(140, 74, 28, 0.2);
+  border-radius: 9999px;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: #8C4A1C;
+  box-shadow: 0 2px 6px rgba(140, 74, 28, 0.04);
 }
 
 .ondi-intro-grid {
@@ -1020,8 +1044,10 @@ body.nav-locked {
 /* Pupil Mata Interaktif Mengikuti Kursor */
 #ondi-pupil-left,
 #ondi-pupil-right {
+  transform-box: fill-box;
+  transform-origin: center;
   will-change: transform;
-  transition: transform 0.08s ease-out;
+  transition: none !important;
 }
 
 @keyframes ondiFloating {
@@ -1297,20 +1323,20 @@ h2 { margin-bottom: 0; font-size: clamp(28px, 3vw, 38px); line-height: 1.2; lett
 .trust-ondi-quote-badge {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 18px;
   margin-top: 2rem;
-  padding: 12px 18px;
-  background: rgba(248, 241, 231, 0.7);
-  border: 1px solid rgba(140, 74, 28, 0.2);
-  border-radius: 9999px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
-  max-width: 440px;
+  padding: 16px 22px;
+  background: #FAF5ED;
+  border: 1.5px solid rgba(140, 74, 28, 0.22);
+  border-radius: 20px;
+  box-shadow: 0 4px 16px rgba(31, 26, 23, 0.05);
+  max-width: 500px;
 }
 
 .trust-ondi-avatar {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  border-radius: 16px;
   background: #FFFFFF;
   display: flex;
   align-items: center;
@@ -1318,21 +1344,35 @@ h2 { margin-bottom: 0; font-size: clamp(28px, 3vw, 38px); line-height: 1.2; lett
   overflow: hidden;
   border: 1.5px solid #E4D8C5;
   flex-shrink: 0;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .trust-ondi-avatar img {
-  width: 100%;
-  height: 100%;
+  width: 90%;
+  height: 90%;
   object-fit: contain;
 }
 
+.trust-ondi-quote-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.trust-ondi-speaker {
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #8C4A1C;
+}
+
 .trust-ondi-quote-text {
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   font-style: italic;
   color: #334155;
   margin: 0;
-  line-height: 1.45;
+  line-height: 1.5;
 }
 
 /* Kolom Kanan: Minimalist Ledger Rows */
@@ -6013,3 +6053,46 @@ h2 { margin-bottom: 0; font-size: clamp(28px, 3vw, 38px); line-height: 1.2; lett
   }
 }
 
+/* =========================================================================
+   INLINE FRESHNESS BANNER & PILAR ENHANCEMENTS
+   ========================================================================= */
+.freshness-banner-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 16px;
+  background: rgba(224, 165, 38, 0.12);
+  border: 1px solid rgba(224, 165, 38, 0.35);
+  border-radius: 9999px;
+  margin-bottom: 1.25rem;
+  font-size: 0.8125rem;
+}
+
+.freshness-banner-inline .freshness-pill {
+  background: #E0A526;
+  color: #1c1917;
+  font-weight: 800;
+  font-size: 0.72rem;
+  padding: 3px 8px;
+  border-radius: 9999px;
+  letter-spacing: 0.04em;
+}
+
+.freshness-banner-inline .freshness-desc {
+  color: #475569;
+  font-weight: 600;
+}
+
+.sector-icon-bullet {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #2563EB;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8125rem;
+  font-weight: 800;
+  flex-shrink: 0;
+}
