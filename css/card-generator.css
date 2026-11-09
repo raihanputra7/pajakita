@@ -536,3 +536,36 @@
     animation: none !important;
   }
 }
+
+/* Tombol Reset Kartu di Bagian Bawah Step 1 */
+.card-reset-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.btn-card-reset {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: transparent;
+  border: 1px dashed rgba(183, 28, 28, 0.35);
+  color: var(--color-muted, #6B6159);
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-card-reset:hover {
+  background: rgba(183, 28, 28, 0.08);
+  border-color: #B71C1C;
+  color: #B71C1C;
+}
+
+.btn-card-reset:focus-visible {
+  outline: 2px solid var(--color-gold, #E5A823);
+  outline-offset: 2px;
+}

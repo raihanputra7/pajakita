@@ -72,7 +72,7 @@ function addScaleLayout(parent, stage, scale) {
 }
 
 function currentFormCard() {
-  const region = document.getElementById('card-input-region')?.value || 'Jakarta Selatan';
+  const region = document.getElementById('card-input-region')?.value || 'Seluruh DKI Jakarta';
   const name = document.getElementById('card-input-name')?.value.trim() || 'Warga Jakarta';
   const selectedIndex = Number(document.getElementById('card-insight-select')?.value || 0);
   const fact = getFacts(region)[selectedIndex] || getFacts(region)[0] || getFacts()[0];

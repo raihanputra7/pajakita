@@ -1,0 +1,277 @@
+/* =========================================================================
+   paJAK-Kita — Welcome Greeting Toast Notification
+   File: css/welcome-notification.css
+   Pengganti modal popup: Toast non-modal, tanpa overlay, tanpa focus-trap.
+   ========================================================================= */
+
+/* Container Notifikasi Toast */
+.pajakita-greeting-toast {
+  position: fixed;
+  top: 82px; /* 54px tinggi navbar + 28px */
+  right: 20px;
+  width: 330px;
+  background-color: #FBF3E4; /* Krem */
+  color: #1E1E1E;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  padding: 16px 18px 16px 96px; /* 96px kiri untuk ruang maskot */
+  box-sizing: border-box;
+  z-index: 9990;
+  pointer-events: auto;
+  font-family: var(--font-family-base, 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif);
+  animation: toastSlideInDesktop 380ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+/* Maskot Ondel-Ondel Ondi (Menjulur ~30px di atas kartu) */
+.pajakita-greeting-mascot {
+  position: absolute;
+  left: 10px;
+  top: -30px;
+  width: 76px;
+  height: 124px;
+  pointer-events: none;
+  z-index: 2;
+  animation: mascotBounce 500ms cubic-bezier(0.2, 0.8, 0.2, 1) 180ms both;
+}
+
+.pajakita-greeting-mascot img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* Konten Teks Notifikasi */
+.pajakita-greeting-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+}
+
+.pajakita-greeting-title {
+  font-size: 18px;
+  font-weight: 500;
+  color: #1E1E1E;
+  margin: 0 0 4px 0;
+  line-height: 1.25;
+  word-break: break-word;
+}
+
+.pajakita-greeting-text {
+  font-size: 14px;
+  color: #4A3F2C;
+  margin: 0 0 12px 0;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+/* Tombol "Tutup notifikasi" */
+.pajakita-greeting-btn {
+  background-color: #B71C1C;
+  color: #FBF3E4;
+  border: none;
+  border-radius: 20px;
+  height: 36px;
+  padding: 0 16px 0 20px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  position: relative;
+  transition: background-color 0.15s ease, transform 0.15s ease;
+}
+
+/* Indikator Visual Loading Bulet (Countdown 10 Detik) */
+.pajakita-timer-spinner {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.pajakita-timer-svg {
+  width: 16px;
+  height: 16px;
+  transform: rotate(-90deg); /* Mulai dari jam 12 */
+}
+
+.timer-track {
+  fill: none;
+  stroke: rgba(251, 243, 228, 0.35); /* Jalur lingkaran krem transparan */
+  stroke-width: 2.2;
+}
+
+.timer-fill {
+  fill: none;
+  stroke: #FBF3E4; /* Garis loading krem solid */
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-dasharray: 44;
+  stroke-dashoffset: 0;
+  animation: timerCountdown 10s linear forwards;
+}
+
+@keyframes timerCountdown {
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: 44;
+  }
+}
+
+/* Area sentuh minimal 44px */
+.pajakita-greeting-btn::before {
+  content: "";
+  position: absolute;
+  inset: -4px;
+}
+
+.pajakita-greeting-btn:hover {
+  background-color: #8F1414;
+}
+
+.pajakita-greeting-btn:focus-visible {
+  outline: 2px solid #E0A526;
+  outline-offset: 2px;
+}
+
+/* State Animasi Keluar */
+.pajakita-greeting-toast.is-leaving {
+  animation: toastSlideOutDesktop 200ms ease forwards;
+}
+
+/* Keyframes Desktop */
+@keyframes toastSlideInDesktop {
+  from {
+    opacity: 0;
+    transform: translateX(44px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes toastSlideOutDesktop {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(44px);
+  }
+}
+
+/* Keyframes Pantulan Halus Maskot */
+@keyframes mascotBounce {
+  0% {
+    opacity: 0;
+    transform: translateY(22px) scale(0.8);
+  }
+  70% {
+    opacity: 1;
+    transform: translateY(-5px) scale(1.04);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Responsif Layar HP (< 640px): Modal Bawah / Bottom Float */
+@media (max-width: 639px) {
+  .pajakita-greeting-toast {
+    top: auto;
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    left: 12px;
+    right: 12px;
+    width: calc(100% - 24px);
+    max-width: 100%;
+    animation: toastSlideInMobile 380ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  }
+
+  .pajakita-greeting-toast.is-leaving {
+    animation: toastSlideOutMobile 200ms ease forwards;
+  }
+
+  @keyframes toastSlideInMobile {
+    from {
+      opacity: 0;
+      transform: translateY(44px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes toastSlideOutMobile {
+    from {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(44px);
+    }
+  }
+}
+
+/* Aksesibilitas: prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .pajakita-greeting-toast,
+  .pajakita-greeting-mascot,
+  .pajakita-greeting-toast.is-leaving {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+/* Styling tautan hapus data di Footer */
+.footer-delete-data-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+  font-size: 0.8125rem;
+}
+
+.btn-footer-delete-data {
+  background: transparent;
+  border: none;
+  padding: 0;
+  color: var(--color-muted, #6B6159);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font-size: 0.8125rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.btn-footer-delete-data:hover {
+  color: var(--color-primary, #B71C1C);
+}
+
+.btn-footer-delete-data:focus-visible {
+  outline: 2px solid var(--color-gold, #E5A823);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.footer-delete-status {
+  color: var(--color-success, #1F7A5C);
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
