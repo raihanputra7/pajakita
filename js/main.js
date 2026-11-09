@@ -23,11 +23,13 @@ import {
 } from './dataEngine.js';
 
 function boot() {
+  try { initOndiCustomCursor(); } catch (err) { console.error('Ondi custom cursor error:', err); }
   try { initHeroSlideshow(); } catch (err) { console.error('Hero slideshow error:', err); }
   try { initNavbar(); } catch (err) { console.error('Navbar error:', err); }
   try { initSiteMotion(); } catch (err) { console.error('Site motion error:', err); }
   try { updateNavbarDataBadge(); } catch (err) { console.error('Data badge error:', err); }
   try { initOndiEyeTracking(); } catch (err) { console.error('Ondi eye tracking error:', err); }
+  try { initOndiBelanjaArmTracking(); } catch (err) { console.error('Ondi belanja arm tracking error:', err); }
   try { initDynamicOndi(2026); } catch (err) { console.error('Dynamic Ondi error:', err); }
   try { initExecutiveSummary(2026); } catch (err) { console.error('Executive summary error:', err); }
 
@@ -533,7 +535,9 @@ export function initExecutiveSummary(year = 2026) {
   if (totalBelanjaEl) totalBelanjaEl.textContent = p2.total;
   if (realisasiBelanjaEl) realisasiBelanjaEl.textContent = p2.terserap;
   if (persenBelanjaEl) persenBelanjaEl.textContent = p2.persentase;
-  if (statusBelanjaEl) statusBelanjaEl.textContent = p2.statusSerapan;
+  if (statusBelanjaEl) {
+    statusBelanjaEl.textContent = p2.statusSerapan === 'Sangat Efektif' ? 'Sangat efektif' : p2.statusSerapan;
+  }
   if (progressBarBelanjaEl) {
     progressBarBelanjaEl.style.width = `${Math.min(Math.max(p2.serapanRaw, 0), 100)}%`;
   }
@@ -541,30 +545,38 @@ export function initExecutiveSummary(year = 2026) {
   // Dataset 05: 4 Kelompok Belanja (Operasi, Modal, BTT, Transfer)
   const kelompokGridEl = document.querySelector('#belanja-kelompok-grid');
   if (kelompokGridEl && Array.isArray(p2.kelompokBelanja)) {
-    kelompokGridEl.innerHTML = p2.kelompokBelanja.map((k) => `
-      <div class="exec-kelompok-item">
-        <div class="kelompok-item-head">
-          <span class="kelompok-name">${k.name}</span>
-          <span class="kelompok-share">${k.porsi}</span>
+    const barColors = ['bar-red', 'bar-gold', 'bar-green', 'bar-dark'];
+    kelompokGridEl.innerHTML = p2.kelompokBelanja.map((k, idx) => {
+      const rawPct = parseFloat(String(k.porsi).replace(',', '.')) || 0;
+      const barWidth = Math.max(rawPct, 4);
+      const colorClass = barColors[idx % barColors.length];
+      return `
+        <div class="pilar2-kelompok-item">
+          <span class="pilar2-kelompok-name">${k.name}</span>
+          <span class="pilar2-kelompok-pct">${k.porsi}</span>
+          <div class="pilar2-kelompok-track" aria-hidden="true">
+            <div class="pilar2-kelompok-fill ${colorClass}" style="width: ${barWidth}%;"></div>
+          </div>
+          <span class="pilar2-kelompok-nom">${k.nominal}</span>
         </div>
-        <div class="kelompok-val">${k.nominal}</div>
-        <div class="kelompok-pagu">${k.desc}</div>
-      </div>
-    `).join('');
+      `;
+    }).join('');
   }
 
-  // 3 Fokus Alokasi Layanan Publik
+  // 3 Fokus Alokasi Layanan Publik Prioritas
   const sectorsListEl = document.querySelector('#belanja-sectors-list');
   if (sectorsListEl && Array.isArray(p2.topSectors) && p2.topSectors.length > 0) {
-    sectorsListEl.innerHTML = p2.topSectors.map((s) => `
-      <div class="exec-sector-card">
-        <span class="sector-icon" aria-hidden="true">${s.icon || '🏛️'}</span>
-        <div class="sector-info">
-          <span class="sector-name">${s.name || ''}</span>
-          <span class="sector-val">${s.value || 'Rp -- T'}</span>
+    const dotColors = ['dot-gold', 'dot-green', 'dot-red'];
+    sectorsListEl.innerHTML = p2.topSectors.map((s, idx) => {
+      const dotClass = dotColors[idx % dotColors.length];
+      return `
+        <div class="pilar2-sector-row">
+          <span class="pilar2-sector-dot ${dotClass}" aria-hidden="true"></span>
+          <span class="pilar2-sector-name">${s.name || ''}</span>
+          <span class="pilar2-sector-val">${s.value || 'Rp -- T'}</span>
         </div>
-      </div>
-    `).join('');
+      `;
+    }).join('');
   }
 
   // Dataset 04 & 07: Transparansi Pembiayaan (SiLPA & BUMD) serta Neraca APBD
@@ -584,6 +596,219 @@ export function initExecutiveSummary(year = 2026) {
     pembiayaanStatusEl.textContent = 'Fiskal Terkendali';
   }
 }
+
+// =========================================================================
+// KURSOR KEPALA ONDI & ANIMASI KLIK MENGEDIP (64x64px)
+// =========================================================================
+function initOndiCustomCursor() {
+  if (!window.matchMedia('(pointer: fine)').matches) return; // Tidak aktif di layar sentuh
+
+  let k = document.getElementById('ondi-kursor');
+  if (!k) {
+    k = document.createElement('div');
+    k.id = 'ondi-kursor';
+    k.setAttribute('aria-hidden', 'true');
+    k.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="117.5 235 345 345">
+<defs><filter id="ondi-kursor-kontur" x="-10%" y="-10%" width="120%" height="120%"><feMorphology in="SourceAlpha" operator="dilate" radius="6" result="tebal"/><feFlood flood-color="#FFFFFF" result="putih"/><feComposite in="putih" in2="tebal" operator="in" result="kontur"/><feMerge><feMergeNode in="kontur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+<g filter="url(#ondi-kursor-kontur)"><g id="ondi-kursor-kepala"><line x1="290" y1="395" x2="290" y2="257" stroke="#E0A526" stroke-width="27" stroke-linecap="round"/><line x1="276" y1="395" x2="236" y2="285" stroke="#E0A526" stroke-width="27" stroke-linecap="round"/><line x1="304" y1="395" x2="344" y2="285" stroke="#E0A526" stroke-width="27" stroke-linecap="round"/><line x1="258" y1="395" x2="207" y2="327" stroke="#E0A526" stroke-width="27" stroke-linecap="round"/><line x1="322" y1="395" x2="373" y2="327" stroke="#E0A526" stroke-width="27" stroke-linecap="round"/><line x1="240" y1="393" x2="195" y2="378" stroke="#E0A526" stroke-width="27" stroke-linecap="round"/><line x1="340" y1="393" x2="385" y2="378" stroke="#E0A526" stroke-width="27" stroke-linecap="round"/><path d="M203,440 V400 H377 V440 V510 Q377,572 290,572 Q203,572 203,510 Z" fill="#B71C1C"/><path d="M203,411 V393 Q203,385 211,385 H369 Q377,385 377,393 V411 Z" fill="#E0A526"/><path d="M203,410 L217.5,428 L232,410 L246.5,428 L261,410 L275.5,428 L290,410 L304.5,428 L319,410 L333.5,428 L348,410 L362.5,428 L377,410 Z" fill="#E0A526"/><path d="M203,410 L217.5,428 L232,410 L246.5,428 L261,410 L275.5,428 L290,410 L304.5,428 L319,410 L333.5,428 L348,410 L362.5,428 L377,410 Z" fill="#E0A526"/><line x1="226" y1="438" x2="280" y2="438" stroke="#231F1F" stroke-width="9" stroke-linecap="round"/><line x1="300" y1="438" x2="354" y2="438" stroke="#231F1F" stroke-width="9" stroke-linecap="round"/><g class="mata-buka"><circle cx="254" cy="476" r="22" fill="#fff"/><circle cx="254" cy="476" r="11" fill="#231F1F"/><circle cx="326" cy="476" r="22" fill="#fff"/><circle cx="326" cy="476" r="11" fill="#231F1F"/></g><g class="mata-tutup"><path d="M231,476 Q254,490 277,476" fill="none" stroke="#231F1F" stroke-width="8" stroke-linecap="round"/><path d="M303,476 Q326,490 349,476" fill="none" stroke="#231F1F" stroke-width="8" stroke-linecap="round"/></g><path d="M243,532 Q245,518 270,517 Q282,517 290,522 Q298,517 310,517 Q335,518 337,532 Q316,526 290,530 Q264,526 243,532 Z" fill="#231F1F"/><path d="M264,547 Q290,561 316,547" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round"/></g><line class="sinar" style="--dx:-1;--dy:-0.7" x1="178" y1="350" x2="142" y2="324"/><line class="sinar" style="--dx:-1;--dy:-0.1" x1="184" y1="436" x2="140" y2="432"/><line class="sinar" style="--dx:-0.9;--dy:0.6" x1="190" y1="510" x2="152" y2="532"/><line class="sinar" style="--dx:1;--dy:-0.7" x1="402" y1="350" x2="438" y2="324"/><line class="sinar" style="--dx:1;--dy:-0.1" x1="396" y1="436" x2="440" y2="432"/><line class="sinar" style="--dx:0.9;--dy:0.6" x1="390" y1="510" x2="428" y2="532"/></g>
+</svg>`;
+    document.body.appendChild(k);
+  }
+
+  const svg = k.querySelector('svg');
+  let clickTimer = null;
+
+  document.addEventListener('mousemove', (e) => {
+    k.classList.add('aktif');
+    k.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+  }, { passive: true });
+
+  document.addEventListener('mouseleave', () => {
+    k.classList.remove('aktif');
+  });
+
+  document.addEventListener('mousedown', () => {
+    k.classList.remove('klik');
+    if (svg) void svg.getBoundingClientRect(); // Mulai ulang animasi tiap klik
+    k.classList.add('klik');
+    clearTimeout(clickTimer);
+    clickTimer = setTimeout(() => {
+      k.classList.remove('klik');
+    }, 450);
+  });
+}
+
+// =========================================================================
+// MASKOT ONDI PILAR 02: HANYA LENGAN KIRI (#lengan-menunjuk) BERPUTAR DI BAHU
+// =========================================================================
+function initOndiBelanjaArmTracking() {
+  // Konstanta yang dapat disesuaikan:
+  const PIVOT_X = 224;          // Titik sendi bahu X dalam koordinat SVG
+  const PIVOT_Y = 598;          // Titik sendi bahu Y dalam koordinat SVG
+  const REST_ANGLE_DEG = 206;   // Sudut awal lengan menunjuk (kiri-atas, ~206°)
+  const MIN_ANGLE_DEG = 100;    // Batas bawah sudut (kiri-bawah)
+  const MAX_ANGLE_DEG = 245;    // Batas atas sudut (kiri-atas)
+  const SMOOTHING = 0.18;       // Faktor interpolasi per frame
+  const MAX_STEP_DEG = 12;      // Batas kecepatan putar maksimum (derajat/frame)
+  const EPSILON_DEG = 0.1;      // Ambang batas berhenti loop RAF
+
+  const stages = document.querySelectorAll('.pilar2-ondi-stage');
+  if (stages.length === 0) return;
+
+  // Layar sentuh atau prefers-reduced-motion: lengan tetap di posisi awal (206°)
+  const isCoarsePointer = window.matchMedia('(pointer: coarse)').matches;
+  const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (isCoarsePointer || isReducedMotion) {
+    stages.forEach((stage) => {
+      const lengan = stage.querySelector('#lengan-menunjuk');
+      if (lengan) {
+        lengan.setAttribute('transform', `rotate(0 ${PIVOT_X} ${PIVOT_Y})`);
+      }
+    });
+    return;
+  }
+
+  let kursorX = null;
+  let kursorY = null;
+  let isCursorInWindow = false;
+
+  const instances = [];
+
+  stages.forEach((stage) => {
+    const svg = stage.querySelector('svg');
+    const lengan = svg ? svg.querySelector('#lengan-menunjuk') : null;
+    if (!svg || !lengan) return;
+
+    const instance = {
+      svg,
+      lengan,
+      pt: svg.createSVGPoint(),
+      sudutSaatIni: REST_ANGLE_DEG,
+      isVisible: true,
+      rafId: null
+    };
+
+    // Pastikan posisi awal di 206° (rotasi relatif 0°)
+    lengan.setAttribute('transform', `rotate(0 ${PIVOT_X} ${PIVOT_Y})`);
+    instances.push(instance);
+  });
+
+  if (instances.length === 0) return;
+
+  const computeTargetAngle = (inst) => {
+    if (!isCursorInWindow || kursorX === null || kursorY === null) {
+      return REST_ANGLE_DEG;
+    }
+    const ctm = inst.svg.getScreenCTM();
+    if (!ctm) return REST_ANGLE_DEG;
+
+    inst.pt.x = PIVOT_X;
+    inst.pt.y = PIVOT_Y;
+    const bahu = inst.pt.matrixTransform(ctm);
+
+    // Sudut layar (0° = kanan, searah jarum jam positif karena Y ke bawah), normalisasi 0–360
+    const rawDeg = Math.atan2(kursorY - bahu.y, kursorX - bahu.x) * (180 / Math.PI);
+    const normDeg = ((rawDeg % 360) + 360) % 360;
+
+    // Clamp ke rentang [100°, 245°] agar tidak menembus badan atau menutupi wajah
+    return Math.min(Math.max(normDeg, MIN_ANGLE_DEG), MAX_ANGLE_DEG);
+  };
+
+  const stepInstance = (inst) => {
+    inst.rafId = null;
+    if (document.hidden || !inst.isVisible) return;
+
+    const target = computeTargetAngle(inst);
+    const diff = target - inst.sudutSaatIni;
+
+    if (Math.abs(diff) < EPSILON_DEG) {
+      inst.sudutSaatIni = target;
+      inst.lengan.setAttribute(
+        'transform',
+        `rotate(${(inst.sudutSaatIni - REST_ANGLE_DEG).toFixed(2)} ${PIVOT_X} ${PIVOT_Y})`
+      );
+      return; // Hentikan loop RAF saat sudah mencapai target
+    }
+
+    let delta = diff * SMOOTHING;
+    if (delta > MAX_STEP_DEG) delta = MAX_STEP_DEG;
+    if (delta < -MAX_STEP_DEG) delta = -MAX_STEP_DEG;
+
+    inst.sudutSaatIni += delta;
+    inst.lengan.setAttribute(
+      'transform',
+      `rotate(${(inst.sudutSaatIni - REST_ANGLE_DEG).toFixed(2)} ${PIVOT_X} ${PIVOT_Y})`
+    );
+
+    inst.rafId = requestAnimationFrame(() => stepInstance(inst));
+  };
+
+  const wakeAll = () => {
+    if (document.hidden) return;
+    instances.forEach((inst) => {
+      if (inst.isVisible && !inst.rafId) {
+        inst.rafId = requestAnimationFrame(() => stepInstance(inst));
+      }
+    });
+  };
+
+  const stopAll = () => {
+    instances.forEach((inst) => {
+      if (inst.rafId) {
+        cancelAnimationFrame(inst.rafId);
+        inst.rafId = null;
+      }
+    });
+  };
+
+  window.addEventListener('mousemove', (e) => {
+    kursorX = e.clientX;
+    kursorY = e.clientY;
+    isCursorInWindow = true;
+    wakeAll();
+  }, { passive: true });
+
+  document.addEventListener('mouseleave', () => {
+    isCursorInWindow = false;
+    wakeAll();
+  });
+
+  window.addEventListener('scroll', () => {
+    if (isCursorInWindow) wakeAll();
+  }, { passive: true });
+
+  window.addEventListener('resize', () => {
+    if (isCursorInWindow) wakeAll();
+  }, { passive: true });
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      stopAll();
+    } else {
+      wakeAll();
+    }
+  });
+
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        const inst = instances.find((item) => item.svg === entry.target);
+        if (!inst) return;
+        inst.isVisible = entry.isIntersecting;
+        if (!inst.isVisible && inst.rafId) {
+          cancelAnimationFrame(inst.rafId);
+          inst.rafId = null;
+        } else if (inst.isVisible) {
+          wakeAll();
+        }
+      });
+    }, { threshold: 0.01 });
+
+    instances.forEach((inst) => observer.observe(inst.svg));
+  }
+}
+
+
 
 
 

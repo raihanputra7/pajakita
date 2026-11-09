@@ -18,7 +18,7 @@
   <link rel="stylesheet" href="css/card-fonts.css">
 
   <!-- CSS utama -->
-  <link rel="stylesheet" href="css/styles.css?v=3">
+  <link rel="stylesheet" href="css/styles.css?v=15">
   <link rel="stylesheet" href="css/card-generator.css?v=18">
   <link rel="stylesheet" href="css/card-experience.css?v=8">
   <link rel="stylesheet" href="css/card-hero-carousel.css?v=20">
@@ -67,12 +67,11 @@
                 </div>
               </a>
 
-              <a class="dropdown-item-link" href="penerimaan.html#wajib-pajak" role="menuitem">
+              <a class="dropdown-item-link" href="#peta-wilayah" role="menuitem">
                 <div class="dropdown-item-icon">🗺️</div>
                 <div class="dropdown-item-text">
                   <div class="dropdown-item-head">
                     <span class="dropdown-item-title">Per Wilayah</span>
-                    <span class="badge-coming-soon">Segera hadir</span>
                   </div>
                   <span class="dropdown-item-desc">Sebaran penerimaan pajak 5 kota administrasi & 1 kabupaten</span>
                 </div>
@@ -228,8 +227,8 @@
           <a class="dropdown-item-link" href="penerimaan.html#rincian-jenis">
             <div class="dropdown-item-title">Per Jenis Pajak <span class="badge-coming-soon">Segera hadir</span></div>
           </a>
-          <a class="dropdown-item-link" href="penerimaan.html#wajib-pajak">
-            <div class="dropdown-item-title">Per Wilayah <span class="badge-coming-soon">Segera hadir</span></div>
+          <a class="dropdown-item-link" href="#peta-wilayah">
+            <div class="dropdown-item-title">Per Wilayah</div>
           </a>
         </div>
       </div>
@@ -404,16 +403,16 @@
               <svg class="ondi-avatar-svg" xmlns="http://www.w3.org/2000/svg" viewBox="60 230 460 630" role="img"
                 aria-label="Ondi, maskot resmi paJAK-Kita tersenyum ramah menyambut warga">
                 <style>
-                  .arm {
+                  .ondi-avatar-svg .arm {
                     transform-box: view-box;
                   }
 
-                  .arm:nth-of-type(2) {
+                  .ondi-avatar-svg .arm:nth-of-type(2) {
                     transform-origin: 227px 602px;
                     animation: wave-left 1.45s ease-in-out infinite;
                   }
 
-                  .arm:nth-of-type(3) {
+                  .ondi-avatar-svg .arm:nth-of-type(3) {
                     transform-origin: 353px 602px;
                     animation: wave-right 1.45s ease-in-out infinite;
                   }
@@ -443,7 +442,7 @@
                   }
 
                   @media (prefers-reduced-motion: reduce) {
-                    .arm {
+                    .ondi-avatar-svg .arm {
                       animation: none !important;
                     }
                   }
@@ -537,121 +536,114 @@
     </section>
 
     <!-- =========================================================================
-         PILAR 01: PENERIMAAN DAERAH (RINGKASAN EKSEKUTIF)
+         PETA INTERAKTIF WILAYAH DKI JAKARTA (DASHBOARD SPLIT-SCREEN 50:50)
          ========================================================================= -->
-    <section class="exec-summary-section" id="pilar-penerimaan">
-      <span id="penerimaan" class="anchor-target"></span>
-      <div class="exec-container">
-        <!-- Header Pilar 1 -->
-        <header class="exec-header">
+    <section class="peta-jakarta-section" id="peta-wilayah" aria-label="Dashboard Peta Interaktif Wilayah Administrasi DKI Jakarta">
+      <div class="peta-dashboard-wrapper">
+        <!-- Header Section Peta -->
+        <header class="peta-section-header">
           <div class="exec-kicker-wrap">
-            <span class="exec-badge-num">PILAR 01</span>
-            <span class="exec-kicker-text">PENERIMAAN DAERAH</span>
+            <span class="exec-badge-num">EKSPLORASI SPASIAL</span>
+            <span class="exec-kicker-text">SEBARAN 5 KOTA &amp; 1 KABUPATEN ADMINISTRASI</span>
           </div>
-          <h2 class="exec-headline">
-            Berapa rupiah yang sudah <span class="font-serif italic font-normal text-amber-800">terkumpul?</span>
-          </h2>
-          <p class="exec-lead">
-            Pantau capaian target penerimaan pajak daerah Jakarta tahun berjalan secara transparan langsung dari sumber
-            resmi Satu Data Jakarta.
-          </p>
+          <div class="peta-section-title-row">
+            <div>
+              <h2 class="exec-headline">
+                Kenali profil pajak &amp; anggaran <span class="font-serif italic font-normal text-amber-800">per wilayah.</span>
+              </h2>
+              <p class="exec-lead">
+                Klik wilayah pada peta atau pilih tombol wilayah untuk menelusuri kontribusi pajak daerah, realisasi belanja SKPD wilayah, serta program prioritas di masing-masing kota dan kabupaten administrasi.
+              </p>
+            </div>
+            <!-- Pemilih Cepat 6 Wilayah (Aksesibel & Responsif) -->
+            <div class="peta-quick-pills" id="peta-quick-pills" role="tablist" aria-label="Pilih wilayah administrasi"></div>
+          </div>
         </header>
 
-        <!-- 3 Kartu Angka Kunci Pilar 1 -->
-        <div class="exec-metrics-grid">
-          <!-- Card 1: Target APBD -->
-          <article class="exec-card">
-            <div class="exec-card-top">
-              <span class="exec-card-label">Target APBD</span>
-              <span class="exec-card-chip">Penetapan</span>
-            </div>
-            <div class="exec-card-val" id="metric-target-pajak">Rp --,-- T</div>
-            <p class="exec-card-desc">Target penerimaan pajak daerah murni tahun anggaran berjalan.</p>
-          </article>
+        <!-- Layout Split-Screen 50:50 -->
+        <div class="peta-split-layout">
+          <!-- Sisi Kiri (50%): Peta Interaktif DKI Jakarta -->
+          <div class="peta-left-col">
+            <div class="kartu-peta" id="kartu-peta-jakarta">
+              <div class="kartu-peta-topbar">
+                <span class="kartu-peta-tag">PETA ADMINISTRASI DKI JAKARTA</span>
+                <span class="kartu-peta-hint">Klik wilayah untuk mengunci pilihan</span>
+              </div>
 
-          <!-- Card 2: Realisasi Terkumpul -->
-          <article class="exec-card exec-card-focus">
-            <div class="exec-card-top">
-              <span class="exec-card-label">Realisasi Terkumpul</span>
-              <span class="exec-card-chip chip-highlight">Kas Daerah</span>
-            </div>
-            <div class="exec-card-val text-primary" id="metric-realisasi-pajak">Rp --,-- T</div>
-            <p class="exec-card-desc">Pajak daerah yang telah sah disetor dan masuk kas DKI Jakarta.</p>
-          </article>
+              <div class="kartu-peta-svg-wrap">
+                <svg id="peta-jakarta-svg" role="group" aria-label="Peta Interaktif 6 Wilayah DKI Jakarta" preserveAspectRatio="xMidYMid meet"></svg>
+                <div id="peta-ondi-pointer" class="peta-ondi-pointer" aria-hidden="true">
+                  <img
+                    src="public/assets/maskot-ondi/ondi-07-menunjuk-peta.svg"
+                    onerror="this.onerror=null;this.src='public/assets/maskot-ondi/ondi-07-menunjuk-peta.png';"
+                    alt=""
+                    width="460"
+                    height="630"
+                    decoding="async"
+                  />
+                </div>
+                <div id="peta-jakarta-tooltip" class="peta-tooltip" role="presentation" hidden></div>
+              </div>
 
-          <!-- Card 3: Persentase Capaian -->
-          <article class="exec-card">
-            <div class="exec-card-top">
-              <span class="exec-card-label">Persentase Capaian</span>
-              <span class="exec-card-chip chip-progress">Progres</span>
-            </div>
-            <div class="exec-card-val" id="metric-persen-pajak">--,--%</div>
-            <div class="exec-progress-track" aria-hidden="true">
-              <div class="exec-progress-bar bar-pajak" id="progress-bar-pajak" style="width: 0%;"></div>
-            </div>
-            <p class="exec-card-desc" id="metric-sisa-pajak-desc">Persentase capaian realisasi terhadap total target
-              APBD.</p>
-          </article>
-        </div>
-
-        <!-- Ekosistem Gateway: Dataset 01, 02 & 11 (Pajak vs Retribusi & Wajib Pajak) -->
-        <div class="exec-gateway-strip" id="pajak-gateway-strip">
-          <div class="gateway-strip-col">
-            <div class="gateway-strip-tag">DATASET 01 &amp; 02 • PERBANDINGAN CAPAIAN</div>
-            <div class="gateway-strip-desc" id="gateway-pajak-retribusi-text">
-              Pajak Daerah murni: <strong class="text-primary" id="metric-pajak-capaian-val">--,--%</strong> vs
-              Retribusi Daerah: <strong class="text-gold" id="metric-retribusi-capaian-val">--,--%</strong>
-            </div>
-          </div>
-          <div class="gateway-strip-divider" aria-hidden="true"></div>
-          <div class="gateway-strip-col">
-            <div class="gateway-strip-tag">DATASET 11 • WAJIB PAJAK JAKARTA</div>
-            <div class="gateway-strip-desc" id="gateway-wp-text">
-              Total <strong class="text-dark" id="metric-total-wp-val">-- Juta</strong> Wajib Pajak Terdaftar (<span
-                class="text-success font-bold" id="metric-tumbuh-wp-val">+--% YoY</span>) · Kepatuhan <strong
-                id="metric-patuh-wp-val">--,--%</strong>
-            </div>
-          </div>
-        </div>
-
-        <!-- 3 Kontributor Pajak Terbesar & Seasonality Note -->
-        <div class="exec-subpanel">
-          <div class="exec-subpanel-header">
-            <h3 class="exec-subpanel-title">DATASET 03 &amp; 10 • 3 KONTRIBUTOR PAJAK TERBESAR</h3>
-            <span class="exec-subpanel-badge">Klasifikasi Bapenda</span>
-          </div>
-          <div class="exec-contributors-grid" id="penerimaan-contributors-list">
-            <div class="exec-contributor-pill">
-              <span class="pill-rank">01</span>
-              <span class="pill-name">Pajak Kendaraan Bermotor (PKB)</span>
-              <span class="pill-val">Rp -- T</span>
-            </div>
-            <div class="exec-contributor-pill">
-              <span class="pill-rank">02</span>
-              <span class="pill-name">BPHTB</span>
-              <span class="pill-val">Rp -- T</span>
-            </div>
-            <div class="exec-contributor-pill">
-              <span class="pill-rank">03</span>
-              <span class="pill-name">Pajak Restoran</span>
-              <span class="pill-val">Rp -- T</span>
+              <!-- Legend & Penanda Cepat Kepulauan Seribu -->
+              <div class="kartu-peta-footer">
+                <div class="peta-legend-items" id="peta-legend-items"></div>
+              </div>
             </div>
           </div>
 
-          <!-- Dataset 09: Tren Musiman Bulanan -->
-          <div class="exec-seasonality-pill" id="penerimaan-seasonality-note">
-            <span class="pill-cal-icon" aria-hidden="true">🗓️</span>
-            <span><strong>Tren Musiman Bulanan (Dataset 09):</strong> Puncak penerimaan tahunan berada di Mei–Juni
-              (diskon PKB &amp; BBNKB) dan Agustus–September (jatuh tempo massal PBB-P2).</span>
-          </div>
-        </div>
+          <!-- Sisi Kanan (50%): Panel Informasi Wilayah dengan Accordion -->
+          <div class="peta-right-col">
+            <div class="peta-info-panel" id="peta-info-panel" aria-live="polite">
+              <!-- Header Panel Wilayah Terpilih -->
+              <div class="peta-panel-header" id="peta-panel-header">
+                <div class="peta-panel-meta-row">
+                  <span class="peta-panel-badge" id="peta-panel-jenis">KOTA ADMINISTRASI</span>
+                  <span class="peta-panel-status" id="peta-panel-kode">WILAYAH TERPILIH</span>
+                </div>
+                <div class="peta-panel-title-wrap">
+                  <span class="peta-panel-color-bar" id="peta-panel-color-bar"></span>
+                  <div>
+                    <h3 class="peta-panel-title" id="peta-panel-nama">JAKARTA SELATAN</h3>
+                    <p class="peta-panel-subtitle" id="peta-panel-tagline">Pusat Kawasan Bisnis Terpadu, Hunian Hijau &amp; Kontributor PBB-P2 Tertinggi</p>
+                  </div>
+                </div>
 
-        <!-- Tombol CTA Pilar 1 -->
-        <div class="exec-cta-wrap">
-          <a href="penerimaan.html" class="exec-cta-button">
-            <span>Lihat Analisis Penerimaan Lengkap</span>
-            <span class="cta-arrow" aria-hidden="true">→</span>
-          </a>
+                <!-- Highlight Key Metrics Strip di Atas Accordion -->
+                <div class="peta-panel-kpis" id="peta-panel-kpis">
+                  <div class="peta-kpi-box">
+                    <span class="peta-kpi-label">Penerimaan Pajak Utama</span>
+                    <span class="peta-kpi-val text-primary" id="peta-kpi-pajak">Rp 4,12 T</span>
+                    <span class="peta-kpi-sub" id="peta-kpi-pajak-sub">PBB-P2 &amp; PBJT (Satu Data)</span>
+                  </div>
+                  <div class="peta-kpi-box">
+                    <span class="peta-kpi-label">Pagu Belanja SKPD Kota</span>
+                    <span class="peta-kpi-val" id="peta-kpi-anggaran">Rp 1,32 T</span>
+                    <span class="peta-kpi-sub">APBD Penetapan 2026</span>
+                  </div>
+                  <div class="peta-kpi-box">
+                    <span class="peta-kpi-label">Realisasi Belanja SKPD</span>
+                    <span class="peta-kpi-val text-success" id="peta-kpi-realisasi">Rp 966,71 M</span>
+                    <span class="peta-kpi-sub" id="peta-kpi-serapan">73,03% Terserap (BPKD)</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Daftar 6 Kategori Accordion / Dropdown -->
+              <div class="peta-accordion-group" id="peta-accordion-group">
+                <!-- Diisi dan diperbarui secara dinamis oleh js/peta-jakarta-landing.js -->
+              </div>
+
+              <!-- Footer Panel: Pintasan Buat Kartu Insight Wilayah Ini -->
+              <div class="peta-panel-footer">
+                <a href="#card-generator" class="peta-panel-cta" id="peta-btn-buat-kartu">
+                  <span>Buat Kartu Insight Wilayah Ini</span>
+                  <span aria-hidden="true">↗</span>
+                </a>
+                <a href="penerimaan.html" class="peta-panel-link-sec">Lihat Data Provinsi Lengkap →</a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -659,132 +651,184 @@
     <!-- =========================================================================
          PILAR 02: ALOKASI BELANJA KOTA (RINGKASAN EKSEKUTIF)
          ========================================================================= -->
-    <section class="exec-summary-section exec-section-alt" id="pilar-belanja">
+    <section class="exec-summary-section exec-section-alt pilar2-redesign" id="pilar-belanja">
       <span id="belanja" class="anchor-target"></span>
       <div class="exec-container">
-        <!-- Header Pilar 2 -->
-        <header class="exec-header">
-          <div class="exec-kicker-wrap">
-            <span class="exec-badge-num exec-badge-blue">PILAR 02</span>
-            <span class="exec-kicker-text">ALOKASI BELANJA KOTA</span>
-          </div>
-          <h2 class="exec-headline">
-            Ke mana uang pajak warga <span class="font-serif italic font-normal text-amber-800">dialokasikan?</span>
-          </h2>
-          <p class="exec-lead">
-            Menelusuri distribusi penyerapan anggaran belanja untuk pembangunan fasilitas, operasional dinas, dan
-            layanan warga.
-          </p>
-        </header>
+        <!-- Baris Atas: Header Kiri & Maskot Ondi Menunjuk Kanan -->
+        <div class="pilar2-top-row">
+          <header class="exec-header pilar2-header">
+            <div class="exec-kicker-wrap">
+              <span class="exec-badge-num">ALOKASI ANGGARAN</span>
+              <span class="exec-kicker-text">DISTRIBUSI BELANJA APBD &amp; LAYANAN PUBLIK PRIORITAS</span>
+            </div>
+            <h2 class="exec-headline">
+              Ke mana uang pajak warga <span class="font-serif italic font-normal text-amber-800">dialokasikan?</span>
+            </h2>
+            <p class="exec-lead">
+              Menelusuri distribusi penyerapan anggaran belanja untuk pembangunan fasilitas, operasional dinas, dan
+              layanan warga.
+            </p>
+          </header>
 
-        <!-- 3 Kartu Angka Kunci Pilar 2 -->
-        <div class="exec-metrics-grid">
-          <!-- Card 1: Total Anggaran Belanja -->
-          <article class="exec-card">
-            <div class="exec-card-top">
-              <span class="exec-card-label">Total Anggaran Belanja</span>
-              <span class="exec-card-chip">Pagu Belanja</span>
-            </div>
-            <div class="exec-card-val" id="metric-total-belanja">Rp --,-- T</div>
-            <p class="exec-card-desc">Plafon batas belanja daerah yang disahkan dalam APBD.</p>
-          </article>
-
-          <!-- Card 2: Total Terserap -->
-          <article class="exec-card exec-card-focus-blue">
-            <div class="exec-card-top">
-              <span class="exec-card-label">Total Terserap</span>
-              <span class="exec-card-chip chip-blue" id="metric-status-belanja">Terealisasi</span>
-            </div>
-            <div class="exec-card-val text-blue" id="metric-realisasi-belanja">Rp --,-- T</div>
-            <p class="exec-card-desc">Anggaran yang telah resmi dibelanjakan untuk keperluan publik.</p>
-          </article>
-
-          <!-- Card 3: Tingkat Penyerapan -->
-          <article class="exec-card">
-            <div class="exec-card-top">
-              <span class="exec-card-label">Tingkat Penyerapan</span>
-              <span class="exec-card-chip chip-progress-blue">Efektivitas</span>
-            </div>
-            <div class="exec-card-val" id="metric-persen-belanja">--,--%</div>
-            <div class="exec-progress-track" aria-hidden="true">
-              <div class="exec-progress-bar bar-belanja" id="progress-bar-belanja" style="width: 0%;"></div>
-            </div>
-            <p class="exec-card-desc">Tingkat efektivitas penyerapan belanja terhadap pagu anggaran.</p>
-          </article>
-        </div>
-
-        <!-- Dataset 05: 4 Kelompok Belanja Menurut Jenis Pengeluaran -->
-        <div class="exec-kelompok-box">
-          <div class="exec-kelompok-head">
-            <span class="exec-subpanel-title" style="margin: 0;">DATASET 05 • 4 KELOMPOK ALOKASI BELANJA</span>
-            <span class="exec-kelompok-note">Klasifikasi Pengeluaran Permendagri</span>
-          </div>
-          <div class="exec-kelompok-grid" id="belanja-kelompok-grid">
-            <!-- Diisi otomatis oleh dataEngine -->
-          </div>
-        </div>
-
-        <!-- 3 Fokus Alokasi Layanan Publik -->
-        <div class="exec-subpanel">
-          <h3 class="exec-subpanel-title">3 Fokus Alokasi Layanan Publik Prioritas</h3>
-          <div class="exec-sectors-grid" id="belanja-sectors-list">
-            <div class="exec-sector-card">
-              <span class="sector-icon" aria-hidden="true">🎓</span>
-              <div class="sector-info">
-                <span class="sector-name">Sektor Pendidikan &amp; Sekolah</span>
-                <span class="sector-val">Rp -- T</span>
-              </div>
-            </div>
-            <div class="exec-sector-card">
-              <span class="sector-icon" aria-hidden="true">🏗️</span>
-              <div class="sector-info">
-                <span class="sector-name">Sarana Publik &amp; Infrastruktur</span>
-                <span class="sector-val">Rp -- T</span>
-              </div>
-            </div>
-            <div class="exec-sector-card">
-              <span class="sector-icon" aria-hidden="true">🏥</span>
-              <div class="sector-info">
-                <span class="sector-name">Kesehatan Masyarakat</span>
-                <span class="sector-val">Rp -- T</span>
-              </div>
-            </div>
+          <!-- Maskot Ondi Interaktif (Hanya Lengan Kiri Menunjuk yang Berputar di Bahu) -->
+          <div class="pilar2-ondi-stage" aria-hidden="true">
+            <svg id="ondi-belanja-svg" class="ondi-menunjuk-svg" xmlns="http://www.w3.org/2000/svg" viewBox="60 230 460 630" width="460" height="630" role="img" aria-hidden="true">
+              <title>Ondi - 04-menunjuk-peta</title>
+              <ellipse cx="290" cy="832" rx="128" ry="9" fill="#E4E4E4"/>
+              <g id="badan">
+                <path d="M208,600 Q210,560 252,556 H328 Q370,560 372,600 L410,795 H170 Z" fill="#1F7A5A"/>
+                <rect x="170" y="795" width="240" height="27" fill="#B71C1C"/>
+                <path d="M185,795 L195.5,782 L206,795 Z M206,795 L216.5,782 L227,795 Z M227,795 L237.5,782 L248,795 Z M248,795 L258.5,782 L269,795 Z M269,795 L279.5,782 L290,795 Z M290,795 L300.5,782 L311,795 Z M311,795 L321.5,782 L332,795 Z M332,795 L342.5,782 L353,795 Z M353,795 L363.5,782 L374,795 Z M374,795 L384.5,782 L395,795 Z" fill="#E0A526"/>
+                <polygon points="239,566 398,733 372,757 213,590" fill="#E0A526"/>
+              </g>
+              <g class="arm" id="lengan-menunjuk">
+                <line x1="224" y1="598" x2="126.9" y2="550.7" stroke="#17604A" stroke-width="34"/>
+                <circle cx="224" cy="598" r="17" fill="#17604A"/>
+                <rect x="-19" y="-4" width="38" height="8" fill="#E0A526" transform="translate(123.3,548.9) rotate(-64.0)"/>
+                <line x1="105.4" y1="540.1" x2="74.8" y2="525.2" stroke="#B71C1C" stroke-width="13" stroke-linecap="round"/>
+                <circle cx="105.4" cy="540.1" r="16" fill="#B71C1C"/>
+              </g>
+              <g class="arm">
+                <line x1="356" y1="598" x2="371" y2="688" stroke="#17604A" stroke-width="34"/>
+                <circle cx="356" cy="598" r="17" fill="#17604A"/>
+                <rect x="-19" y="-4" width="38" height="8" fill="#E0A526" transform="translate(371.7,691.9) rotate(170.5)"/>
+                <circle cx="374.9" cy="711.7" r="16" fill="#B71C1C"/>
+              </g>
+              <g id="kepala">
+                <line x1="290" y1="395" x2="290" y2="257" stroke="#E0A526" stroke-width="27" stroke-linecap="round"/>
+                <line x1="276" y1="395" x2="236" y2="285" stroke="#E0A526" stroke-width="27" stroke-linecap="round"/>
+                <line x1="304" y1="395" x2="344" y2="285" stroke="#E0A526" stroke-width="27" stroke-linecap="round"/>
+                <line x1="258" y1="395" x2="207" y2="327" stroke="#E0A526" stroke-width="27" stroke-linecap="round"/>
+                <line x1="322" y1="395" x2="373" y2="327" stroke="#E0A526" stroke-width="27" stroke-linecap="round"/>
+                <line x1="240" y1="393" x2="195" y2="378" stroke="#E0A526" stroke-width="27" stroke-linecap="round"/>
+                <line x1="340" y1="393" x2="385" y2="378" stroke="#E0A526" stroke-width="27" stroke-linecap="round"/>
+                <path d="M203,440 V400 H377 V440 V510 Q377,572 290,572 Q203,572 203,510 Z" fill="#B71C1C"/>
+                <path d="M203,411 V393 Q203,385 211,385 H369 Q377,385 377,393 V411 Z" fill="#E0A526"/>
+                <path d="M203,410 L217.5,428 L232,410 L246.5,428 L261,410 L275.5,428 L290,410 L304.5,428 L319,410 L333.5,428 L348,410 L362.5,428 L377,410 Z" fill="#E0A526"/>
+                <path d="M203,410 L217.5,428 L232,410 L246.5,428 L261,410 L275.5,428 L290,410 L304.5,428 L319,410 L333.5,428 L348,410 L362.5,428 L377,410 Z" fill="#E0A526"/>
+                <line x1="226" y1="436" x2="280" y2="438" stroke="#231F1F" stroke-width="9" stroke-linecap="round"/>
+                <line x1="300" y1="438" x2="354" y2="436" stroke="#231F1F" stroke-width="9" stroke-linecap="round"/>
+                <circle cx="254" cy="476" r="22" fill="#fff"/>
+                <circle cx="247" cy="474" r="11" fill="#231F1F"/>
+                <circle cx="326" cy="476" r="22" fill="#fff"/>
+                <circle cx="319" cy="474" r="11" fill="#231F1F"/>
+                <path d="M243,532 Q245,518 270,517 Q282,517 290,522 Q298,517 310,517 Q335,518 337,532 Q316,526 290,530 Q264,526 243,532 Z" fill="#231F1F"/>
+                <path d="M264,547 Q290,561 316,547" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round"/>
+              </g>
+            </svg>
           </div>
         </div>
 
-        <!-- Dataset 04 & 07: Transparansi Pembiayaan Daerah (SiLPA & BUMD) & Neraca Fiskal -->
-        <div class="exec-pembiayaan-card" id="pembiayaan-neraca-card">
-          <div class="pembiayaan-head">
-            <div class="pembiayaan-tag-wrap">
-              <span class="pembiayaan-badge">DATASET 04 &amp; 07</span>
-              <span class="pembiayaan-title">TRANSPARANSI PEMBIAYAAN &amp; NERACA APBD</span>
-            </div>
-            <span class="pembiayaan-status-pill" id="pembiayaan-status-label">Fiskal Terkendali</span>
+        <!-- Banner Utama Hijau Tua (3 Kolom + Motif Gigi Balang Betawi) -->
+        <div class="pilar2-green-banner">
+          <div class="pilar2-banner-grid">
+            <!-- Kolom 1: Total anggaran belanja -->
+            <article class="pilar2-banner-col">
+              <div class="pilar2-col-top">
+                <span class="pilar2-col-label">Total anggaran belanja</span>
+                <span class="pilar2-col-pill">Pagu belanja</span>
+              </div>
+              <div class="pilar2-col-val" id="metric-total-belanja">Rp 84,30 T</div>
+            </article>
+
+            <!-- Kolom 2: Total terserap -->
+            <article class="pilar2-banner-col">
+              <div class="pilar2-col-top">
+                <span class="pilar2-col-label">Total terserap</span>
+                <span class="pilar2-col-pill" id="metric-status-belanja">Sangat efektif</span>
+              </div>
+              <div class="pilar2-col-val" id="metric-realisasi-belanja">Rp 80,50 T</div>
+            </article>
+
+            <!-- Kolom 3: Tingkat penyerapan -->
+            <article class="pilar2-banner-col">
+              <div class="pilar2-col-top">
+                <span class="pilar2-col-label">Tingkat penyerapan</span>
+                <span class="pilar2-col-pill">Efektivitas</span>
+              </div>
+              <div class="pilar2-col-val pilar2-col-val-gold" id="metric-persen-belanja">95,5%</div>
+              <div class="pilar2-progress-track" aria-hidden="true">
+                <div class="pilar2-progress-bar" id="progress-bar-belanja" style="width: 95.5%;"></div>
+              </div>
+            </article>
           </div>
-          <div class="pembiayaan-grid">
-            <div class="pembiayaan-item">
-              <span class="pembiayaan-label">SiLPA Daerah Termartabatkan</span>
-              <span class="pembiayaan-val text-primary" id="metric-silpa-val">Rp -- T</span>
-              <span class="pembiayaan-sub">Sisa lebih riil anggaran untuk penutup defisit</span>
+
+          <!-- Ornamen Segitiga Emas Betawi & Garis Merah di Bagian Bawah Banner -->
+          <div class="pilar2-banner-footer-motif" aria-hidden="true">
+            <div class="pilar2-motif-triangles"></div>
+            <div class="pilar2-motif-redbar"></div>
+          </div>
+        </div>
+
+        <!-- Bagian Bawah: Split 2 Kolom (4 Kelompok Alokasi Belanja | 3 Fokus Layanan Publik Prioritas) -->
+        <div class="pilar2-bottom-split">
+          <!-- Kiri: 4 kelompok alokasi belanja -->
+          <div class="pilar2-split-left">
+            <h3 class="pilar2-sub-title">4 kelompok alokasi belanja</h3>
+            <div class="pilar2-kelompok-grid" id="belanja-kelompok-grid">
+              <div class="pilar2-kelompok-item">
+                <span class="pilar2-kelompok-name">Belanja Operasi</span>
+                <span class="pilar2-kelompok-pct">67,3%</span>
+                <div class="pilar2-kelompok-track" aria-hidden="true">
+                  <div class="pilar2-kelompok-fill bar-red" style="width: 67.3%;"></div>
+                </div>
+                <span class="pilar2-kelompok-nom">Rp 54,20 T</span>
+              </div>
+              <div class="pilar2-kelompok-item">
+                <span class="pilar2-kelompok-name">Belanja Modal</span>
+                <span class="pilar2-kelompok-pct">22,1%</span>
+                <div class="pilar2-kelompok-track" aria-hidden="true">
+                  <div class="pilar2-kelompok-fill bar-gold" style="width: 22.1%;"></div>
+                </div>
+                <span class="pilar2-kelompok-nom">Rp 17,80 T</span>
+              </div>
+              <div class="pilar2-kelompok-item">
+                <span class="pilar2-kelompok-name">Belanja Tidak Terduga (BTT)</span>
+                <span class="pilar2-kelompok-pct">3,5%</span>
+                <div class="pilar2-kelompok-track" aria-hidden="true">
+                  <div class="pilar2-kelompok-fill bar-green" style="width: 6%;"></div>
+                </div>
+                <span class="pilar2-kelompok-nom">Rp 2,80 T</span>
+              </div>
+              <div class="pilar2-kelompok-item">
+                <span class="pilar2-kelompok-name">Belanja Transfer</span>
+                <span class="pilar2-kelompok-pct">0,8%</span>
+                <div class="pilar2-kelompok-track" aria-hidden="true">
+                  <div class="pilar2-kelompok-fill bar-dark" style="width: 4%;"></div>
+                </div>
+                <span class="pilar2-kelompok-nom">Rp 650 M</span>
+              </div>
             </div>
-            <div class="pembiayaan-item">
-              <span class="pembiayaan-label">Penyertaan Modal BUMD</span>
-              <span class="pembiayaan-val text-blue" id="metric-bumd-val">Rp -- T</span>
-              <span class="pembiayaan-sub" id="metric-bumd-fokus">PT MRT Jakarta, PT Jakpro &amp; PAM Jaya</span>
-            </div>
-            <div class="pembiayaan-item">
-              <span class="pembiayaan-label">Neraca Pendapatan vs Belanja</span>
-              <span class="pembiayaan-val text-dark" id="metric-neraca-val">Rp -- T vs Rp -- T</span>
-              <span class="pembiayaan-sub" id="metric-neraca-desc">Defisit murni ditutup pembiayaan netto</span>
+          </div>
+
+          <!-- Kanan: 3 fokus layanan publik prioritas -->
+          <div class="pilar2-split-right">
+            <h3 class="pilar2-sub-title">3 fokus layanan publik prioritas</h3>
+            <div class="pilar2-sectors-list" id="belanja-sectors-list">
+              <div class="pilar2-sector-row">
+                <span class="pilar2-sector-dot dot-gold" aria-hidden="true"></span>
+                <span class="pilar2-sector-name">Sektor Pendidikan, KJP &amp; Sekolah Baru</span>
+                <span class="pilar2-sector-val">Rp 19,80 T</span>
+              </div>
+              <div class="pilar2-sector-row">
+                <span class="pilar2-sector-dot dot-green" aria-hidden="true"></span>
+                <span class="pilar2-sector-name">Fasilitas Publik &amp; Pengendali Banjir</span>
+                <span class="pilar2-sector-val">Rp 17,80 T</span>
+              </div>
+              <div class="pilar2-sector-row">
+                <span class="pilar2-sector-dot dot-red" aria-hidden="true"></span>
+                <span class="pilar2-sector-name">Layanan Kesehatan &amp; Puskesmas Terpadu</span>
+                <span class="pilar2-sector-val">Rp 11,20 T</span>
+              </div>
             </div>
           </div>
         </div>
 
         <!-- Tombol CTA Pilar 2 -->
-        <div class="exec-cta-wrap">
-          <a href="belanja.html" class="exec-cta-button cta-button-blue">
-            <span>Eksplorasi Belanja APBD & OPD</span>
-            <span class="cta-arrow" aria-hidden="true">→</span>
+        <div class="exec-cta-wrap pilar2-cta-wrap">
+          <a href="belanja.html" class="peta-panel-cta pilar2-cta-btn">
+            <span>Eksplorasi Belanja APBD &amp; OPD</span>
+            <span aria-hidden="true">→</span>
           </a>
         </div>
       </div>
@@ -1233,10 +1277,20 @@
     </div>
   </footer>
 
+  <!-- Kursor Kepala Ondi & Animasi Klik Mengedip (64x64px) -->
+  <div id="ondi-kursor" aria-hidden="true">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="117.5 235 345 345">
+      <defs><filter id="ondi-kursor-kontur" x="-10%" y="-10%" width="120%" height="120%"><feMorphology in="SourceAlpha" operator="dilate" radius="6" result="tebal"/><feFlood flood-color="#FFFFFF" result="putih"/><feComposite in="putih" in2="tebal" operator="in" result="kontur"/><feMerge><feMergeNode in="kontur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+      <g filter="url(#ondi-kursor-kontur)"><g id="ondi-kursor-kepala"><line x1="290" y1="395" x2="290" y2="257" stroke="#E0A526" stroke-width="27" stroke-linecap="round"/><line x1="276" y1="395" x2="236" y2="285" stroke="#E0A526" stroke-width="27" stroke-linecap="round"/><line x1="304" y1="395" x2="344" y2="285" stroke="#E0A526" stroke-width="27" stroke-linecap="round"/><line x1="258" y1="395" x2="207" y2="327" stroke="#E0A526" stroke-width="27" stroke-linecap="round"/><line x1="322" y1="395" x2="373" y2="327" stroke="#E0A526" stroke-width="27" stroke-linecap="round"/><line x1="240" y1="393" x2="195" y2="378" stroke="#E0A526" stroke-width="27" stroke-linecap="round"/><line x1="340" y1="393" x2="385" y2="378" stroke="#E0A526" stroke-width="27" stroke-linecap="round"/><path d="M203,440 V400 H377 V440 V510 Q377,572 290,572 Q203,572 203,510 Z" fill="#B71C1C"/><path d="M203,411 V393 Q203,385 211,385 H369 Q377,385 377,393 V411 Z" fill="#E0A526"/><path d="M203,410 L217.5,428 L232,410 L246.5,428 L261,410 L275.5,428 L290,410 L304.5,428 L319,410 L333.5,428 L348,410 L362.5,428 L377,410 Z" fill="#E0A526"/><path d="M203,410 L217.5,428 L232,410 L246.5,428 L261,410 L275.5,428 L290,410 L304.5,428 L319,410 L333.5,428 L348,410 L362.5,428 L377,410 Z" fill="#E0A526"/><line x1="226" y1="438" x2="280" y2="438" stroke="#231F1F" stroke-width="9" stroke-linecap="round"/><line x1="300" y1="438" x2="354" y2="438" stroke="#231F1F" stroke-width="9" stroke-linecap="round"/><g class="mata-buka"><circle cx="254" cy="476" r="22" fill="#fff"/><circle cx="254" cy="476" r="11" fill="#231F1F"/><circle cx="326" cy="476" r="22" fill="#fff"/><circle cx="326" cy="476" r="11" fill="#231F1F"/></g><g class="mata-tutup"><path d="M231,476 Q254,490 277,476" fill="none" stroke="#231F1F" stroke-width="8" stroke-linecap="round"/><path d="M303,476 Q326,490 349,476" fill="none" stroke="#231F1F" stroke-width="8" stroke-linecap="round"/></g><path d="M243,532 Q245,518 270,517 Q282,517 290,522 Q298,517 310,517 Q335,518 337,532 Q316,526 290,530 Q264,526 243,532 Z" fill="#231F1F"/><path d="M264,547 Q290,561 316,547" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round"/></g><line class="sinar" style="--dx:-1;--dy:-0.7" x1="178" y1="350" x2="142" y2="324"/><line class="sinar" style="--dx:-1;--dy:-0.1" x1="184" y1="436" x2="140" y2="432"/><line class="sinar" style="--dx:-0.9;--dy:0.6" x1="190" y1="510" x2="152" y2="532"/><line class="sinar" style="--dx:1;--dy:-0.7" x1="402" y1="350" x2="438" y2="324"/><line class="sinar" style="--dx:1;--dy:-0.1" x1="396" y1="436" x2="440" y2="432"/><line class="sinar" style="--dx:0.9;--dy:0.6" x1="390" y1="510" x2="428" y2="532"/></g>
+    </svg>
+  </div>
+
+  <script src="peta-jakarta/peta-jakarta-data.js"></script>
+  <script src="js/peta-jakarta-landing.js?v=4"></script>
   <script src="js/motion.js"></script>
   <script src="js/html2canvas.min.js"></script>
   <script src="js/htmlToImage.js"></script>
-  <script type="module" src="js/main.js?v=2"></script>
+  <script type="module" src="js/main.js?v=6"></script>
   <script type="module" src="js/cardGenerator.js?v=27"></script>
   <script type="module" src="js/card-experience.js?v=9"></script>
   <script type="module" src="js/ambient-background.js?v=2"></script>

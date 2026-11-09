@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Peta Interaktif DKI Jakarta</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="halaman">
+    <header class="kepala">
+      <span class="tumpal" aria-hidden="true"></span>
+      <h1>Peta Interaktif<br>DKI Jakarta</h1>
+      <p>Arahkan kursor ke sebuah wilayah untuk melihat nama kotanya. Tombol Tab juga bisa dipakai.</p>
+    </header>
+
+    <section class="kartu-peta" aria-label="Peta wilayah administrasi DKI Jakarta">
+      <svg id="peta" role="group" aria-label="Peta DKI Jakarta" preserveAspectRatio="xMidYMid meet"></svg>
+      <div id="tooltip" class="tooltip" role="presentation" hidden></div>
+    </section>
+
+    <aside class="panel">
+      <div class="info" aria-live="polite">
+        <p class="info-jenis" id="info-jenis">Wilayah</p>
+        <p class="info-nama" id="info-nama">Arahkan kursor ke peta</p>
+      </div>
+      <ul class="daftar" id="daftar" aria-label="Daftar wilayah"></ul>
+    </aside>
+  </main>
+
+  <script src="peta-jakarta-data.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
