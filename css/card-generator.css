@@ -6,6 +6,24 @@
 @import url('card-fonts.css');
 
 /* --- 4. Header Section Ringkas --- */
+.card-studio-page {
+  padding-top: clamp(1.25rem, 2.5vh, 2rem);
+  padding-bottom: 3.5rem;
+  background-color: #FDFBF7;
+  min-height: calc(100vh - 72px);
+}
+
+.card-studio-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.card-studio-container .breadcrumb-nav {
+  margin-bottom: 0.5rem;
+  padding-top: 0.5rem;
+}
+
 .card-section-wrapper:not(#card-experience) {
   background: var(--color-surface-warm);
   border-block: 1px solid var(--color-border);
@@ -31,6 +49,11 @@
   line-height: 1.18;
   font-weight: 800;
   letter-spacing: -0.02em;
+  color: #0D1117;
+}
+
+.card-section-header h2 span {
+  color: #BA1A1A;
 }
 
 .card-section-header .section-intro {
@@ -38,7 +61,7 @@
   margin-bottom: 0;
   font-size: 0.85rem;
   line-height: 1.45;
-  color: var(--color-muted);
+  color: #57534E;
 }
 
 /* --- 2. Compact Grid Layout: 2-Kolom Seimbang Sejajar --- */
@@ -65,11 +88,11 @@
 
 /* --- Kolom Kiri: Form Konfigurasi Kartu (Compact) --- */
 .card-config-box {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: 1.25rem;
-  padding: 1.5rem;
-  box-shadow: 0 10px 28px rgba(31, 26, 23, 0.05);
+  background: #FFFFFF;
+  border: 1px solid rgba(13, 17, 23, 0.08);
+  border-radius: 20px;
+  padding: clamp(1.5rem, 2.5vw, 2.25rem);
+  box-shadow: 0 4px 20px rgba(13, 17, 23, 0.04);
 }
 
 .card-config-title {
@@ -180,19 +203,24 @@
   box-sizing: border-box;
 }
 
-/* Baris 1: Tombol Utama Unduh (Solid Pill Button Tegas Marun) */
+/* Baris 1: Tombol Utama Unduh (Solid Pill Button Tegas Carmine Red) */
 .btn-card-download {
-  background: var(--color-primary);
-  color: var(--color-surface);
-  font-size: 0.875rem;
-  min-height: 44px;
-  box-shadow: 0 4px 14px rgba(185, 28, 28, 0.25);
+  background: #BA1A1A;
+  color: #FFFFFF;
+  font-size: 0.95rem;
+  font-weight: 700;
+  min-height: 48px;
+  padding: 0.9rem 1.5rem;
+  border-radius: 9999px;
+  border: none;
+  box-shadow: 0 4px 14px rgba(186, 26, 26, 0.2);
+  transition: all 0.2s ease;
 }
 
 .btn-card-download:hover {
-  background: var(--color-primary-strong);
+  background: #961313;
   transform: translateY(-1px);
-  box-shadow: 0 6px 18px rgba(185, 28, 28, 0.35);
+  box-shadow: 0 6px 18px rgba(186, 26, 26, 0.3);
 }
 
 .btn-card-download:disabled {
@@ -201,55 +229,40 @@
   transform: none;
 }
 
-/* Baris 2: Tombol Pendukung Acak & Bagikan */
-.btn-card-random {
-  background: var(--color-surface);
-  border-color: var(--color-border);
-  color: var(--color-ink);
-}
-
-.btn-card-random:hover {
-  background: var(--color-cream);
-  border-color: var(--color-primary);
-  color: var(--color-primary);
-}
-
+/* Baris 2: Tombol Pendukung Acak & Bagikan (Minimalist Outline Pill) */
+.btn-card-random,
 .btn-card-share {
-  background: var(--color-surface);
-  border-color: var(--color-success);
-  color: var(--color-success);
+  background: transparent;
+  color: #0D1117;
+  border: 1.5px solid rgba(13, 17, 23, 0.15);
+  font-weight: 600;
+  font-size: 0.85rem;
+  border-radius: 9999px;
+  padding: 0.65rem 1.25rem;
+  min-height: 40px;
+  transition: all 0.2s ease;
 }
 
+.btn-card-random:hover,
 .btn-card-share:hover {
-  background: var(--color-cream);
-  border-color: var(--color-success);
-  color: var(--color-success);
+  background: rgba(13, 17, 23, 0.05);
+  border-color: rgba(13, 17, 23, 0.3);
+  color: #0D1117;
   transform: translateY(-1px);
 }
 
-/* Ultra-Compact Privacy Assurance Badge */
-.card-privacy-badge {
-  margin-top: 0.75rem;
-  padding: 6px 10px;
-  border-radius: 8px;
-  background: var(--color-surface-warm);
-  border: 1px solid var(--color-border);
-  font-size: 11px;
-  line-height: 1.4;
-  color: var(--color-muted);
-  display: flex;
-  align-items: center;
-  gap: 6px;
+/* Minimalist Monochrome Privacy Footnote */
+.card-privacy-footnote {
+  margin-top: 0.85rem;
+  font-size: 0.75rem;
+  line-height: 1.45;
+  color: #78716C;
+  text-align: center;
 }
 
-.card-privacy-badge strong {
-  color: var(--color-ink);
-  font-weight: 700;
-}
-
-.privacy-lock-icon {
-  font-size: 12px;
-  flex-shrink: 0;
+.card-privacy-footnote strong {
+  color: #44403C;
+  font-weight: 600;
 }
 
 /* --- 3. Scaling Pratinjau Kartu (Kolom Kanan) Max-Height 480px --- */
@@ -261,23 +274,17 @@
 }
 
 .card-preview-header {
-  margin-bottom: 0.5rem;
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  color: var(--color-muted);
-  text-align: center;
+  display: none;
 }
 
 .card-preview-viewport-frame {
   width: 100%;
   max-width: 380px;
-  background: var(--color-surface);
-  border: 1.5px solid var(--color-border);
-  border-radius: 1.25rem;
-  padding: 12px;
-  box-shadow: 0 12px 30px rgba(31, 26, 23, 0.08);
+  background: #FFFFFF;
+  border: 1px solid rgba(13, 17, 23, 0.08);
+  border-radius: 20px;
+  padding: 1.25rem;
+  box-shadow: 0 4px 20px rgba(13, 17, 23, 0.04);
   display: flex;
   flex-direction: column;
   align-items: center;

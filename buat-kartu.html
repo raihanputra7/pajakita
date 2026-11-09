@@ -17,9 +17,8 @@
 
   <!-- CSS utama -->
   <link rel="stylesheet" href="css/styles.css?v=6">
-  <link rel="stylesheet" href="css/card-generator.css?v=20">
+  <link rel="stylesheet" href="css/card-generator.css?v=21">
   <link rel="stylesheet" href="css/card-experience.css?v=12">
-  <link rel="stylesheet" href="css/card-ambient.css?v=5">
   <link rel="stylesheet" href="css/welcome-notification.css?v=1">
 </head>
 
@@ -285,193 +284,182 @@
   </aside>
 
   <!-- Main Content -->
-  <main id="main">
-    <!-- Breadcrumb -->
-    <div class="container subpage-breadcrumb-bar">
+  <main id="main" class="card-studio-page">
+    <div class="container card-studio-container">
+      <!-- Breadcrumb -->
       <nav class="breadcrumb-nav" aria-label="Breadcrumb">
         <a href="index.html" class="breadcrumb-link">Beranda</a>
         <span class="breadcrumb-sep" aria-hidden="true">/</span>
         <span class="breadcrumb-current" aria-current="page">Buat Kartu Insight</span>
       </nav>
-    </div>
 
-    <section class="insight-gallery-unified" aria-label="Pembuat dan galeri kartu insight">
-      <div class="insight-gallery-edge-fade" aria-hidden="true"></div>
-      <div class="container insight-gallery-content">
-        <div class="card-section-header">
-          <div>
-            <p class="eyebrow">BAGIKAN PEMAHAMAN • CORONG TRANSPARANSI</p>
-            <h2>Buat kartu insight <span>punyamu</span></h2>
-          </div>
-          <p class="section-intro">
-            Buat dan bagikan kartu fakta pajak daerah Jakarta rasio 3:4 untuk status media sosial, diproses 100% privat
-            di peramban Anda.
-          </p>
+      <div class="card-section-header">
+        <div>
+          <h2>Buat kartu insight <span>punyamu</span></h2>
         </div>
+        <p class="section-intro">
+          Buat dan bagikan kartu fakta pajak daerah Jakarta rasio 3:4 untuk status media sosial, diproses 100% privat
+          di peramban Anda.
+        </p>
+      </div>
 
-        <div class="card-generator-grid" id="card-generator">
-          <!-- Kolom Kiri: Konfigurasi Kartu -->
-          <div class="card-config-box">
-            <h3 class="card-config-title">Buat kartu insight</h3>
+      <div class="card-generator-grid" id="card-generator">
+        <!-- Kolom Kiri: Konfigurasi Kartu -->
+        <div class="card-config-box">
+          <!-- Form: Nama Lengkap / Panggilan -->
+          <section class="card-builder-step" aria-labelledby="card-step-one-title">
+            <h4 class="card-builder-step-title" id="card-step-one-title"><span>1</span> Isi data kartu</h4>
+            <div class="card-config-group">
+              <label for="card-input-name" class="card-config-label">Nama Lengkap / Panggilan</label>
+              <input type="text" id="card-input-name" class="card-config-input" value=""
+                placeholder="Masukkan namamu..." maxlength="35" />
+            </div>
 
-            <!-- Form: Nama Lengkap / Panggilan -->
-            <section class="card-builder-step" aria-labelledby="card-step-one-title">
-              <h4 class="card-builder-step-title" id="card-step-one-title"><span>1</span> Isi data kartu</h4>
-              <div class="card-config-group">
-                <label for="card-input-name" class="card-config-label">Nama Lengkap / Panggilan</label>
-                <input type="text" id="card-input-name" class="card-config-input" value=""
-                  placeholder="Masukkan namamu..." maxlength="35" />
-              </div>
-
-              <!-- Form: Wilayah Domisili -->
-              <div class="card-config-group">
-                <label for="card-input-region" class="card-config-label">Wilayah Domisili (Kota Administrasi)</label>
-                <div class="select-wrapper">
-                  <select id="card-input-region" class="card-config-select">
-                    <option value="Seluruh DKI Jakarta" selected>Seluruh DKI Jakarta (Belanja)</option>
-                    <option value="Jakarta Pusat">Jakarta Pusat</option>
-                    <option value="Jakarta Barat">Jakarta Barat</option>
-                    <option value="Jakarta Selatan">Jakarta Selatan</option>
-                    <option value="Jakarta Timur">Jakarta Timur</option>
-                    <option value="Jakarta Utara">Jakarta Utara</option>
-                    <option value="Kepulauan Seribu">Kepulauan Seribu</option>
-                    <option value="Semua Wilayah">Semua Wilayah (Tampilkan Semua)</option>
-                  </select>
-                </div>
-              </div>
-
-              <!-- Form: Pilihan Fakta Insight -->
-              <div class="card-config-group">
-                <label for="card-insight-select" class="card-config-label">Fakta &amp; Angka Insight</label>
-                <div class="select-wrapper">
-                  <select id="card-insight-select" class="card-config-select">
-                    <!-- Diisi otomatis oleh cardGenerator.js -->
-                  </select>
-                </div>
-              </div>
-
-              <!-- Tombol Reset Kartu -->
-              <div class="card-reset-row">
-                <button type="button" class="btn-card-reset" id="btn-card-reset" title="Kembalikan form kartu ke default">
-                  <span aria-hidden="true">↺</span> Reset kartu
-                </button>
-              </div>
-            </section>
-
-            <!-- Form: Pilihan Template Desain -->
-            <section class="card-builder-step" aria-labelledby="card-step-two-title">
-              <h4 class="card-builder-step-title" id="card-step-two-title"><span>2</span> Pilih template desain</h4>
-              <div class="card-config-label" id="card-template-label">PILIHAN TEMPLATE DESAIN</div>
-              <div class="select-wrapper card-template-native">
-                <select id="templateSelect" class="card-config-select" aria-hidden="true" tabindex="-1">
-                  <option value="sunburst" selected>Koleksi Sunburst (Warm Red &amp; Golden)</option>
-                  <option value="kuning">Kuning Ceria (Bright Gold &amp; Organic Waves)</option>
-                  <option value="comic">Komik Pop (Halftone Dots &amp; Comic Speech)</option>
-                  <option value="wave">Split Gelombang (Two-tone Wave Emblem)</option>
-                  <option value="blob">Blob Lengkung (Organic Betawi Blobs)</option>
+            <!-- Form: Wilayah Domisili -->
+            <div class="card-config-group">
+              <label for="card-input-region" class="card-config-label">Wilayah Domisili (Kota Administrasi)</label>
+              <div class="select-wrapper">
+                <select id="card-input-region" class="card-config-select">
+                  <option value="Seluruh DKI Jakarta" selected>Seluruh DKI Jakarta (Belanja)</option>
+                  <option value="Jakarta Pusat">Jakarta Pusat</option>
+                  <option value="Jakarta Barat">Jakarta Barat</option>
+                  <option value="Jakarta Selatan">Jakarta Selatan</option>
+                  <option value="Jakarta Timur">Jakarta Timur</option>
+                  <option value="Jakarta Utara">Jakarta Utara</option>
+                  <option value="Kepulauan Seribu">Kepulauan Seribu</option>
+                  <option value="Semua Wilayah">Semua Wilayah (Tampilkan Semua)</option>
                 </select>
               </div>
-              <div class="card-template-options" role="radiogroup" aria-labelledby="card-step-two-title card-template-label">
-                <button type="button" class="card-template-option" role="radio" data-template-choice="sunburst" aria-checked="true" tabindex="0">
-                  <span class="card-template-thumb" data-template-mount="sunburst"></span><span>Koleksi Sunburst</span>
-                </button>
-                <button type="button" class="card-template-option" role="radio" data-template-choice="kuning" aria-checked="false" tabindex="-1">
-                  <span class="card-template-thumb" data-template-mount="kuning"></span><span>Kuning Ceria</span>
-                </button>
-                <button type="button" class="card-template-option" role="radio" data-template-choice="comic" aria-checked="false" tabindex="-1">
-                  <span class="card-template-thumb" data-template-mount="comic"></span><span>Komik Pop</span>
-                </button>
-                <button type="button" class="card-template-option" role="radio" data-template-choice="wave" aria-checked="false" tabindex="-1">
-                  <span class="card-template-thumb" data-template-mount="wave"></span><span>Split Gelombang</span>
-                </button>
-                <button type="button" class="card-template-option" role="radio" data-template-choice="blob" aria-checked="false" tabindex="-1">
-                  <span class="card-template-thumb" data-template-mount="blob"></span><span>Blob Lengkung</span>
-                </button>
-              </div>
-            </section>
-
-            <!-- Tombol Aksi: Baris 1 Utama Unduh, Baris 2 Grid 2-Kolom Acak & Bagikan -->
-            <section class="card-builder-step card-builder-step--actions" aria-labelledby="card-step-three-title">
-              <h4 class="card-builder-step-title" id="card-step-three-title"><span>3</span> Jadikan milikmu</h4>
-              <div class="card-actions-group">
-                <button type="button" id="card-btn-download" class="btn-card-action btn-card-download">
-                  <span aria-hidden="true">📥</span> Unduh Kartu Gambar (PNG 3:4)
-                </button>
-
-                <div class="card-actions-secondary-grid">
-                  <button type="button" id="card-btn-randomize" class="btn-card-action btn-card-random">
-                    <span aria-hidden="true">🔄</span> Acak Fakta
-                  </button>
-                  <button type="button" id="card-btn-share" class="btn-card-action btn-card-share">
-                    <span aria-hidden="true">🔗</span> Bagikan
-                  </button>
-                </div>
-              </div>
-
-              <div class="card-privacy-badge">
-                <span class="privacy-lock-icon" aria-hidden="true">🔒</span>
-                <span><strong>Privasi terjamin:</strong> Data diproses 100% di browser dan hanya disimpan di perangkatmu (bisa dihapus lewat footer).</span>
-              </div>
-            </section>
-          </div>
-
-          <!-- Kolom Kanan: Pratinjau Langsung Kartu -->
-          <div class="card-preview-column">
-            <div class="card-preview-header" id="card-current-quote">“Pilih fakta, lalu lihat ceritanya.”</div>
-
-            <div class="card-preview-viewport-frame">
-              <div class="card-preview-viewport" id="card-preview-viewport">
-                <div class="card-preview-loading" id="card-preview-loading" role="status" aria-live="polite" aria-hidden="true">
-                  <div class="card-preview-loading-track" aria-hidden="true">
-                    <span class="card-preview-loading-fill"></span>
-                    <span class="card-preview-loading-mascot">
-                      <img src="public/assets/maskot-ondi/ondi-01-berdiri-netral.svg" alt="" />
-                    </span>
-                  </div>
-                  <span>Memuat desain kartu...</span>
-                </div>
-                <div class="card-preview-scale-wrapper" id="card-preview-scale-wrapper">
-                  <div class="card-preview-tilt" id="card-preview-tilt">
-                    <div class="card-preview-front-face">
-                      <div id="card-mount-point">
-                        <!-- Dimuat secara dinamis oleh cardGenerator.js -->
-                      </div>
-                      <div class="card-visual-shine" aria-hidden="true"></div>
-                      <div class="card-visual-glare" aria-hidden="true"></div>
-                    </div>
-                    <div class="card-preview-back-face" aria-hidden="true">
-                      <img src="public/assets/logo-pajakkita-monas-grafik.svg" alt="" />
-                      <span>KARTU INSIGHT</span>
-                      <small>paJAK-Kita • Jakarta</small>
-                      <div class="card-visual-shine" aria-hidden="true"></div>
-                      <div class="card-visual-glare" aria-hidden="true"></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="card-preview-note">
-                Geser kartu untuk membaliknya. PNG unduhan tetap memakai desain asli tanpa efek layar.
-              </div>
-              <button
-                type="button"
-                id="card-preview-autoflip-toggle"
-                class="card-preview-autoflip-toggle"
-                role="switch"
-                aria-checked="false"
-                aria-label="Auto-flip preview kartu"
-              >
-                <span class="card-preview-autoflip-switch" aria-hidden="true"><span></span></span>
-                <span>Auto-flip</span>
-              </button>
-              <p class="card-preview-autoflip-hint" id="card-preview-autoflip-hint" aria-live="polite">
-                Nyalakan auto-flip untuk melihat kartu berputar otomatis.
-              </p>
             </div>
+
+            <!-- Form: Pilihan Fakta Insight -->
+            <div class="card-config-group">
+              <label for="card-insight-select" class="card-config-label">Fakta &amp; Angka Insight</label>
+              <div class="select-wrapper">
+                <select id="card-insight-select" class="card-config-select">
+                  <!-- Diisi otomatis oleh cardGenerator.js -->
+                </select>
+              </div>
+            </div>
+
+            <!-- Tombol Reset Kartu -->
+            <div class="card-reset-row">
+              <button type="button" class="btn-card-reset" id="btn-card-reset" title="Kembalikan form kartu ke default">
+                <span aria-hidden="true">↺</span> Reset kartu
+              </button>
+            </div>
+          </section>
+
+          <!-- Form: Pilihan Template Desain -->
+          <section class="card-builder-step" aria-labelledby="card-step-two-title">
+            <h4 class="card-builder-step-title" id="card-step-two-title"><span>2</span> Pilih template desain</h4>
+            <div class="card-config-label" id="card-template-label">PILIHAN TEMPLATE DESAIN</div>
+            <div class="select-wrapper card-template-native">
+              <select id="templateSelect" class="card-config-select" aria-hidden="true" tabindex="-1">
+                <option value="sunburst" selected>Koleksi Sunburst (Warm Red &amp; Golden)</option>
+                <option value="kuning">Kuning Ceria (Bright Gold &amp; Organic Waves)</option>
+                <option value="comic">Komik Pop (Halftone Dots &amp; Comic Speech)</option>
+                <option value="wave">Split Gelombang (Two-tone Wave Emblem)</option>
+                <option value="blob">Blob Lengkung (Organic Betawi Blobs)</option>
+              </select>
+            </div>
+            <div class="card-template-options" role="radiogroup" aria-labelledby="card-step-two-title card-template-label">
+              <button type="button" class="card-template-option" role="radio" data-template-choice="sunburst" aria-checked="true" tabindex="0">
+                <span class="card-template-thumb" data-template-mount="sunburst"></span><span>Koleksi Sunburst</span>
+              </button>
+              <button type="button" class="card-template-option" role="radio" data-template-choice="kuning" aria-checked="false" tabindex="-1">
+                <span class="card-template-thumb" data-template-mount="kuning"></span><span>Kuning Ceria</span>
+              </button>
+              <button type="button" class="card-template-option" role="radio" data-template-choice="comic" aria-checked="false" tabindex="-1">
+                <span class="card-template-thumb" data-template-mount="comic"></span><span>Komik Pop</span>
+              </button>
+              <button type="button" class="card-template-option" role="radio" data-template-choice="wave" aria-checked="false" tabindex="-1">
+                <span class="card-template-thumb" data-template-mount="wave"></span><span>Split Gelombang</span>
+              </button>
+              <button type="button" class="card-template-option" role="radio" data-template-choice="blob" aria-checked="false" tabindex="-1">
+                <span class="card-template-thumb" data-template-mount="blob"></span><span>Blob Lengkung</span>
+              </button>
+            </div>
+          </section>
+
+          <!-- Tombol Aksi: Baris 1 Utama Unduh, Baris 2 Grid 2-Kolom Acak & Bagikan -->
+          <section class="card-builder-step card-builder-step--actions" aria-labelledby="card-step-three-title">
+            <h4 class="card-builder-step-title" id="card-step-three-title"><span>3</span> Jadikan milikmu</h4>
+            <div class="card-actions-group">
+              <button type="button" id="card-btn-download" class="btn-card-action btn-card-download">
+                Unduh Kartu (PNG 3:4) ↗
+              </button>
+
+              <div class="card-actions-secondary-grid">
+                <button type="button" id="card-btn-randomize" class="btn-card-action btn-card-random">
+                  Acak Fakta
+                </button>
+                <button type="button" id="card-btn-share" class="btn-card-action btn-card-share">
+                  Bagikan
+                </button>
+              </div>
+            </div>
+
+            <p class="card-privacy-footnote">
+              <strong>Privasi terjamin:</strong> Diproses lokal di peramban tanpa menyimpan data pribadi ke server.
+            </p>
+          </section>
+        </div>
+
+        <!-- Kolom Kanan: Pratinjau Langsung Kartu -->
+        <div class="card-preview-column">
+          <div class="card-preview-viewport-frame">
+            <div class="card-preview-viewport" id="card-preview-viewport">
+              <div class="card-preview-loading" id="card-preview-loading" role="status" aria-live="polite" aria-hidden="true">
+                <div class="card-preview-loading-track" aria-hidden="true">
+                  <span class="card-preview-loading-fill"></span>
+                  <span class="card-preview-loading-mascot">
+                    <img src="public/assets/maskot-ondi/ondi-01-berdiri-netral.svg" alt="" />
+                  </span>
+                </div>
+                <span>Memuat desain kartu...</span>
+              </div>
+              <div class="card-preview-scale-wrapper" id="card-preview-scale-wrapper">
+                <div class="card-preview-tilt" id="card-preview-tilt">
+                  <div class="card-preview-front-face">
+                    <div id="card-mount-point">
+                      <!-- Dimuat secara dinamis oleh cardGenerator.js -->
+                    </div>
+                    <div class="card-visual-shine" aria-hidden="true"></div>
+                    <div class="card-visual-glare" aria-hidden="true"></div>
+                  </div>
+                  <div class="card-preview-back-face" aria-hidden="true">
+                    <img src="public/assets/logo-pajakkita-monas-grafik.svg" alt="" />
+                    <span>KARTU INSIGHT</span>
+                    <small>paJAK-Kita • Jakarta</small>
+                    <div class="card-visual-shine" aria-hidden="true"></div>
+                    <div class="card-visual-glare" aria-hidden="true"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-preview-note">
+              Geser kartu untuk membaliknya. PNG unduhan tetap memakai desain asli tanpa efek layar.
+            </div>
+            <button
+              type="button"
+              id="card-preview-autoflip-toggle"
+              class="card-preview-autoflip-toggle"
+              role="switch"
+              aria-checked="false"
+              aria-label="Auto-flip preview kartu"
+            >
+              <span class="card-preview-autoflip-switch" aria-hidden="true"><span></span></span>
+              <span>Auto-flip</span>
+            </button>
+            <p class="card-preview-autoflip-hint" id="card-preview-autoflip-hint" aria-live="polite">
+              Nyalakan auto-flip untuk melihat kartu berputar otomatis.
+            </p>
           </div>
         </div>
-      </div>
-    </section>
+      </div><!-- /.card-generator-grid -->
+    </div><!-- /.container -->
   </main>
 
   <!-- =========================================================================
@@ -525,7 +513,6 @@
   <script type="module" src="js/cardGenerator.js?v=28"></script>
   <script type="module" src="js/main.js?v=5"></script>
   <script type="module" src="js/card-experience.js?v=12"></script>
-  <script type="module" src="js/ambient-background.js?v=3"></script>
   <script type="module" src="js/realisasi.js"></script>
 </body>
 </html>
