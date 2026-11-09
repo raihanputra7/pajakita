@@ -1,0 +1,182 @@
+.insight-gallery-unified {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  margin-bottom: -46px;
+  background: #FFF4CF;
+  color-scheme: light;
+}
+
+.insight-gallery-unified::before,
+.insight-gallery-unified::after {
+  position: absolute;
+  z-index: 0;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  filter: blur(34px);
+  content: "";
+  pointer-events: none;
+}
+
+.insight-gallery-unified::before {
+  top: -70px;
+  right: -70px;
+  background: #FFE3B3;
+}
+
+.insight-gallery-unified::after {
+  bottom: -90px;
+  left: -90px;
+  background: #FFE9A0;
+}
+
+.insight-gallery-cursor-glow {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 200, 70, .6) 0%, rgba(255, 200, 70, .25) 45%, transparent 70%);
+  pointer-events: none;
+  will-change: transform;
+}
+
+.insight-gallery-edge-fade {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    #F2E8DA 0%,
+    rgba(242, 232, 218, .82) 5%,
+    rgba(242, 232, 218, 0) 20%,
+    rgba(242, 232, 218, 0) 80%,
+    rgba(242, 232, 218, .82) 95%,
+    #F2E8DA 100%
+  );
+  pointer-events: none;
+}
+
+.insight-gallery-unified > .insight-gallery-content {
+  position: relative;
+  z-index: 2;
+  padding-block: 42px 54px;
+}
+
+.insight-gallery-unified .eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #A8700F;
+  letter-spacing: 0.28em;
+}
+
+.insight-gallery-unified .eyebrow::before {
+  width: 40px;
+  height: 1px;
+  flex: 0 0 40px;
+  background: #A8700F;
+  content: "";
+}
+
+.insight-gallery-unified .section-intro,
+.insight-gallery-unified .card-preview-header,
+.insight-gallery-unified .card-preview-note,
+.insight-gallery-unified .card-community-heading > p,
+.insight-gallery-unified .card-community-card {
+  color: #7A6F5E;
+}
+
+.insight-gallery-unified .card-section-header h2 span,
+.insight-gallery-unified .card-community-heading h2 span {
+  background: linear-gradient(100deg, #B71C1C, #D2761F 55%, #C8891A);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+.insight-gallery-unified .stat-num,
+.insight-gallery-unified .metric-value,
+.insight-gallery-unified .trust-number {
+  color: #B7791A;
+  font-family: var(--font-family-display, 'Fraunces', serif);
+}
+
+.insight-gallery-unified .card-config-box,
+.insight-gallery-unified .card-preview-viewport-frame {
+  border: 1px solid rgba(184, 134, 27, 0.28);
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow:
+    0 30px 60px -30px rgba(120, 70, 20, 0.35),
+    0 0 0 8px rgba(217, 166, 43, 0.08);
+}
+
+.insight-gallery-unified .card-preview-viewport-frame {
+  border-width: 1px;
+}
+
+.insight-gallery-unified .card-community-window {
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
+}
+
+.insight-gallery-unified .card-community-artwork {
+  box-shadow:
+    0 22px 36px -14px rgba(120, 70, 20, 0.45),
+    0 0 0 6px rgba(217, 166, 43, 0.14);
+}
+
+.insight-gallery-unified .card-community-card.is-hovering .card-community-artwork {
+  transform: translate(-50%, -10px) rotate(-1.2deg);
+  box-shadow:
+    0 22px 36px -14px rgba(120, 70, 20, 0.45),
+    0 0 0 6px rgba(217, 166, 43, 0.14);
+}
+
+.insight-gallery-unified .card-community-heading {
+  align-items: flex-end;
+}
+
+.insight-gallery-divider {
+  position: relative;
+  height: 1px;
+  margin: 92px 0 64px;
+  background: linear-gradient(90deg, transparent, #D9A62B, transparent);
+}
+
+.insight-gallery-divider::after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 9px;
+  height: 9px;
+  transform: translate(-50%, -50%) rotate(45deg);
+  background: #D9A62B;
+  content: "";
+}
+
+@media (max-width: 900px) {
+  .insight-gallery-unified > .insight-gallery-content {
+    padding-block: 34px 46px;
+  }
+
+  .insight-gallery-divider {
+    margin: 64px 0 48px;
+  }
+
+  .insight-gallery-unified .card-section-header .eyebrow,
+  .insight-gallery-unified .card-community-heading .eyebrow {
+    letter-spacing: 0.16em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .insight-gallery-unified .card-community-artwork {
+    transition: none;
+  }
+}
