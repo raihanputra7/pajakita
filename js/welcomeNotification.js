@@ -46,6 +46,8 @@ export function saveExportProfile(region, name = '') {
   try {
     if (!isValidRegion(region)) return;
 
+    localStorage.removeItem('pajakkita:deleted');
+
     const profileData = {
       wilayah: region.trim(),
       nama: (name || '').trim(),
@@ -65,18 +67,50 @@ export function saveExportProfile(region, name = '') {
  */
 export function getSavedProfile() {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY_PROFILE);
-    if (!raw) return null;
-
-    const data = JSON.parse(raw);
-    if (!data || typeof data !== 'object') {
-      clearSavedProfile();
+    if (localStorage.getItem('pajakkita:deleted') === 'true') {
       return null;
     }
 
+    let raw = localStorage.getItem(STORAGE_KEY_PROFILE);
+    if (!raw) {
+      // Cek legacy key jika ada
+      raw = localStorage.getItem('pajakita_user_profile');
+      if (raw) {
+        try {
+          const legacy = JSON.parse(raw);
+          if (legacy && legacy.region && isValidRegion(legacy.region)) {
+            return {
+              wilayah: legacy.region.trim(),
+              nama: typeof legacy.name === 'string' ? legacy.name.trim() : '',
+              terakhir: legacy.updatedAt || Date.now()
+            };
+          }
+        } catch (e) {}
+      }
+
+      // Default profil agar selalu menyapa saat refresh jika belum dihapus manual
+      return {
+        wilayah: 'Jakarta Barat',
+        nama: 'Raihan',
+        terakhir: Date.now()
+      };
+    }
+
+    const data = JSON.parse(raw);
+    if (!data || typeof data !== 'object') {
+      return {
+        wilayah: 'Jakarta Barat',
+        nama: 'Raihan',
+        terakhir: Date.now()
+      };
+    }
+
     if (!isValidRegion(data.wilayah)) {
-      clearSavedProfile();
-      return null;
+      return {
+        wilayah: 'Jakarta Barat',
+        nama: 'Raihan',
+        terakhir: Date.now()
+      };
     }
 
     return {
@@ -95,6 +129,8 @@ export function getSavedProfile() {
 export function clearSavedProfile() {
   try {
     localStorage.removeItem(STORAGE_KEY_PROFILE);
+    localStorage.removeItem('pajakita_user_profile');
+    localStorage.setItem('pajakkita:deleted', 'true');
   } catch (err) {}
   try {
     sessionStorage.removeItem(SESSION_KEY_GREETED);
@@ -157,9 +193,6 @@ export function closeGreetingToast() {
  */
 export function showGreetingToast(profile) {
   if (!profile || !profile.wilayah) return;
-  if (isSessionGreeted()) return;
-
-  markSessionGreeted();
 
   // Bersihkan toast lama jika ada
   if (activeToastElement) {
@@ -292,12 +325,11 @@ export function initWelcomeGreeting() {
 
   const profile = getSavedProfile();
   if (!profile) return;
-  if (isSessionGreeted()) return;
 
   // Jeda ~600 ms setelah halaman siap
   setTimeout(() => {
     const validProfile = getSavedProfile();
-    if (validProfile && !isSessionGreeted()) {
+    if (validProfile) {
       showGreetingToast(validProfile);
     }
   }, 600);
