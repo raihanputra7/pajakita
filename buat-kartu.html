@@ -20,6 +20,7 @@
   <link rel="stylesheet" href="css/card-generator.css?v=20">
   <link rel="stylesheet" href="css/card-experience.css?v=12">
   <link rel="stylesheet" href="css/card-ambient.css?v=5">
+  <link rel="stylesheet" href="css/welcome-notification.css?v=1">
 </head>
 
 <body>
@@ -318,7 +319,7 @@
               <h4 class="card-builder-step-title" id="card-step-one-title"><span>1</span> Isi data kartu</h4>
               <div class="card-config-group">
                 <label for="card-input-name" class="card-config-label">Nama Lengkap / Panggilan</label>
-                <input type="text" id="card-input-name" class="card-config-input" value="Raihan"
+                <input type="text" id="card-input-name" class="card-config-input" value=""
                   placeholder="Masukkan namamu..." maxlength="35" />
               </div>
 
@@ -327,13 +328,13 @@
                 <label for="card-input-region" class="card-config-label">Wilayah Domisili (Kota Administrasi)</label>
                 <div class="select-wrapper">
                   <select id="card-input-region" class="card-config-select">
-                    <option value="Jakarta Selatan" selected>Jakarta Selatan</option>
+                    <option value="Seluruh DKI Jakarta" selected>Seluruh DKI Jakarta (Belanja)</option>
                     <option value="Jakarta Pusat">Jakarta Pusat</option>
                     <option value="Jakarta Barat">Jakarta Barat</option>
+                    <option value="Jakarta Selatan">Jakarta Selatan</option>
                     <option value="Jakarta Timur">Jakarta Timur</option>
                     <option value="Jakarta Utara">Jakarta Utara</option>
                     <option value="Kepulauan Seribu">Kepulauan Seribu</option>
-                    <option value="Seluruh DKI Jakarta">Seluruh DKI Jakarta (Belanja)</option>
                     <option value="Semua Wilayah">Semua Wilayah (Tampilkan Semua)</option>
                   </select>
                 </div>
@@ -347,6 +348,13 @@
                     <!-- Diisi otomatis oleh cardGenerator.js -->
                   </select>
                 </div>
+              </div>
+
+              <!-- Tombol Reset Kartu -->
+              <div class="card-reset-row">
+                <button type="button" class="btn-card-reset" id="btn-card-reset" title="Kembalikan form kartu ke default">
+                  <span aria-hidden="true">↺</span> Reset kartu
+                </button>
               </div>
             </section>
 
@@ -402,7 +410,7 @@
 
               <div class="card-privacy-badge">
                 <span class="privacy-lock-icon" aria-hidden="true">🔒</span>
-                <span><strong>Privasi Terjamin:</strong> Data diproses 100% di browser tanpa disimpan di server.</span>
+                <span><strong>Privasi terjamin:</strong> Data diproses 100% di browser dan hanya disimpan di perangkatmu (bisa dihapus lewat footer).</span>
               </div>
             </section>
           </div>
@@ -450,14 +458,14 @@
                 id="card-preview-autoflip-toggle"
                 class="card-preview-autoflip-toggle"
                 role="switch"
-                aria-checked="true"
+                aria-checked="false"
                 aria-label="Auto-flip preview kartu"
               >
                 <span class="card-preview-autoflip-switch" aria-hidden="true"><span></span></span>
                 <span>Auto-flip</span>
               </button>
               <p class="card-preview-autoflip-hint" id="card-preview-autoflip-hint" aria-live="polite">
-                Matikan auto-flip untuk menggerakkan kartu secara manual.
+                Nyalakan auto-flip untuk melihat kartu berputar otomatis.
               </p>
             </div>
           </div>
@@ -502,6 +510,10 @@
       <div class="footer-bottom-strip">
         <span class="footer-copyright">© 2026 paJAK-Kita • Inisiatif Civic-Tech Terbuka</span>
         <span class="footer-legal-tag">Jakarta, Indonesia • Data Terbuka untuk Warga</span>
+        <div class="footer-delete-data-wrap">
+          <button type="button" class="btn-footer-delete-data" id="btn-footer-delete-data">Hapus data saya</button>
+          <span class="footer-delete-status" id="footer-delete-status" aria-live="polite" style="display: none;">Data tersimpan di browser ini sudah dihapus.</span>
+        </div>
       </div>
     </div>
   </footer>

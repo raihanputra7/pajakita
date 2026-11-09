@@ -21,8 +21,30 @@ import {
   getDynamicOndiNarrative,
   fetchAllTaxData
 } from './dataEngine.js';
+import { initWelcomeGreeting } from './welcomeNotification.js';
+
+// Pastikan tiap refresh halaman selalu kembali ke landing page (bagian paling atas)
+if (typeof window !== 'undefined' && 'scrollRestoration' in history) {
+  history.scrollRestoration = 'manual';
+}
+
+function resetToLandingPage() {
+  if (typeof window === 'undefined') return;
+  // Hapus hash anchor (seperti #kartu) agar reload tidak mengunci posisi ke bawah
+  if (window.location.hash) {
+    try {
+      history.replaceState(null, '', window.location.pathname + window.location.search);
+    } catch (e) {}
+  }
+  window.scrollTo(0, 0);
+}
+
+// Eksekusi segera saat script dimuat dan saat window siap
+resetToLandingPage();
+window.addEventListener('load', () => resetToLandingPage());
 
 function boot() {
+  resetToLandingPage();
   try { initHeroSlideshow(); } catch (err) { console.error('Hero slideshow error:', err); }
   try { initNavbar(); } catch (err) { console.error('Navbar error:', err); }
   try { initSiteMotion(); } catch (err) { console.error('Site motion error:', err); }
@@ -30,6 +52,7 @@ function boot() {
   try { initOndiEyeTracking(); } catch (err) { console.error('Ondi eye tracking error:', err); }
   try { initDynamicOndi(2026); } catch (err) { console.error('Dynamic Ondi error:', err); }
   try { initExecutiveSummary(2026); } catch (err) { console.error('Executive summary error:', err); }
+  try { initWelcomeGreeting(); } catch (err) { /* silent fail */ }
 
   // Non-blocking background fetch untuk sinkronisasi gateway Satu Data
   fetchAllTaxData().then(() => {

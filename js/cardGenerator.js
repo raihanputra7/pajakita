@@ -1,5 +1,6 @@
 
 import { getDynamicInsightFacts } from './dataEngine.js';
+import { saveExportProfile, getSavedProfile, clearSavedProfile } from './welcomeNotification.js';
 
 function getInsight(region) {
   return getDynamicInsightFacts(region);
@@ -89,10 +90,11 @@ ${ond('blob')}
 
 
 // --- Card Generator UI Controller (Reference Layout) ---
+const savedProfileInit = getSavedProfile();
 let curTemplate = 'sunburst';
-let curRegion = 'Jakarta Selatan';
+let curRegion = savedProfileInit?.wilayah || 'Seluruh DKI Jakarta';
 let curIndex = 0;
-let curName = 'Raihan';
+let curName = savedProfileInit?.nama || '';
 
 async function getFilteredInsights(region) {
   return await getInsight(region);
@@ -233,6 +235,9 @@ async function downloadCardPNG() {
     link.href = dataUrl;
     link.click();
     showToast('Kartu Insight 3:4 berhasil diunduh!');
+
+    // Simpan profil export (HANYA jika berhasil unduh dan bukan wilayah agregat)
+    saveExportProfile(curRegion, curName);
   } catch (err) {
     console.error('Download card error:', err);
     alert('Gagal mengunduh kartu. Silakan coba kembali.');
@@ -289,16 +294,37 @@ function initCardGenerator() {
     wave: 'split'
   };
 
+  // Muat data profil yang tersimpan dari export sebelumnya
+  const savedProfile = getSavedProfile();
+  if (savedProfile && savedProfile.wilayah) {
+    curRegion = savedProfile.wilayah;
+    if (regionSelect) {
+      regionSelect.value = savedProfile.wilayah;
+    }
+    if (typeof savedProfile.nama === 'string' && savedProfile.nama) {
+      curName = savedProfile.nama;
+      if (nameInput) {
+        nameInput.value = savedProfile.nama;
+      }
+    }
+  } else {
+    if (nameInput) {
+      curName = nameInput.value.trim();
+    }
+    if (regionSelect) {
+      curRegion = regionSelect.value || 'Seluruh DKI Jakarta';
+    }
+  }
+
   if (nameInput) {
-    curName = nameInput.value.trim() || 'Raihan';
     nameInput.addEventListener('input', (e) => {
-      curName = e.target.value.trim() || 'Warga Jakarta';
+      curName = e.target.value.trim();
       renderCardPreview();
     });
   }
 
   if (regionSelect) {
-    curRegion = regionSelect.value;
+    curRegion = regionSelect.value || 'Seluruh DKI Jakarta';
     regionSelect.addEventListener('change', async (e) => {
       curRegion = e.target.value;
       curIndex = 0;
@@ -359,6 +385,23 @@ function initCardGenerator() {
 
   if (shareBtn) {
     shareBtn.addEventListener('click', shareCard);
+  }
+
+  // Tombol reset kartu di bagian bawah formulir data kartu
+  const resetBtn = document.getElementById('btn-card-reset');
+  if (resetBtn) {
+    resetBtn.addEventListener('click', async (e) => {
+      e.preventDefault();
+      clearSavedProfile();
+      curRegion = 'Seluruh DKI Jakarta';
+      curName = '';
+      curIndex = 0;
+      if (regionSelect) regionSelect.value = 'Seluruh DKI Jakarta';
+      if (nameInput) nameInput.value = '';
+      await populateInsightDropdown();
+      await renderCardPreview();
+      showToast('Formulir kartu direset ke default.');
+    });
   }
 
   window.addEventListener('resize', updateCardPreviewScale);
