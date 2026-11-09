@@ -234,7 +234,7 @@ function initPreviewControls() {
     displayedY: 0,
     spin: null,
     snapTarget: null,
-    autoFlip: !prefersReducedMotion.matches,
+    autoFlip: false,
     autoFlipLastTime: 0,
     loadingDesign: false,
     designLoadTimer: 0,
