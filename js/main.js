@@ -53,6 +53,7 @@ function boot() {
   try { initDynamicOndi(2026); } catch (err) { console.error('Dynamic Ondi error:', err); }
   try { initExecutiveSummary(2026); } catch (err) { console.error('Executive summary error:', err); }
   try { initWelcomeGreeting(); } catch (err) { /* silent fail */ }
+  try { initFooterMascot(); } catch (err) { /* silent fail */ }
 
   // Non-blocking background fetch untuk sinkronisasi gateway Satu Data
   fetchAllTaxData().then(() => {
@@ -665,6 +666,29 @@ export function initExecutiveSummary(year = 2026) {
   if (pembiayaanStatusEl) {
     pembiayaanStatusEl.textContent = 'Fiskal Terkendali';
   }
+}
+
+/**
+ * Maskot Ondi Edukatif di Footer: Klik untuk mengganti fakta edukasi APBD
+ */
+function initFooterMascot() {
+  const walker = document.getElementById('footerOndiWalker');
+  const bubbleText = document.getElementById('footerOndiText');
+  if (!walker || !bubbleText) return;
+
+  const FACTS = [
+    'Halo warga! Yuk telusuri ke mana uang pajak kita mengalir.',
+    'Pajak daerah membiayai Transjakarta, MRT, dan LRT setiap harinya.',
+    'PBB-P2 dan PKB adalah kontributor harian terbesar APBD Jakarta.',
+    'Transparansi fiskal memastikan setiap rupiah kembali ke kota kita.',
+    'Data APBD diproses lokal di browsermu tanpa menyimpan data ke server.'
+  ];
+  let factIndex = 0;
+
+  walker.addEventListener('click', () => {
+    factIndex = (factIndex + 1) % FACTS.length;
+    bubbleText.textContent = FACTS[factIndex];
+  });
 }
 
 

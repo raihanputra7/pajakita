@@ -538,15 +538,15 @@
   </main>
 
   <!-- =========================================================================
-       FOOTER: EDITORIAL ONFORM DENGAN GIANT DISPLAY TYPOGRAPHY
+       FOOTER: FULL-VIEWPORT EDITORIAL ONFORM DENGAN GIANT DISPLAY TYPOGRAPHY
        ========================================================================= -->
   <footer class="site-footer" role="contentinfo">
-    <div class="container">
-      <!-- Baris Atas: Navigasi & Kontak -->
+    <div class="container footer-fullscreen-inner">
+      <!-- 1. Top Row (Brand Identity & Navigation Links) -->
       <div class="footer-top-row">
         <div class="footer-brand-editorial">
           <div class="footer-brand-logo-wrap">
-            <a href="index.html" aria-label="paJAK-Kita beranda">
+            <a href="index.html" class="footer-brand-link" aria-label="paJAK-Kita beranda">
               <img src="public/assets/logo-pajakkita-monas-grafik.svg" alt="Logo paJAK-Kita" class="footer-brand-logo">
             </a>
           </div>
@@ -558,18 +558,32 @@
           <a href="penerimaan.html" class="footer-link">Penerimaan Pajak</a>
           <a href="belanja.html" class="footer-link">Belanja APBD</a>
           <a href="kamus.html" class="footer-link">Kamus Pajak</a>
-          <a href="https://ws.jakarta.go.id" target="_blank" rel="noopener noreferrer" class="footer-link">API Data ↗</a>
+          <a href="https://ws.jakarta.go.id" target="_blank" rel="noopener noreferrer" class="footer-link footer-link-external">API Data ↗</a>
         </nav>
       </div>
 
-      <!-- Center Piece: Giant Kinetic Typography (Sesuai Referensi Onform) -->
-      <div class="footer-giant-brand select-none pointer-events-none text-center" aria-hidden="true">
-        <span class="footer-giant-text">
-          paJAK-Kita
-        </span>
+      <!-- 2. Center Row (Giant Editorial Display Typography) -->
+      <div class="footer-center-row">
+        <div class="footer-giant-brand select-none pointer-events-none" aria-hidden="true">
+          <span class="footer-giant-title footer-giant-text">paJAK-Kita</span>
+        </div>
+        <!-- Skyline Panorama Silhouette along the baseline -->
+        <div class="footer-skyline-silhouette" aria-hidden="true"></div>
+        <!-- Interactive Walking Ondi Mascot stage along baseline -->
+        <div class="footer-ondi-baseline-stage" id="footerOndiStage" aria-label="Maskot Edukatif Ondi">
+          <div class="ondi-patrol-walker" id="footerOndiWalker" tabindex="0" role="button" aria-haspopup="true" aria-label="Ondi, klik atau arahkan kursor untuk membaca fakta APBD">
+            <div class="ondi-speech-bubble" id="footerOndiBubble" role="status" aria-live="polite">
+              <span class="bubble-tag">Insight APBD Jakarta</span>
+              <p class="bubble-text" id="footerOndiText">Halo warga! Yuk telusuri ke mana uang pajak kita mengalir.</p>
+            </div>
+            <div class="ondi-avatar is-walking" id="footerOndiAvatar">
+              <img src="public/assets/maskot-ondi/ondi-01-berdiri-netral.svg" alt="Maskot Ondi" width="56" height="56" draggable="false" />
+            </div>
+          </div>
+        </div>
       </div>
 
-      <!-- Baris Bawah: Copyright & Legal Strip -->
+      <!-- 3. Bottom Bar (Legal, Civic Metadata, & Action) -->
       <div class="footer-bottom-strip">
         <span class="footer-copyright">© 2026 paJAK-Kita • Inisiatif Civic-Tech Terbuka</span>
         <span class="footer-legal-tag">Jakarta, Indonesia • Data Terbuka untuk Warga</span>

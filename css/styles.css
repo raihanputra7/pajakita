@@ -1468,25 +1468,85 @@ h2 { margin-bottom: 0; font-size: clamp(28px, 3vw, 38px); line-height: 1.2; lett
 /* ==========================================================================
    REDESIGNED EDITORIAL FOOTER (GAYA ONFORM DENGAN GIANT DISPLAY TYPOGRAPHY)
    ========================================================================== */
+/* ==========================================================================
+   FULL-VIEWPORT EDITORIAL FOOTER (100dvh SINGLE-SCREEN GAYA ROOM & PILLAR)
+   ========================================================================== */
+footer.site-footer,
 .site-footer {
-  background: #0D1117;
-  color: #FDFBF7;
-  padding-top: 2.75rem;
-  padding-bottom: 2rem;
+  width: 100%;
+  min-height: 100dvh;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+  position: relative;
   overflow: hidden;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: clamp(2rem, 5vh, 4rem) clamp(1.5rem, 5vw, 4rem);
+  background-color: #0D1117; /* Deep Charcoal */
+  color: #FDFBF7;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
+/* Atmospheric gradient mask at the top boundary for seamless blend */
+footer.site-footer::before,
+.site-footer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: clamp(80px, 12vh, 160px);
+  background: linear-gradient(to bottom, rgba(253, 251, 247, 0.08) 0%, transparent 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Subtle atmospheric ambient glow at top border */
+footer.site-footer::after,
+.site-footer::after {
+  content: "";
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: clamp(320px, 60vw, 840px);
+  height: 120px;
+  background: radial-gradient(ellipse at center, rgba(186, 26, 26, 0.08) 0%, rgba(217, 119, 6, 0.03) 45%, transparent 70%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Inner Container - Full height flex distribution */
+.site-footer .footer-fullscreen-inner,
+.site-footer > .container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: 0;
+  padding-right: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  z-index: 2;
+  box-sizing: border-box;
+  flex: 1;
+}
+
+/* --- 1. Top Row: Brand Identity & Navigation Links --- */
 .footer-top-row {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 3rem;
-  flex-wrap: wrap;
+  gap: 2.5rem;
+  width: 100%;
+  flex-shrink: 0;
 }
 
 .footer-brand-editorial {
-  max-width: 380px;
+  max-width: 360px;
 }
 
 .footer-brand-logo-wrap {
@@ -1495,90 +1555,312 @@ h2 { margin-bottom: 0; font-size: clamp(28px, 3vw, 38px); line-height: 1.2; lett
   gap: 12px;
 }
 
+.footer-brand-link {
+  display: inline-block;
+  text-decoration: none;
+}
+
 .footer-brand-logo {
-  height: 48px;
+  height: clamp(38px, 4.5vh, 48px);
   width: auto;
   filter: brightness(0) invert(1);
   opacity: 0.95;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.footer-brand-link:hover .footer-brand-logo {
+  opacity: 1;
+  transform: translateY(-1px);
 }
 
 .footer-tagline {
-  margin-top: 0.75rem;
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  font-size: 0.95rem;
+  color: #94A3B8;
   line-height: 1.5;
+  max-width: 320px;
 }
 
 .footer-links-grid {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 1.5rem 2rem;
-  padding-top: 0.5rem;
+  gap: 1.25rem 2rem;
+  padding-top: 0.25rem;
 }
 
 .footer-link {
-  font-size: 0.875rem;
+  font-size: 0.9rem;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.65);
+  color: #CBD5E1;
   text-decoration: none;
-  transition: color 0.2s ease;
+  position: relative;
+  padding-bottom: 4px;
+  transition: color 0.25s cubic-bezier(0.16, 1, 0.3, 1), transform 0.25s ease;
+}
+
+.footer-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #BA1A1A;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .footer-link:hover {
-  color: #FFFFFF;
+  color: #FDFBF7;
+  font-weight: 600;
 }
 
-/* Giant Kinetic Typography (Sesuai Referensi Onform Gambar 3) */
+.footer-link:hover::after {
+  transform: scaleX(1);
+}
+
+/* --- 2. Center Row: Giant Editorial Display Typography & Skyline Stage --- */
+.footer-center-row {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin: auto 0;
+  padding: clamp(0.5rem, 2vh, 1.5rem) 0;
+  overflow: visible;
+  flex-shrink: 0;
+}
+
 .footer-giant-brand {
+  width: 100%;
   user-select: none;
   pointer-events: none;
-  margin-top: 2rem;
-  margin-bottom: 0.25rem;
-  text-align: center;
-  overflow: hidden;
-  padding: 0.25rem 0 0.5rem;
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  padding: 0;
+  text-align: left;
 }
 
+.footer-giant-title,
 .footer-giant-text {
-  display: inline-block;
+  font-size: clamp(3.5rem, 12vw, 11rem);
   font-weight: 900;
-  letter-spacing: -0.015em;
-  color: rgba(255, 255, 255, 0.10);
-  line-height: 1.02;
-  font-size: clamp(3rem, 14.5vw, 12.5rem);
+  letter-spacing: -0.04em;
+  line-height: 0.85;
   text-transform: none;
+  color: #161B22; /* High-craft subtle contrast against #0D1117 */
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin: auto 0;
+  width: 100%;
   font-family: var(--font-sans, system-ui, -apple-system, sans-serif);
-  padding-bottom: 0.08em;
-  padding-top: 0;
-  transition: color 0.35s ease;
+  transition: color 0.4s cubic-bezier(0.16, 1, 0.3, 1), text-shadow 0.4s ease;
 }
 
+.site-footer:hover .footer-giant-title,
 .site-footer:hover .footer-giant-text {
-  color: rgba(255, 255, 255, 0.18);
+  color: #1F2937;
+  text-shadow: 0 0 60px rgba(255, 255, 255, 0.04);
 }
 
-/* Baris Bawah: Copyright & Legal Strip */
+/* Skyline Panorama Silhouette along the baseline */
+.footer-skyline-silhouette {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: clamp(55px, 8.5vh, 95px);
+  background-image: url('../public/assets/skyline-jakarta-transparent.png');
+  background-repeat: repeat-x;
+  background-position: bottom center;
+  background-size: auto 100%;
+  opacity: 0.15;
+  pointer-events: none;
+  z-index: 2;
+  mask-image: linear-gradient(to top, black 40%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to top, black 40%, transparent 100%);
+}
+
+/* Interactive Walking Ondi Mascot stage along baseline */
+.footer-ondi-baseline-stage {
+  position: absolute;
+  bottom: 0;
+  right: clamp(10px, 3vw, 40px);
+  z-index: 3;
+  pointer-events: auto;
+}
+
+.ondi-patrol-walker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.ondi-speech-bubble {
+  background: #161B22;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  padding: 8px 12px;
+  margin-bottom: 8px;
+  max-width: 220px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  pointer-events: none;
+}
+
+.ondi-patrol-walker:hover .ondi-speech-bubble,
+.ondi-patrol-walker:focus .ondi-speech-bubble,
+.ondi-patrol-walker:focus-visible .ondi-speech-bubble {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.bubble-tag {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #F59E0B;
+  display: block;
+  margin-bottom: 2px;
+  letter-spacing: 0.04em;
+}
+
+.bubble-text {
+  font-size: 0.75rem;
+  line-height: 1.35;
+  color: #CBD5E1;
+  margin: 0;
+}
+
+.ondi-avatar {
+  animation: ondiWaddle 1.6s ease-in-out infinite alternate;
+  transform-origin: bottom center;
+  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.35));
+}
+
+@keyframes ondiWaddle {
+  0% { transform: rotate(-3deg) translateY(0); }
+  100% { transform: rotate(3deg) translateY(-3px); }
+}
+
+/* --- 3. Bottom Bar: Legal, Civic Metadata, & Action --- */
 .footer-bottom-strip {
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
   padding-top: 1.25rem;
+  font-size: 0.8rem;
+  color: #64748B;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.45);
   gap: 1rem;
-  flex-wrap: wrap;
+  width: 100%;
+  box-sizing: border-box;
+  flex-shrink: 0;
 }
 
 .footer-copyright {
+  color: #64748B;
   font-weight: 400;
 }
 
 .footer-legal-tag {
+  color: #64748B;
   font-weight: 400;
-  color: rgba(255, 255, 255, 0.4);
+  text-align: center;
+}
+
+.footer-delete-data-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-footer-delete-data {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 0.8rem;
+  color: #64748B;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: rgba(100, 116, 139, 0.4);
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
+  font-family: inherit;
+}
+
+.btn-footer-delete-data:hover {
+  color: #FDFBF7;
+  text-decoration-color: #FDFBF7;
+}
+
+.footer-delete-status {
+  font-size: 0.75rem;
+  color: #22C55E;
+}
+
+/* --- Responsive Layout for Mobile Viewports --- */
+@media (max-width: 768px) {
+  footer.site-footer,
+  .site-footer {
+    min-height: 100dvh;
+    height: auto;
+    padding: 2.25rem 1.25rem 1.5rem;
+  }
+
+  .footer-top-row {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .footer-links-grid {
+    gap: 0.75rem 1.25rem;
+  }
+
+  .footer-giant-title,
+  .footer-giant-text {
+    font-size: clamp(3.2rem, 15vw, 6rem);
+    line-height: 0.95;
+  }
+
+  .footer-center-row {
+    padding: 1.5rem 0;
+  }
+
+  .footer-bottom-strip {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    text-align: left;
+    padding-top: 1rem;
+  }
+
+  .footer-legal-tag {
+    text-align: left;
+  }
+
+  .footer-ondi-baseline-stage {
+    right: 10px;
+    bottom: -4px;
+  }
+
+  .footer-ondi-baseline-stage .ondi-avatar img {
+    width: 44px;
+    height: 44px;
+  }
 }
 
 :focus-visible { outline: 3px solid var(--color-primary); outline-offset: 3px; }
