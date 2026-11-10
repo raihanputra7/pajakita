@@ -103,31 +103,54 @@ function initNavbar() {
       }
     }
 
-    // Hide on scroll down, show on scroll up (hanya jika scroll > 120px)
-    if (currentScrollY > 120) {
-      if (currentScrollY > lastScrollY && currentScrollY - lastScrollY > 6) {
-        siteHeader.classList.add('is-hidden');
-        closeAllDropdowns();
-      } else if (lastScrollY - currentScrollY > 6) {
-        siteHeader.classList.remove('is-hidden');
+    // =========================================================================
+    // PHYSICAL SCROLL-LINKED PUSH EFFECT (1:1 PARALLAX CURTAIN SEAM COLLISION)
+    // =========================================================================
+    const mainEl = document.querySelector('main') || document.querySelector('.page-content-wrapper');
+    const navHeight = siteHeader.offsetHeight || 54;
+    const mainBottom = mainEl ? mainEl.getBoundingClientRect().bottom : 9999;
+    const isCurtainActive = mainBottom <= window.innerHeight;
+
+    if (isCurtainActive) {
+      // Pastikan kelas is-hidden dilepas saat area tirai aktif agar navbar tetap terlihat di posisinya
+      // selama konten <main> masih berada di belakangnya (sebelum seam menyentuh navbar).
+      siteHeader.classList.remove('is-hidden');
+
+      if (mainBottom <= navHeight) {
+        // Seam (ujung bawah <main>) telah menyentuh batas navbar dan bergerak melaluinya:
+        // Dorong navbar naik pixel-by-pixel secara fisik 1:1 bersamaan dengan naiknya seam!
+        const offset = navHeight - Math.max(0, mainBottom);
+        siteHeader.style.transition = 'none'; // Sinkronisasi scroll instan 1:1 tanpa jeda
+        siteHeader.style.transform = `translateY(-${offset}px)`;
+
+        if (offset >= navHeight) {
+          siteHeader.classList.add('nav-hidden-footer');
+        } else {
+          siteHeader.classList.remove('nav-hidden-footer');
+        }
+      } else {
+        // Seam tirai belum menyentuh navbar: jaga navbar tetap stabil terlihat di translateY(0)
+        siteHeader.style.transition = 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)';
+        siteHeader.style.transform = 'translateY(0)';
+        siteHeader.classList.remove('nav-hidden-footer');
       }
     } else {
-      siteHeader.classList.remove('is-hidden');
-    }
+      // Di luar area tirai (saat membaca konten utama):
+      // Kembalikan inline style agar sistem show/hide scroll standar aktif kembali
+      siteHeader.style.transition = '';
+      siteHeader.style.transform = '';
+      siteHeader.classList.remove('nav-hidden-footer');
 
-    // Smart Reaction on Footer Curtain Reveal:
-    // Sembunyikan navbar secara halus begitu tirai footer terbuka (curtain reveal),
-    // sehingga navbar mulus menghilang ke atas tepat saat elemen grafis & navigasi footer muncul.
-    const mainEl = document.querySelector('main') || document.querySelector('.page-content-wrapper');
-    if (mainEl) {
-      const mainBottom = mainEl.getBoundingClientRect().bottom;
-      const isNearBottom = (window.innerHeight + currentScrollY) >= (document.documentElement.scrollHeight - 80);
-      const footerRevealThreshold = Math.min(window.innerHeight * 0.7, 500);
-
-      if (mainBottom <= footerRevealThreshold || isNearBottom) {
-        siteHeader.classList.add('nav-hidden-footer');
+      // Hide on scroll down, show on scroll up (hanya jika scroll > 120px)
+      if (currentScrollY > 120) {
+        if (currentScrollY > lastScrollY && currentScrollY - lastScrollY > 6) {
+          siteHeader.classList.add('is-hidden');
+          closeAllDropdowns();
+        } else if (lastScrollY - currentScrollY > 6) {
+          siteHeader.classList.remove('is-hidden');
+        }
       } else {
-        siteHeader.classList.remove('nav-hidden-footer');
+        siteHeader.classList.remove('is-hidden');
       }
     }
 
