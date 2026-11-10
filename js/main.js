@@ -760,17 +760,16 @@ function initFooterMascot() {
   stage.innerHTML = '';
 
   ondiPool.forEach((expr, idx) => {
-    const lane = LANES[idx] + (Math.random() * 3 - 1.5);
-    const bottom = Math.floor(Math.random() * 36) + 4; // 4px - 40px variasi kedalaman taman
+    const lane = LANES[idx];
+    const bottom = -3; // Sejajar rata tepat di atas garis batas bottom footer
     const walkRightFirst = Math.random() > 0.5;
-    const distanceMag = Math.floor(Math.random() * 75) + 75; // 75px - 150px patroli horizontal
+    const distanceMag = Math.floor(Math.random() * 55) + 60; // 60px - 115px patroli horizontal
     const distance = walkRightFirst ? distanceMag : -distanceMag;
     const duration = (6.0 + Math.random() * 5.0).toFixed(2);
     const delay = -(Math.random() * 9).toFixed(2);
     const walkSpeed = (0.68 + Math.random() * 0.34).toFixed(2);
-    // Perspektif kedalaman: yang di bawah lebih dekat (sedikit lebih besar), yang di atas sedikit lebih kecil
-    const depthScale = (1.06 - (bottom / 40) * 0.16).toFixed(2);
-    const zIndex = Math.max(4, 45 - bottom);
+    const depthScale = 1;
+    const zIndex = 4 + (idx % 3);
     const isVisibleByDefault = AUTO_VISIBLE_SLOTS.has(idx);
 
     let alignClass = '';
