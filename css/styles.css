@@ -1479,7 +1479,8 @@ main,
   position: relative;
   z-index: 2;
   background-color: #FDFBF7;
-  box-shadow: 0 25px 50px -12px rgba(13, 17, 23, 0.25); /* Subtle shadow dropping onto the dark footer */
+  box-shadow: 0 25px 50px -12px rgba(13, 17, 23, 0.25); /* Subtle shadow dropping onto the footer */
+  min-height: 100vh;
 }
 
 /* ===================================================================

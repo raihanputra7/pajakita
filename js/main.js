@@ -115,6 +115,18 @@ function initNavbar() {
       siteHeader.classList.remove('is-hidden');
     }
 
+    // Smart Reaction on Footer Curtain Reveal:
+    // Sembunyikan navbar hanya saat konten <main> terangkat habis mengungkap footer di baliknya (agar tidak menabrak logo/link footer)
+    const mainEl = document.querySelector('main') || document.querySelector('.page-content-wrapper');
+    if (mainEl) {
+      const mainBottom = mainEl.getBoundingClientRect().bottom;
+      if (mainBottom <= 80) {
+        siteHeader.classList.add('nav-hidden-footer');
+      } else {
+        siteHeader.classList.remove('nav-hidden-footer');
+      }
+    }
+
     lastScrollY = currentScrollY;
   };
 
@@ -243,25 +255,6 @@ function initNavbar() {
       toggleMobileNav(false);
     });
   });
-
-  // =========================================================================
-  // 4. SMART NAVBAR SCROLL REACTION ON FOOTER (AUTO-HIDE / NO COLLISION)
-  // =========================================================================
-  const footer = document.querySelector('footer.site-footer');
-  if (footer) {
-    const footerObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          siteHeader.classList.add('nav-hidden-footer');
-          siteHeader.classList.add('nav-dark-mode');
-        } else {
-          siteHeader.classList.remove('nav-hidden-footer', 'nav-dark-mode');
-        }
-      });
-    }, { threshold: 0.15 });
-
-    footerObserver.observe(footer);
-  }
 }
 
 // =========================================================================
