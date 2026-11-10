@@ -104,6 +104,20 @@ button, input, select { font: inherit; }
   transform: translateY(-100%);
 }
 
+/* Smart Navbar Scroll Reaction on Footer (Auto-Hide out of view) */
+.site-header.nav-hidden-footer,
+header.nav-hidden-footer {
+  transform: translateY(-100%) !important;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  pointer-events: none;
+}
+
+.site-header.nav-dark-mode,
+header.nav-dark-mode {
+  background: rgba(13, 17, 23, 0.96);
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
 .nav-wrap {
   height: 100%;
   display: flex;
@@ -1457,25 +1471,39 @@ h2 { margin-bottom: 0; font-size: clamp(28px, 3vw, 38px); line-height: 1.2; lett
   margin: 0;
 }
 
+/* =========================================================================
+   PARALLAX CURTAIN REVEAL ARCHITECTURE (ROOM & PILLAR STYLE)
+   ========================================================================= */
+main,
+.page-content-wrapper {
+  position: relative;
+  z-index: 2;
+  background-color: #FDFBF7;
+  box-shadow: 0 25px 50px -12px rgba(13, 17, 23, 0.25); /* Subtle shadow dropping onto the dark footer */
+}
+
 /* ===================================================================   REDESIGNED EDITORIAL FOOTER (GAYA ONFORM DENGAN GIANT DISPLAY TYPOGRAPHY)
    ========================================================================== */
 /* ===================================================================   FULL-VIEWPORT EDITORIAL FOOTER (100dvh SINGLE-SCREEN GAYA ROOM & PILLAR)
    ========================================================================== */
 footer.site-footer,
 .site-footer {
+  position: sticky;
+  bottom: 0;
+  left: 0;
   width: 100%;
-  min-height: 100dvh;
   height: 100dvh;
+  min-height: 100dvh;
+  max-height: 100dvh;
+  z-index: 1;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   box-sizing: border-box;
-  position: relative;
-  overflow: hidden;
-  padding: clamp(2rem, 5vh, 4rem) clamp(1.5rem, 5vw, 4rem);
+  padding: clamp(2rem, 5vh, 4rem) clamp(2rem, 5vw, 5rem);
   background-color: #0D1117; /* Deep Charcoal */
   color: #FDFBF7;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 /* Atmospheric gradient mask at the top boundary for seamless blend */
@@ -1516,6 +1544,7 @@ footer.site-footer::after,
   padding-left: 0;
   padding-right: 0;
   height: 100%;
+  max-height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -1523,6 +1552,7 @@ footer.site-footer::after,
   z-index: 2;
   box-sizing: border-box;
   flex: 1;
+  min-height: 0;
 }
 
 /* --- 1. Top Row: Brand Identity & Navigation Links --- */
@@ -1551,7 +1581,7 @@ footer.site-footer::after,
 }
 
 .footer-brand-logo {
-  height: clamp(38px, 4.5vh, 48px);
+  height: clamp(36px, 4.2vh, 46px);
   width: auto;
   filter: brightness(0) invert(1);
   opacity: 0.95;
@@ -1576,7 +1606,7 @@ footer.site-footer::after,
   flex-wrap: wrap;
   align-items: center;
   gap: 1.25rem 2rem;
-  padding-top: 0.25rem;
+  padding-top: 1rem;
 }
 
 .footer-link {
@@ -1619,9 +1649,10 @@ footer.site-footer::after,
   align-items: center;
   justify-content: flex-start;
   margin: auto 0;
-  padding: clamp(0.5rem, 2vh, 1.5rem) 0;
+  padding: clamp(0.5rem, 1.5vh, 1.5rem) 0;
   overflow: visible;
   flex-shrink: 0;
+  min-height: 0;
 }
 
 .footer-giant-brand {
@@ -1637,7 +1668,7 @@ footer.site-footer::after,
 
 .footer-giant-title,
 .footer-giant-text {
-  font-size: clamp(3.5rem, 12vw, 11rem);
+  font-size: clamp(4rem, 13vw, 12rem);
   font-weight: 900;
   letter-spacing: -0.04em;
   line-height: 0.85;
@@ -1647,7 +1678,7 @@ footer.site-footer::after,
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  margin: auto 0;
+  margin: 0;
   width: 100%;
   font-family: var(--font-sans, system-ui, -apple-system, sans-serif);
   transition: color 0.4s cubic-bezier(0.16, 1, 0.3, 1), text-shadow 0.4s ease;
@@ -1802,33 +1833,56 @@ footer.site-footer::after,
   color: #22C55E;
 }
 
-/* --- Responsive Layout for Mobile Viewports --- */
+/* --- Responsive Layout for Mobile Viewports & Short Viewports --- */
 @media (max-width: 768px) {
   footer.site-footer,
   .site-footer {
     min-height: 100dvh;
-    height: auto;
-    padding: 2.25rem 1.25rem 1.5rem;
+    height: 100dvh;
+    padding: clamp(1.5rem, 3.5vh, 2.5rem) 1.25rem 1.25rem;
   }
 
   .footer-top-row {
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1rem;
   }
 
   .footer-links-grid {
-    gap: 0.75rem 1.25rem;
+    gap: 0.5rem 1rem;
+    padding-top: 0;
   }
 
   .footer-giant-title,
   .footer-giant-text {
-    font-size: clamp(3.2rem, 15vw, 6rem);
-    line-height: 0.95;
+    font-size: clamp(3rem, 14vw, 5.5rem);
+    line-height: 0.9;
   }
 
   .footer-center-row {
-    padding: 1.5rem 0;
+    padding: 0.5rem 0;
   }
+}
+
+@media (max-height: 720px) {
+  footer.site-footer,
+  .site-footer {
+    padding: clamp(1.25rem, 3vh, 2rem) clamp(1.5rem, 4vw, 3rem);
+  }
+
+  .footer-giant-title,
+  .footer-giant-text {
+    font-size: clamp(3rem, 10vw, 7.5rem);
+    line-height: 0.85;
+  }
+
+  .footer-center-row {
+    padding: 0.25rem 0;
+  }
+
+  .footer-tagline {
+    font-size: 0.85rem;
+  }
+}
 
   .footer-bottom-strip {
     flex-direction: column;

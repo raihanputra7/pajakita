@@ -243,6 +243,25 @@ function initNavbar() {
       toggleMobileNav(false);
     });
   });
+
+  // =========================================================================
+  // 4. SMART NAVBAR SCROLL REACTION ON FOOTER (AUTO-HIDE / NO COLLISION)
+  // =========================================================================
+  const footer = document.querySelector('footer.site-footer');
+  if (footer) {
+    const footerObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          siteHeader.classList.add('nav-hidden-footer');
+          siteHeader.classList.add('nav-dark-mode');
+        } else {
+          siteHeader.classList.remove('nav-hidden-footer', 'nav-dark-mode');
+        }
+      });
+    }, { threshold: 0.15 });
+
+    footerObserver.observe(footer);
+  }
 }
 
 // =========================================================================
