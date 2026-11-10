@@ -722,7 +722,8 @@ export function initExecutiveSummary(year = 2026) {
 /**
  * Maskot Ondi Edukatif di Footer:
  * Menampilkan 10 maskot Ondi (5 ekspresi masing-masing 2x) dari sprite walk strip
- * berjalan secara vertikal acak di taman, dengan pesan insight APBD langsung tampil tanpa hover kursor.
+ * berjalan secara horizontal (kiri-kanan) di area taman.
+ * Pesan insight APBD langsung tampil: 3 detik muncul -> 2 detik menutup -> muncul lagi dengan insight baru.
  */
 function initFooterMascot() {
   const stage = document.getElementById('footerOndiStage');
@@ -750,8 +751,8 @@ function initFooterMascot() {
     'Data APBD diproses aman langsung di browsermu tanpa pelacakan server.'
   ];
 
-  // 10 jalur horizontal tersebar merata di area taman dengan sedikit variasi acak
-  const LANES = [6, 15, 24, 34, 44, 54, 64, 74, 83, 91];
+  // 10 titik awal menyebar acak di area taman agar aman berjalan ke kiri dan kanan
+  const LANES = [10, 18, 27, 36, 45, 53, 62, 71, 80, 88];
   // 2 posisi utama yang menampilkan bubble insight secara langsung (tanpa hover)
   const AUTO_VISIBLE_SLOTS = new Set([1, 7]);
   const activeBubbles = [];
@@ -760,21 +761,24 @@ function initFooterMascot() {
 
   ondiPool.forEach((expr, idx) => {
     const lane = LANES[idx] + (Math.random() * 3 - 1.5);
-    const bottom = Math.floor(Math.random() * 18) + 4;
-    const distance = -(Math.floor(Math.random() * 32) + 38);
-    const duration = (4.6 + Math.random() * 4.0).toFixed(2);
-    const delay = -(Math.random() * 7).toFixed(2);
-    const walkSpeed = (0.7 + Math.random() * 0.32).toFixed(2);
-    const depthScale = (0.94 + Math.random() * 0.14).toFixed(2);
-    const isFlipped = Math.random() > 0.5;
+    const bottom = Math.floor(Math.random() * 36) + 4; // 4px - 40px variasi kedalaman taman
+    const walkRightFirst = Math.random() > 0.5;
+    const distanceMag = Math.floor(Math.random() * 75) + 75; // 75px - 150px patroli horizontal
+    const distance = walkRightFirst ? distanceMag : -distanceMag;
+    const duration = (6.0 + Math.random() * 5.0).toFixed(2);
+    const delay = -(Math.random() * 9).toFixed(2);
+    const walkSpeed = (0.68 + Math.random() * 0.34).toFixed(2);
+    // Perspektif kedalaman: yang di bawah lebih dekat (sedikit lebih besar), yang di atas sedikit lebih kecil
+    const depthScale = (1.06 - (bottom / 40) * 0.16).toFixed(2);
+    const zIndex = Math.max(4, 45 - bottom);
     const isVisibleByDefault = AUTO_VISIBLE_SLOTS.has(idx);
 
     let alignClass = '';
-    if (lane < 20) alignClass = 'bubble-align-left';
-    else if (lane > 76) alignClass = 'bubble-align-right';
+    if (lane < 22) alignClass = 'bubble-align-left';
+    else if (lane > 72) alignClass = 'bubble-align-right';
 
     const walker = document.createElement('div');
-    walker.className = `ondi-patrol-walker${isFlipped ? ' is-flipped' : ''}`;
+    walker.className = `ondi-patrol-walker ${walkRightFirst ? 'walk-right-first' : 'walk-left-first'}`;
     walker.setAttribute('tabindex', '0');
     walker.setAttribute('role', 'button');
     walker.setAttribute('aria-label', `${expr.label} - Fakta APBD Jakarta`);
@@ -785,7 +789,7 @@ function initFooterMascot() {
     walker.style.setProperty('--patrol-delay', `${delay}s`);
     walker.style.setProperty('--walk-fps-duration', `${walkSpeed}s`);
     walker.style.setProperty('--depth-scale', depthScale);
-    walker.style.setProperty('--patrol-z', `${4 + (idx % 4)}`);
+    walker.style.setProperty('--patrol-z', `${zIndex}`);
 
     const bubble = document.createElement('div');
     bubble.className = `ondi-speech-bubble${alignClass ? ' ' + alignClass : ''}${isVisibleByDefault ? ' is-visible' : ''}`;
@@ -811,30 +815,47 @@ function initFooterMascot() {
       activeBubbles.push(bubble);
     }
 
-    // Interaksi opsional jika user mengklik Ondi manapun: tampilkan/ganti insightnya langsung
+    // Interaksi opsional jika user mengklik Ondi lain: tampilkan 3 detik lalu tutup
+    let clickTimeout = null;
     walker.addEventListener('click', () => {
       const textEl = bubble.querySelector('.bubble-text');
       if (textEl) {
         textEl.textContent = INSIGHTS[Math.floor(Math.random() * INSIGHTS.length)];
       }
       bubble.classList.add('is-visible');
+      if (!isVisibleByDefault) {
+        clearTimeout(clickTimeout);
+        clickTimeout = setTimeout(() => {
+          bubble.classList.remove('is-visible');
+        }, 3000);
+      }
     });
   });
 
-  // Rotasi otomatis pesan insight secara berkala pada bubble yang langsung tampil
+  // Siklus otomatis pesan insight:
+  // Muncul selama 3 detik -> menutup selama 2 detik -> muncul lagi dengan chat insight baru
   let cycleIdx = 0;
-  setInterval(() => {
-    cycleIdx = (cycleIdx + 1) % INSIGHTS.length;
-    activeBubbles.forEach((bubble, bIdx) => {
-      const textEl = bubble.querySelector('.bubble-text');
-      if (!textEl) return;
-      textEl.style.opacity = '0';
+  function runInsightCycle() {
+    setTimeout(() => {
+      activeBubbles.forEach((b) => b.classList.remove('is-visible'));
+
       setTimeout(() => {
-        textEl.textContent = INSIGHTS[(cycleIdx + bIdx * 2) % INSIGHTS.length];
-        textEl.style.opacity = '1';
-      }, 220);
-    });
-  }, 4800);
+        cycleIdx = (cycleIdx + 1) % INSIGHTS.length;
+        activeBubbles.forEach((b, bIdx) => {
+          const textEl = b.querySelector('.bubble-text');
+          if (textEl) {
+            textEl.textContent = INSIGHTS[(cycleIdx + bIdx * 2) % INSIGHTS.length];
+          }
+          b.classList.add('is-visible');
+        });
+        runInsightCycle();
+      }, 2000);
+    }, 3000);
+  }
+
+  if (activeBubbles.length > 0) {
+    runInsightCycle();
+  }
 }
 
 // =========================================================================

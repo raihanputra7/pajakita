@@ -1663,7 +1663,7 @@ footer.site-footer::after,
   pointer-events: none;
 }
 
-/* Multi-Ondi Park Meadow Stage (10 Ondis berjalan vertikal acak di taman) */
+/* Multi-Ondi Park Meadow Stage (10 Ondis berjalan horizontal kiri-kanan acak di taman) */
 .footer-ondi-baseline-stage {
   position: absolute;
   inset: 0;
@@ -1686,16 +1686,16 @@ footer.site-footer::after,
   padding: 0;
   pointer-events: auto;
   transform-origin: bottom center;
-  animation: ondiVerticalPatrol var(--patrol-duration, 6s) ease-in-out var(--patrol-delay, 0s) infinite;
+  animation: ondiHorizontalPatrol var(--patrol-duration, 7s) ease-in-out var(--patrol-delay, 0s) infinite;
   z-index: var(--patrol-z, 4);
 }
 
-@keyframes ondiVerticalPatrol {
+@keyframes ondiHorizontalPatrol {
   0%, 100% {
     transform: translate(-50%, 0px) scale(var(--depth-scale, 1));
   }
   50% {
-    transform: translate(-50%, var(--patrol-distance, -52px)) scale(calc(var(--depth-scale, 1) * 0.88));
+    transform: translate(calc(-50% + var(--patrol-distance, 110px)), 0px) scale(var(--depth-scale, 1));
   }
 }
 
@@ -1781,12 +1781,31 @@ footer.site-footer::after,
   background-size: 576px 122px;
   background-position: 0px 0px;
   filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.38));
-  animation: ondiSpriteWalk var(--walk-fps-duration, 0.85s) steps(8) infinite;
   transform-origin: bottom center;
 }
 
-.ondi-patrol-walker.is-flipped .ondi-avatar.ondi-walk-sprite {
-  transform: scaleX(-1);
+.ondi-patrol-walker.walk-right-first .ondi-avatar.ondi-walk-sprite {
+  animation:
+    ondiSpriteWalk var(--walk-fps-duration, 0.85s) steps(8) infinite,
+    ondiTurnRightFirst var(--patrol-duration, 7s) steps(1, end) var(--patrol-delay, 0s) infinite;
+}
+
+.ondi-patrol-walker.walk-left-first .ondi-avatar.ondi-walk-sprite {
+  animation:
+    ondiSpriteWalk var(--walk-fps-duration, 0.85s) steps(8) infinite,
+    ondiTurnLeftFirst var(--patrol-duration, 7s) steps(1, end) var(--patrol-delay, 0s) infinite;
+}
+
+@keyframes ondiTurnRightFirst {
+  0%, 49.9% { transform: scaleX(1); }
+  50%, 99.9% { transform: scaleX(-1); }
+  100% { transform: scaleX(1); }
+}
+
+@keyframes ondiTurnLeftFirst {
+  0%, 49.9% { transform: scaleX(-1); }
+  50%, 99.9% { transform: scaleX(1); }
+  100% { transform: scaleX(-1); }
 }
 
 @keyframes ondiSpriteWalk {
