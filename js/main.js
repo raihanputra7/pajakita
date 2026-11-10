@@ -720,26 +720,121 @@ export function initExecutiveSummary(year = 2026) {
 }
 
 /**
- * Maskot Ondi Edukatif di Footer: Klik untuk mengganti fakta edukasi APBD
+ * Maskot Ondi Edukatif di Footer:
+ * Menampilkan 10 maskot Ondi (5 ekspresi masing-masing 2x) dari sprite walk strip
+ * berjalan secara vertikal acak di taman, dengan pesan insight APBD langsung tampil tanpa hover kursor.
  */
 function initFooterMascot() {
-  const walker = document.getElementById('footerOndiWalker');
-  const bubbleText = document.getElementById('footerOndiText');
-  if (!walker || !bubbleText) return;
+  const stage = document.getElementById('footerOndiStage');
+  if (!stage) return;
 
-  const FACTS = [
-    'Halo warga! Yuk telusuri ke mana uang pajak kita mengalir.',
-    'Pajak daerah membiayai Transjakarta, MRT, dan LRT setiap harinya.',
-    'PBB-P2 dan PKB adalah kontributor harian terbesar APBD Jakarta.',
-    'Transparansi fiskal memastikan setiap rupiah kembali ke kota kita.',
-    'Data APBD diproses lokal di browsermu tanpa menyimpan data ke server.'
+  const BASE_EXPRESSIONS = [
+    { key: 'senang',  label: 'Ondi Senang',  file: 'public/assets/maskot-ondi-gerak/ondi-walk-strip-per-ekspresi/ondi-walk-senang.png' },
+    { key: 'kaget',   label: 'Ondi Kaget',   file: 'public/assets/maskot-ondi-gerak/ondi-walk-strip-per-ekspresi/ondi-walk-kaget.png' },
+    { key: 'marah',   label: 'Ondi Tegas',   file: 'public/assets/maskot-ondi-gerak/ondi-walk-strip-per-ekspresi/ondi-walk-marah.png' },
+    { key: 'ngantuk', label: 'Ondi Santai',  file: 'public/assets/maskot-ondi-gerak/ondi-walk-strip-per-ekspresi/ondi-walk-ngantuk.png' },
+    { key: 'sedih',   label: 'Ondi Peduli',  file: 'public/assets/maskot-ondi-gerak/ondi-walk-strip-per-ekspresi/ondi-walk-sedih.png' }
   ];
-  let factIndex = 0;
 
-  walker.addEventListener('click', () => {
-    factIndex = (factIndex + 1) % FACTS.length;
-    bubbleText.textContent = FACTS[factIndex];
+  // Setiap ekspresi dibuat 2x -> total 10 maskot, lalu acak urutannya
+  const ondiPool = [...BASE_EXPRESSIONS, ...BASE_EXPRESSIONS]
+    .sort(() => Math.random() - 0.5);
+
+  const INSIGHTS = [
+    'Halo warga! Yuk telusuri ke mana uang pajak Jakarta mengalir.',
+    'Pajak daerah membiayai Transjakarta, MRT, dan LRT setiap hari.',
+    'PBB-P2 dan PKB adalah kontributor terbesar pendapatan daerah Jakarta.',
+    'Minimal 20% APBD dialokasikan untuk sektor pendidikan & sekolah.',
+    'Lebih dari 1.200 taman & RPTRA kota dirawat dari anggaran belanja daerah.',
+    'Transparansi fiskal memastikan setiap rupiah kembali ke fasilitas warga.',
+    'Data APBD diproses aman langsung di browsermu tanpa pelacakan server.'
+  ];
+
+  // 10 jalur horizontal tersebar merata di area taman dengan sedikit variasi acak
+  const LANES = [6, 15, 24, 34, 44, 54, 64, 74, 83, 91];
+  // 2 posisi utama yang menampilkan bubble insight secara langsung (tanpa hover)
+  const AUTO_VISIBLE_SLOTS = new Set([1, 7]);
+  const activeBubbles = [];
+
+  stage.innerHTML = '';
+
+  ondiPool.forEach((expr, idx) => {
+    const lane = LANES[idx] + (Math.random() * 3 - 1.5);
+    const bottom = Math.floor(Math.random() * 18) + 4;
+    const distance = -(Math.floor(Math.random() * 32) + 38);
+    const duration = (4.6 + Math.random() * 4.0).toFixed(2);
+    const delay = -(Math.random() * 7).toFixed(2);
+    const walkSpeed = (0.7 + Math.random() * 0.32).toFixed(2);
+    const depthScale = (0.94 + Math.random() * 0.14).toFixed(2);
+    const isFlipped = Math.random() > 0.5;
+    const isVisibleByDefault = AUTO_VISIBLE_SLOTS.has(idx);
+
+    let alignClass = '';
+    if (lane < 20) alignClass = 'bubble-align-left';
+    else if (lane > 76) alignClass = 'bubble-align-right';
+
+    const walker = document.createElement('div');
+    walker.className = `ondi-patrol-walker${isFlipped ? ' is-flipped' : ''}`;
+    walker.setAttribute('tabindex', '0');
+    walker.setAttribute('role', 'button');
+    walker.setAttribute('aria-label', `${expr.label} - Fakta APBD Jakarta`);
+    walker.style.setProperty('--patrol-left', `${lane.toFixed(1)}%`);
+    walker.style.setProperty('--patrol-bottom', `${bottom}px`);
+    walker.style.setProperty('--patrol-distance', `${distance}px`);
+    walker.style.setProperty('--patrol-duration', `${duration}s`);
+    walker.style.setProperty('--patrol-delay', `${delay}s`);
+    walker.style.setProperty('--walk-fps-duration', `${walkSpeed}s`);
+    walker.style.setProperty('--depth-scale', depthScale);
+    walker.style.setProperty('--patrol-z', `${4 + (idx % 4)}`);
+
+    const bubble = document.createElement('div');
+    bubble.className = `ondi-speech-bubble${alignClass ? ' ' + alignClass : ''}${isVisibleByDefault ? ' is-visible' : ''}`;
+    bubble.setAttribute('role', 'status');
+    bubble.setAttribute('aria-live', 'polite');
+
+    const initialText = INSIGHTS[(idx * 2) % INSIGHTS.length];
+    bubble.innerHTML = `
+      <span class="bubble-tag">Insight APBD Jakarta</span>
+      <p class="bubble-text">${initialText}</p>
+    `;
+
+    const avatar = document.createElement('div');
+    avatar.className = 'ondi-avatar ondi-walk-sprite';
+    avatar.style.backgroundImage = `url('${expr.file}')`;
+    avatar.setAttribute('aria-label', expr.label);
+
+    walker.appendChild(bubble);
+    walker.appendChild(avatar);
+    stage.appendChild(walker);
+
+    if (isVisibleByDefault) {
+      activeBubbles.push(bubble);
+    }
+
+    // Interaksi opsional jika user mengklik Ondi manapun: tampilkan/ganti insightnya langsung
+    walker.addEventListener('click', () => {
+      const textEl = bubble.querySelector('.bubble-text');
+      if (textEl) {
+        textEl.textContent = INSIGHTS[Math.floor(Math.random() * INSIGHTS.length)];
+      }
+      bubble.classList.add('is-visible');
+    });
   });
+
+  // Rotasi otomatis pesan insight secara berkala pada bubble yang langsung tampil
+  let cycleIdx = 0;
+  setInterval(() => {
+    cycleIdx = (cycleIdx + 1) % INSIGHTS.length;
+    activeBubbles.forEach((bubble, bIdx) => {
+      const textEl = bubble.querySelector('.bubble-text');
+      if (!textEl) return;
+      textEl.style.opacity = '0';
+      setTimeout(() => {
+        textEl.textContent = INSIGHTS[(cycleIdx + bIdx * 2) % INSIGHTS.length];
+        textEl.style.opacity = '1';
+      }, 220);
+    });
+  }, 4800);
 }
 
 // =========================================================================

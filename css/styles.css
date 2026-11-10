@@ -1663,16 +1663,20 @@ footer.site-footer::after,
   pointer-events: none;
 }
 
-/* Interactive Walking Ondi Mascot stage along the grass/pathway */
+/* Multi-Ondi Park Meadow Stage (10 Ondis berjalan vertikal acak di taman) */
 .footer-ondi-baseline-stage {
   position: absolute;
-  bottom: clamp(6px, 2.5vh, 24px);
-  right: clamp(10px, 3.5vw, 45px);
+  inset: 0;
+  width: 100%;
+  height: 100%;
   z-index: 3;
-  pointer-events: auto;
+  pointer-events: none;
 }
 
 .ondi-patrol-walker {
+  position: absolute;
+  bottom: var(--patrol-bottom, 10px);
+  left: var(--patrol-left, 50%);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1680,28 +1684,75 @@ footer.site-footer::after,
   background: none;
   border: none;
   padding: 0;
+  pointer-events: auto;
+  transform-origin: bottom center;
+  animation: ondiVerticalPatrol var(--patrol-duration, 6s) ease-in-out var(--patrol-delay, 0s) infinite;
+  z-index: var(--patrol-z, 4);
+}
+
+@keyframes ondiVerticalPatrol {
+  0%, 100% {
+    transform: translate(-50%, 0px) scale(var(--depth-scale, 1));
+  }
+  50% {
+    transform: translate(-50%, var(--patrol-distance, -52px)) scale(calc(var(--depth-scale, 1) * 0.88));
+  }
 }
 
 .ondi-speech-bubble {
+  position: relative;
   background: rgba(13, 17, 23, 0.92);
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: 14px;
-  padding: 10px 14px;
-  margin-bottom: 8px;
-  max-width: 240px;
+  padding: 8px 12px;
+  margin-bottom: 6px;
+  width: max-content;
+  max-width: 220px;
   box-shadow: 0 10px 28px rgba(0, 0, 0, 0.38);
   opacity: 0;
-  transform: translateY(6px);
-  transition: opacity 0.25s ease, transform 0.25s ease;
+  transform: translateY(6px) scale(0.96);
+  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   pointer-events: none;
   backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  text-align: left;
+  z-index: 25;
 }
 
-.ondi-patrol-walker:hover .ondi-speech-bubble,
-.ondi-patrol-walker:focus .ondi-speech-bubble,
-.ondi-patrol-walker:focus-visible .ondi-speech-bubble {
+.ondi-speech-bubble::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 9px;
+  height: 9px;
+  background: rgba(13, 17, 23, 0.92);
+  border-right: 1px solid rgba(255, 255, 255, 0.22);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.22);
+}
+
+.ondi-speech-bubble.bubble-align-left {
+  align-self: flex-start;
+  margin-left: -10px;
+}
+.ondi-speech-bubble.bubble-align-left::after {
+  left: 28px;
+}
+
+.ondi-speech-bubble.bubble-align-right {
+  align-self: flex-end;
+  margin-right: -10px;
+}
+.ondi-speech-bubble.bubble-align-right::after {
+  left: auto;
+  right: 28px;
+}
+
+/* Pesan insight langsung tampil tanpa hover kursor */
+.ondi-speech-bubble.is-visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
 }
 
 .bubble-tag {
@@ -1719,17 +1770,28 @@ footer.site-footer::after,
   line-height: 1.4;
   color: #FDFBF7;
   margin: 0;
+  transition: opacity 0.2s ease;
 }
 
-.ondi-avatar {
-  animation: ondiWaddle 1.6s ease-in-out infinite alternate;
+/* Sprite walking strip (8 frames, 1920x408 -> 72x122px per frame) */
+.ondi-avatar.ondi-walk-sprite {
+  width: 72px;
+  height: 122px;
+  background-repeat: no-repeat;
+  background-size: 576px 122px;
+  background-position: 0px 0px;
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.38));
+  animation: ondiSpriteWalk var(--walk-fps-duration, 0.85s) steps(8) infinite;
   transform-origin: bottom center;
-  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.45));
 }
 
-@keyframes ondiWaddle {
-  0% { transform: rotate(-3deg) translateY(0); }
-  100% { transform: rotate(3deg) translateY(-3px); }
+.ondi-patrol-walker.is-flipped .ondi-avatar.ondi-walk-sprite {
+  transform: scaleX(-1);
+}
+
+@keyframes ondiSpriteWalk {
+  from { background-position: 0px 0px; }
+  to   { background-position: -576px 0px; }
 }
 
 /* --- 3. Bottom Bar: Legal, Civic Metadata, & Action --- */
@@ -1830,9 +1892,13 @@ footer.site-footer::after,
     font-size: 0.75rem;
   }
 
-  .footer-ondi-baseline-stage {
-    right: 12px;
-    bottom: 6px;
+  .ondi-patrol-walker {
+    scale: 0.85;
+  }
+
+  .ondi-speech-bubble {
+    max-width: 190px;
+    padding: 7px 10px;
   }
 }
 
@@ -1875,14 +1941,18 @@ footer.site-footer::after,
     text-align: left;
   }
 
-  .footer-ondi-baseline-stage {
-    right: 10px;
-    bottom: -4px;
+  /* Pada layar HP yang sempit, tampilkan 5 ekspresi unik agar taman tetap rapi & tidak menumpuk */
+  .ondi-patrol-walker:nth-child(n+6) {
+    display: none;
   }
 
-  .footer-ondi-baseline-stage .ondi-avatar img {
-    width: 44px;
-    height: 44px;
+  .ondi-patrol-walker {
+    scale: 0.76;
+  }
+
+  .ondi-speech-bubble {
+    max-width: 170px;
+    font-size: 0.7rem;
   }
 }
 
