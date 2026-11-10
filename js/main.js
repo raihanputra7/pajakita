@@ -116,11 +116,15 @@ function initNavbar() {
     }
 
     // Smart Reaction on Footer Curtain Reveal:
-    // Sembunyikan navbar hanya saat konten <main> terangkat habis mengungkap footer di baliknya (agar tidak menabrak logo/link footer)
+    // Sembunyikan navbar secara halus begitu tirai footer terbuka (curtain reveal),
+    // sehingga navbar mulus menghilang ke atas tepat saat elemen grafis & navigasi footer muncul.
     const mainEl = document.querySelector('main') || document.querySelector('.page-content-wrapper');
     if (mainEl) {
       const mainBottom = mainEl.getBoundingClientRect().bottom;
-      if (mainBottom <= 80) {
+      const isNearBottom = (window.innerHeight + currentScrollY) >= (document.documentElement.scrollHeight - 80);
+      const footerRevealThreshold = Math.min(window.innerHeight * 0.7, 500);
+
+      if (mainBottom <= footerRevealThreshold || isNearBottom) {
         siteHeader.classList.add('nav-hidden-footer');
       } else {
         siteHeader.classList.remove('nav-hidden-footer');
