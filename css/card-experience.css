@@ -30,35 +30,28 @@
 
 .card-story-copy h2 {
   margin: 0;
-  color: #FFF4DC;
+  color: var(--story-headline-primary);
   font-size: clamp(2.4rem, 5.2vw, 4.65rem);
   font-weight: 800;
   letter-spacing: -0.065em;
   line-height: 0.98;
-  -webkit-text-stroke: 6px #4A0E0E;
-  paint-order: stroke fill;
-  text-shadow: 3px 4px 0 rgba(40, 5, 5, 0.55);
+  transition: color 600ms ease;
 }
 
 .card-story-copy h2 span {
-  display: inline-block;
-  color: #FFD23F;
-  -webkit-text-fill-color: #FFD23F;
-  -webkit-text-stroke: 6px #4A0E0E;
-  paint-order: stroke fill;
-  text-shadow: 3px 4px 0 rgba(40, 5, 5, 0.55);
+  color: var(--story-headline-secondary);
+  background: none;
+  -webkit-text-fill-color: currentColor;
+  transition: color 600ms ease;
 }
 
 .card-story-description {
-  max-width: 560px;
+  max-width: 490px;
   margin: 20px 0 24px;
-  color: #1F1A17;
+  color: var(--story-copy);
   font-size: clamp(0.95rem, 1.35vw, 1.1rem);
-  font-weight: 500;
   line-height: 1.7;
-  text-shadow: 0 0 6px #F6ECDE, 0 0 12px #F6ECDE, 0 0 18px #F6ECDE;
-  position: relative;
-  z-index: 2;
+  transition: color 600ms ease;
 }
 
 .card-story-cta {
@@ -89,38 +82,25 @@
 .card-story-steps {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  gap: 8px 12px;
+  gap: 10px 20px;
   margin: 24px 0 0;
   padding: 0;
+  color: var(--story-copy);
   list-style: none;
-}
-
-.card-story-steps li {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 14px;
-  background: rgba(255, 255, 255, 0.92);
-  color: #1F1A17;
-  font-size: 0.85rem;
-  font-weight: 700;
-  border-radius: 9999px;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  white-space: nowrap;
+  font-size: 0.82rem;
+  font-weight: 600;
+  transition: color 600ms ease;
 }
 
 .card-story-steps li::before {
   content: "";
   display: inline-block;
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
+  margin: 0 8px 1px 0;
   border-radius: 50%;
-  background-color: #BA1A1A;
-  flex-shrink: 0;
+  background: var(--story-bullet);
+  transition: background-color 600ms ease;
 }
 
 .card-story-gallery {
@@ -884,12 +864,7 @@
   }
 
   .card-story-description {
-    max-width: 100%;
     margin: 15px 0 20px;
-  }
-
-  .card-story-steps {
-    justify-content: center;
   }
 
   .card-story-gallery {

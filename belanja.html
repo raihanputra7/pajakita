@@ -2,9 +2,9 @@
 <html lang="id">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#F8F1E7">
-  <meta name="description" content="Alokasi Belanja APBD DKI Jakarta 2022–2026: pagu anggaran, realisasi belanja terserap, 4 kelompok belanja, simulasi Waffle Rp100, dan transparansi pembiayaan SiLPA serta BUMD.">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#F6ECDE">
+  <meta name="description" content="Alokasi Belanja APBD DKI Jakarta 2026: pagu anggaran, realisasi belanja terserap, 4 kelompok belanja, simulasi Rp100, dan pembiayaan SiLPA serta BUMD.">
 
   <title>Belanja APBD DKI Jakarta — paJAK-Kita</title>
 
@@ -12,11 +12,16 @@
   <link rel="icon" type="image/png" href="public/assets/favicon-pajakkita.png">
   <link rel="shortcut icon" type="image/png" href="public/assets/favicon-pajakkita.png">
 
-  <!-- Self-hosted Fonts -->
+  <!-- Fonts: Fraunces (dengan italic 600/800) & Plus Jakarta Sans + fallback self-hosted -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,800;1,9..144,600;1,9..144,800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/card-fonts.css">
 
-  <!-- CSS utama -->
-  <link rel="stylesheet" href="css/styles.css?v=23">
+  <!-- CSS utama & CSS redesign halaman Belanja -->
+  <link rel="stylesheet" href="css/styles.css?v=32">
+  <link rel="stylesheet" href="css/hero-kpi-card.css?v=1">
+  <link rel="stylesheet" href="css/belanja-redesign.css?v=2">
   <link rel="stylesheet" href="css/welcome-notification.css?v=1">
 </head>
 
@@ -34,152 +39,199 @@
       <nav class="main-nav" id="mainNav" aria-label="Navigasi utama">
         <!-- Dropdown 1: Penerimaan Pajak -->
         <div class="nav-dropdown-wrapper">
-          <button type="button" class="nav-dropdown-trigger" aria-expanded="false" aria-haspopup="true">
+          <button type="button" class="nav-dropdown-trigger" aria-expanded="false" aria-haspopup="true" aria-controls="panel-penerimaan">
             <span>Penerimaan Pajak</span>
             <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </button>
-          <div class="nav-dropdown-panel has-sidecard" role="menu">
-            <div class="dropdown-items-group">
-              <a class="dropdown-item-link" href="penerimaan.html" role="menuitem">
-                <div class="dropdown-item-icon">📊</div>
-                <div class="dropdown-item-text">
-                  <div class="dropdown-item-head">
-                    <span class="dropdown-item-title">Ringkasan Pajak Daerah</span>
+          <div class="nav-dropdown-panel has-sidecard" id="panel-penerimaan" role="region" aria-label="Menu Penerimaan Pajak">
+            <div class="dropdown-panel-grid">
+              <div class="dropdown-items-group">
+                <a class="dropdown-item-link" href="penerimaan.html">
+                  <div class="dropdown-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 20v-8M12 20V5M19 20v-5"/></svg></div>
+                  <div class="dropdown-item-text">
+                    <div class="dropdown-item-head">
+                      <span class="dropdown-item-title">Ringkasan Pajak Daerah</span>
+                    </div>
+                    <span class="dropdown-item-desc">Target anggaran, realisasi terkumpul, dan porsi capaian.</span>
                   </div>
-                  <span class="dropdown-item-desc">Target anggaran, realisasi terkumpul, dan porsi capaian</span>
-                </div>
-              </a>
+                </a>
 
-              <a class="dropdown-item-link" href="penerimaan.html#rincian-jenis" role="menuitem">
-                <div class="dropdown-item-icon">🏷️</div>
-                <div class="dropdown-item-text">
-                  <div class="dropdown-item-head">
-                    <span class="dropdown-item-title">Per Jenis Pajak</span>
-                    <span class="badge-coming-soon">Segera hadir</span>
+                <a class="dropdown-item-link" href="penerimaan.html#rincian-jenis">
+                  <div class="dropdown-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12V4h8l9 9-8 8-9-9z"/><circle cx="7.5" cy="8.5" r="1.2"/></svg></div>
+                  <div class="dropdown-item-text">
+                    <div class="dropdown-item-head">
+                      <span class="dropdown-item-title">Rincian 12 Jenis Pajak</span>
+                    </div>
+                    <span class="dropdown-item-desc">Porsi PBB-P2, PKB, BPHTB, pajak restoran, hotel, dan lainnya.</span>
                   </div>
-                  <span class="dropdown-item-desc">Rincian pajak restoran, PBB-P2, BPHTB, PKB, dan lainnya</span>
-                </div>
-              </a>
+                </a>
 
-              <a class="dropdown-item-link" href="penerimaan.html#wajib-pajak" role="menuitem">
-                <div class="dropdown-item-icon">🗺️</div>
-                <div class="dropdown-item-text">
-                  <div class="dropdown-item-head">
-                    <span class="dropdown-item-title">Per Wilayah</span>
-                    <span class="badge-coming-soon">Segera hadir</span>
+                <a class="dropdown-item-link" href="penerimaan.html#musiman-bulanan">
+                  <div class="dropdown-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></div>
+                  <div class="dropdown-item-text">
+                    <div class="dropdown-item-head">
+                      <span class="dropdown-item-title">Pola Bulanan &amp; Pembayar Pajak</span>
+                    </div>
+                    <span class="dropdown-item-desc">Bulan puncak pemasukan dan tren 5 tahun pembayar pajak.</span>
                   </div>
-                  <span class="dropdown-item-desc">Sebaran penerimaan pajak 5 kota administrasi & 1 kabupaten</span>
-                </div>
-              </a>
-            </div>
+                </a>
 
-            <!-- Side Card: Data Terbaru -->
-            <div class="dropdown-side-card" id="nav-data-date-card">
-              <div>
-                <span class="dropdown-side-card-tag">Data Gateway</span>
-                <div class="dropdown-side-card-date">Horizon 2022–2026</div>
+                <a class="dropdown-item-link" href="index.html#peta-wilayah">
+                  <div class="dropdown-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2zM9 4v14M15 6v14"/></svg></div>
+                  <div class="dropdown-item-text">
+                    <div class="dropdown-item-head">
+                      <span class="dropdown-item-title">Per Wilayah</span>
+                    </div>
+                    <span class="dropdown-item-desc">Sebaran penerimaan 5 kota administrasi dan 1 kabupaten.</span>
+                  </div>
+                </a>
               </div>
-              <div class="dropdown-side-card-source">11 Dataset Resmi Satu Data Jakarta &amp; BPKD DKI</div>
+
+              <!-- Side Card: Data Gateway -->
+              <aside class="dropdown-side-card" id="nav-data-date-card">
+                <div>
+                  <span class="dropdown-side-card-tag">Data Gateway</span>
+                  <div class="dropdown-side-card-date" style="margin-top: 8px;">Horizon 2022–2026</div>
+                  <p class="dropdown-side-card-source" style="margin-top: 6px;">Dataset resmi Satu Data Jakarta &amp; BPKD DKI, siap ditelusuri langsung.</p>
+                </div>
+                <div class="dropdown-side-stats">
+                  <div class="dropdown-side-stat"><b>11</b><span>dataset</span></div>
+                  <div class="dropdown-side-stat"><b>5</b><span>tahun</span></div>
+                  <div class="dropdown-side-stat"><b>2</b><span>sumber</span></div>
+                </div>
+                <a class="dropdown-side-link" href="penerimaan.html">Telusuri dataset <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+              </aside>
             </div>
+            <div class="dropdown-panel-foot" aria-hidden="true"></div>
           </div>
         </div>
 
         <!-- Dropdown 2: Belanja APBD -->
         <div class="nav-dropdown-wrapper">
-          <button type="button" class="nav-dropdown-trigger" aria-expanded="false" aria-haspopup="true">
+          <button type="button" class="nav-dropdown-trigger" aria-expanded="false" aria-haspopup="true" aria-controls="panel-belanja">
             <span>Belanja APBD</span>
             <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </button>
-          <div class="nav-dropdown-panel" role="menu">
-            <div class="dropdown-items-group">
-              <a class="dropdown-item-link" href="belanja.html" role="menuitem">
-                <div class="dropdown-item-icon">🏛️</div>
-                <div class="dropdown-item-text">
-                  <div class="dropdown-item-head">
-                    <span class="dropdown-item-title">Ringkasan Belanja</span>
+          <div class="nav-dropdown-panel is-narrow has-sidecard" id="panel-belanja" role="region" aria-label="Menu Belanja APBD">
+            <div class="dropdown-panel-grid">
+              <div class="dropdown-items-group">
+                <a class="dropdown-item-link" href="belanja.html">
+                  <div class="dropdown-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-5 9 5H3zM5 9v8M9.5 9v8M14.5 9v8M19 9v8M3 20h18"/></svg></div>
+                  <div class="dropdown-item-text">
+                    <div class="dropdown-item-head">
+                      <span class="dropdown-item-title">Ringkasan Belanja</span>
+                    </div>
+                    <span class="dropdown-item-desc">Total pagu anggaran belanja dan realisasi terpakai 2022–2026.</span>
                   </div>
-                  <span class="dropdown-item-desc">Total pagu anggaran belanja dan realisasi terpakai</span>
-                </div>
-              </a>
+                </a>
 
-              <a class="dropdown-item-link" href="belanja.html#dinas" role="menuitem">
-                <div class="dropdown-item-icon">🏢</div>
-                <div class="dropdown-item-text">
-                  <div class="dropdown-item-head">
-                    <span class="dropdown-item-title">Per Dinas dan Instansi</span>
+                <a class="dropdown-item-link" href="belanja.html#kelompok">
+                  <div class="dropdown-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l9 5-9 5-9-5 9-5zM3 13l9 5 9-5"/></svg></div>
+                  <div class="dropdown-item-text">
+                    <div class="dropdown-item-head">
+                      <span class="dropdown-item-title">4 Kelompok &amp; Pembiayaan SiLPA</span>
+                    </div>
+                    <span class="dropdown-item-desc">Belanja operasi, modal, tak terduga, dan neraca pembiayaan.</span>
                   </div>
-                  <span class="dropdown-item-desc">Alokasi anggaran dinas teknis dan badan daerah</span>
-                </div>
-              </a>
+                </a>
 
-              <a class="dropdown-item-link" href="belanja.html#waffle-section" role="menuitem">
-                <div class="dropdown-item-icon">🪙</div>
-                <div class="dropdown-item-text">
-                  <div class="dropdown-item-head">
-                    <span class="dropdown-item-title">Jika Belanja Rp100</span>
+                <a class="dropdown-item-link" href="belanja.html#opd">
+                  <div class="dropdown-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V4h9v17M14 9h5v12M3 21h18M8.5 8h2M8.5 12h2M8.5 16h2"/></svg></div>
+                  <div class="dropdown-item-text">
+                    <div class="dropdown-item-head">
+                      <span class="dropdown-item-title">Per Dinas &amp; Program Prioritas</span>
+                    </div>
+                    <span class="dropdown-item-desc">Alokasi anggaran 5 dinas teknis dan program untuk warga.</span>
                   </div>
-                  <span class="dropdown-item-desc">Simulasi pembagian setiap seratus rupiah belanja APBD</span>
+                </a>
+              </div>
+
+              <!-- Side Card: Simulasi Rp100 -->
+              <aside class="dropdown-side-card">
+                <div>
+                  <span class="dropdown-side-card-tag is-gold">Simulasi</span>
+                  <div class="dropdown-side-rp" style="margin-top: 6px;">Rp100</div>
+                  <div class="dropdown-side-card-date">Jika Belanja Rp100</div>
+                  <p class="dropdown-side-card-source" style="margin-top: 4px;">Lihat ke mana setiap seratus rupiah belanja APBD mengalir.</p>
                 </div>
-              </a>
+                <div class="dropdown-coins" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+                <a class="dropdown-side-link" href="belanja.html#rp100">Coba simulasi <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+              </aside>
             </div>
+            <div class="dropdown-panel-foot" aria-hidden="true"></div>
           </div>
         </div>
 
         <!-- Dropdown 3: Pelajari -->
         <div class="nav-dropdown-wrapper">
-          <button type="button" class="nav-dropdown-trigger" aria-expanded="false" aria-haspopup="true">
+          <button type="button" class="nav-dropdown-trigger" aria-expanded="false" aria-haspopup="true" aria-controls="panel-pelajari">
             <span>Pelajari</span>
             <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </button>
-          <div class="nav-dropdown-panel" role="menu">
-            <div class="dropdown-items-group">
-              <a class="dropdown-item-link" href="index.html#tentang-data" role="menuitem">
-                <div class="dropdown-item-icon">💡</div>
-                <div class="dropdown-item-text">
-                  <div class="dropdown-item-head">
-                    <span class="dropdown-item-title">Tentang paJAK-Kita</span>
+          <div class="nav-dropdown-panel has-sidecard" id="panel-pelajari" role="region" aria-label="Menu Pelajari">
+            <div class="dropdown-panel-grid">
+              <div class="dropdown-items-group">
+                <a class="dropdown-item-link" href="index.html#tentang-data">
+                  <div class="dropdown-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8v.01"/></svg></div>
+                  <div class="dropdown-item-text">
+                    <div class="dropdown-item-head">
+                      <span class="dropdown-item-title">Tentang paJAK-Kita</span>
+                    </div>
+                    <span class="dropdown-item-desc">Inisiatif independen memahami keterbukaan anggaran daerah.</span>
                   </div>
-                  <span class="dropdown-item-desc">Inisiatif independen memahami keterbukaan anggaran daerah</span>
-                </div>
-              </a>
+                </a>
 
-              <a class="dropdown-item-link" href="index.html#tentang-data" role="menuitem">
-                <div class="dropdown-item-icon">🔍</div>
-                <div class="dropdown-item-text">
-                  <div class="dropdown-item-head">
-                    <span class="dropdown-item-title">Cara Kami Menyajikan Data</span>
+                <a class="dropdown-item-link" href="index.html#tentang-data">
+                  <div class="dropdown-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l5 5"/></svg></div>
+                  <div class="dropdown-item-text">
+                    <div class="dropdown-item-head">
+                      <span class="dropdown-item-title">Cara Kami Menyajikan Data</span>
+                    </div>
+                    <span class="dropdown-item-desc">Prinsip kejujuran data dan metodologi perhitungan.</span>
                   </div>
-                  <span class="dropdown-item-desc">Prinsip kejujuran data dan metodologi perhitungan</span>
-                </div>
-              </a>
+                </a>
 
-              <a class="dropdown-item-link" href="kamus.html" role="menuitem">
-                <div class="dropdown-item-icon">📖</div>
-                <div class="dropdown-item-text">
-                  <div class="dropdown-item-head">
-                    <span class="dropdown-item-title">Kamus Pajak</span>
-                    <span class="badge-coming-soon">Segera hadir</span>
+                <a class="dropdown-item-link" href="kamus.html">
+                  <div class="dropdown-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5C4 4.7 4.7 4 5.5 4H11v16H5.5C4.7 20 4 19.3 4 18.5v-13zM20 5.5c0-.8-.7-1.5-1.5-1.5H13v16h5.5c.8 0 1.5-.7 1.5-1.5v-13z"/></svg></div>
+                  <div class="dropdown-item-text">
+                    <div class="dropdown-item-head">
+                      <span class="dropdown-item-title">Kamus Pajak</span>
+                    </div>
+                    <span class="dropdown-item-desc">Glosarium istilah pajak dan keuangan daerah resmi.</span>
                   </div>
-                  <span class="dropdown-item-desc">Glosarium 158 istilah keuangan daerah resmi</span>
-                </div>
-              </a>
+                </a>
 
-              <a class="dropdown-item-link" href="index.html#kenalan-ondi" role="menuitem">
-                <div class="dropdown-item-icon">👋</div>
-                <div class="dropdown-item-text">
-                  <div class="dropdown-item-head">
-                    <span class="dropdown-item-title">Kenalan dengan Ondi</span>
+                <a class="dropdown-item-link" href="index.html#kenalan-ondi">
+                  <div class="dropdown-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 015 .5c0 1.7-2.5 2-2.5 3.5M12 17v.01"/></svg></div>
+                  <div class="dropdown-item-text">
+                    <div class="dropdown-item-head">
+                      <span class="dropdown-item-title">Kenalan dengan Ondi</span>
+                    </div>
+                    <span class="dropdown-item-desc">Temui maskot pemandu data paJAK-Kita.</span>
                   </div>
-                  <span class="dropdown-item-desc">Temui maskot pemandu data paJAK-Kita</span>
+                </a>
+              </div>
+
+              <!-- Side Card: Maskot Ondi -->
+              <aside class="dropdown-side-card">
+                <div>
+                  <span class="dropdown-side-card-tag">Maskot</span>
+                  <div class="dropdown-side-ondi-row" style="margin-top: 10px;">
+                    <img class="dropdown-side-ondi-img" src="public/assets/maskot-ondi/ondi-02-menyambut.svg" alt="Ondi, maskot paJAK-Kita">
+                    <div class="dropdown-side-card-date">Kenalan dengan Ondi</div>
+                  </div>
+                  <p class="dropdown-side-card-source" style="margin-top: 8px;">Temui maskot pemandu yang menemani kamu membaca data paJAK-Kita.</p>
                 </div>
-              </a>
+                <a class="dropdown-side-link" href="index.html#kenalan-ondi">Temui Ondi <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+              </aside>
             </div>
+            <div class="dropdown-panel-foot" aria-hidden="true"></div>
           </div>
         </div>
       </nav>
@@ -222,10 +274,13 @@
             <div class="dropdown-item-title">Ringkasan Pajak Daerah</div>
           </a>
           <a class="dropdown-item-link" href="penerimaan.html#rincian-jenis">
-            <div class="dropdown-item-title">Per Jenis Pajak <span class="badge-coming-soon">Segera hadir</span></div>
+            <div class="dropdown-item-title">Rincian 12 Jenis Pajak</div>
           </a>
-          <a class="dropdown-item-link" href="penerimaan.html#wajib-pajak">
-            <div class="dropdown-item-title">Per Wilayah <span class="badge-coming-soon">Segera hadir</span></div>
+          <a class="dropdown-item-link" href="penerimaan.html#musiman-bulanan">
+            <div class="dropdown-item-title">Pola Bulanan &amp; Pembayar Pajak</div>
+          </a>
+          <a class="dropdown-item-link" href="index.html#peta-wilayah">
+            <div class="dropdown-item-title">Per Wilayah</div>
           </a>
         </div>
       </div>
@@ -242,10 +297,13 @@
           <a class="dropdown-item-link" href="belanja.html">
             <div class="dropdown-item-title">Ringkasan Belanja</div>
           </a>
-          <a class="dropdown-item-link" href="belanja.html#dinas">
-            <div class="dropdown-item-title">Per Dinas dan Instansi</div>
+          <a class="dropdown-item-link" href="belanja.html#kelompok">
+            <div class="dropdown-item-title">4 Kelompok &amp; Pembiayaan SiLPA</div>
           </a>
-          <a class="dropdown-item-link" href="belanja.html#waffle-section">
+          <a class="dropdown-item-link" href="belanja.html#opd">
+            <div class="dropdown-item-title">Per Dinas &amp; Program Prioritas</div>
+          </a>
+          <a class="dropdown-item-link" href="belanja.html#rp100">
             <div class="dropdown-item-title">Jika Belanja Rp100</div>
           </a>
         </div>
@@ -267,7 +325,7 @@
             <div class="dropdown-item-title">Cara Kami Menyajikan Data</div>
           </a>
           <a class="dropdown-item-link" href="kamus.html">
-            <div class="dropdown-item-title">Kamus Pajak <span class="badge-coming-soon">Segera hadir</span></div>
+            <div class="dropdown-item-title">Kamus Pajak</div>
           </a>
           <a class="dropdown-item-link" href="index.html#kenalan-ondi">
             <div class="dropdown-item-title">Kenalan dengan Ondi</div>
@@ -282,284 +340,264 @@
   </aside>
 
   <!-- Main Content -->
-  <main id="main">
-    <!-- Breadcrumb -->
-    <div class="container subpage-breadcrumb-bar">
+  <main id="main" class="bl-main">
+    <!-- Pemisah Atas: Motif Kain Betawi -->
+    <div class="motif-band bl-motif-band" aria-hidden="true">
+      <div class="motif-pattern" style="background-image: url('public/assets/motifs/kain-betawi-strip.svg');"></div>
+    </div>
+
+    <!-- Breadcrumb & Tautan Seksi Cepat -->
+    <div class="bl-wrap bl-subbar">
       <nav class="breadcrumb-nav" aria-label="Breadcrumb">
         <a href="index.html" class="breadcrumb-link">Beranda</a>
         <span class="breadcrumb-sep" aria-hidden="true">/</span>
         <span class="breadcrumb-current" aria-current="page">Belanja APBD Jakarta</span>
       </nav>
+      <div class="bl-quick-links" aria-label="Navigasi bagian halaman">
+        <a href="#ringkas">Ringkasan</a>
+        <a href="#kelompok">4 Kelompok</a>
+        <a href="#rp100">Rp100</a>
+        <a href="#opd">Dinas</a>
+        <a href="#silpa">SiLPA</a>
+      </div>
     </div>
 
-    <!-- Header Halaman & Horizon 5 Tahun (2022–2026) -->
-    <section class="container subpage-hero">
-      <div class="subpage-eyebrow">TOPIK 02 • ALOKASI LAYANAN WARGA</div>
-      <h1 class="subpage-title">
-        Belanja <span>APBD DKI Jakarta</span>
-      </h1>
-      <p class="subpage-lead">
-        Ke mana uang pajak warga dialokasikan? Pantau pagu total anggaran belanja, realisasi serapan dinas dan instansi, 4 kelompok belanja menurut jenis pengeluaran, simulasi Waffle Rp100, hingga transparansi pembiayaan daerah (SiLPA &amp; modal BUMD).
-      </p>
+    <!-- 1. HERO & 2. KARTU HERO BESAR -->
+    <section class="bl-hero" aria-labelledby="bl-hero-title">
+      <div class="bl-wrap">
+        <div class="bl-eyebrow">02 / Belanja</div>
+        <h1 class="bl-serif" id="bl-hero-title">
+          Belanja <em>APBD</em> DKI Jakarta
+        </h1>
+        <p class="bl-lead">
+          Ke mana uang pajak warga dialokasikan? Pagu, serapan, dan pembagian belanja kota dalam satu halaman.
+        </p>
 
-      <!-- Horizon 5 Tahun Filter Bar -->
-      <div class="horizon-filter-bar">
-        <span class="horizon-filter-label">Horizon Tahun Data:</span>
-        <div id="belanja-year-selector" style="display: inline-flex; flex-wrap: wrap; gap: 6px;">
-          <!-- Tombol tahun (2022–2026) di-generate oleh js/belanja.js -->
+        <!-- Chip Tahun Anggaran -->
+        <div class="bl-chips">
+          <span class="bl-chips-label">Pilih Tahun</span>
+          <div id="belanja-year-selector" role="group" aria-label="Pilih Tahun Anggaran" style="display: inline-flex; flex-wrap: wrap; gap: 8px;">
+            <!-- Di-generate oleh js/belanja.js -->
+          </div>
         </div>
-      </div>
 
-      <!-- Trust Badge Gateway Resmi Satu Data Jakarta -->
-      <div class="subpage-trust-badge" role="note" aria-label="Status Sumber Data">
-        <span class="trust-tag-official">[DATASET 04, 05, 06, 07]</span>
-        <span>Gateway <strong>ws.jakarta.go.id</strong> · BPKD DKI Jakarta</span>
-        <span style="opacity: 0.5;">•</span>
-        <span>Horizon Lengkap <strong>2022–2026</strong></span>
+        <!-- Hero KPI Grid: Kartu Hijau Reusable + 3 Stat Tumpuk -->
+        <div class="bl-kpi" id="ringkas">
+          <article class="pk-hero-card is-green bl-rv" id="hero-belanja-card">
+            <div class="pk-hero-surface" aria-hidden="true">
+              <div class="pk-hero-dots"></div>
+              <div class="pk-hero-orb"></div>
+              <div class="pk-hero-gigi"></div>
+            </div>
+
+            <div class="pk-hero-content">
+              <div>
+                <small class="pk-hero-kicker">TINGKAT PENYERAPAN BELANJA</small>
+                <div class="pk-hero-num bl-serif" aria-live="polite">
+                  <span id="hero-belanja-serapan">0,0</span><sup>%</sup>
+                </div>
+              </div>
+
+              <div>
+                <p class="pk-hero-caption" id="stat-belanja-progress-label">
+                  Rp 80,50 T dari pagu Rp 84,30 T telah direalisasikan.
+                </p>
+                <div class="pk-hero-pb-wrap" aria-hidden="true">
+                  <span class="pk-hero-marker" id="stat-belanja-marker" style="left: 95.5%;"></span>
+                  <div class="pk-hero-pb">
+                    <div class="pk-hero-pb-fill" id="stat-belanja-progress-bar" style="width: 95.5%;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="pk-hero-ondi" aria-hidden="true">
+              <img src="public/assets/maskot-ondi/ondi-02-menyambut.svg" alt="" width="220" height="260">
+            </div>
+          </article>
+
+          <div class="bl-stack">
+            <div class="bl-stat bl-rv">
+              <small>PAGU ANGGARAN BELANJA</small>
+              <div class="bl-stat-v bl-serif" id="stat-belanja-anggaran">Rp 84,30 T</div>
+            </div>
+            <div class="bl-stat is-green bl-rv">
+              <small>BELANJA TERSERAP</small>
+              <div class="bl-stat-v bl-serif" id="stat-belanja-terpakai">Rp 80,50 T</div>
+            </div>
+            <div class="bl-stat bl-rv">
+              <small>SISA PAGU</small>
+              <div class="bl-stat-v bl-serif" id="stat-belanja-sisa">Rp 3,80 T</div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
-    <!-- Section 1: Ringkasan Total Belanja & Kecepatan Serapan (Dataset 06) -->
-    <section class="container">
-      <article class="progress-ring-card">
-        <!-- Visual Mini Icon & Status -->
-        <div class="progress-ring-box" style="display: flex; align-items: center; justify-content: center; background: rgba(29, 111, 165, 0.08); border-radius: 50%;">
-          <span style="font-size: 3rem;" aria-hidden="true">🏛️</span>
+    <!-- 3. EMPAT KELOMPOK BELANJA -->
+    <section class="bl-section" id="kelompok" style="padding-top: 0;">
+      <div class="bl-wrap">
+        <div class="bl-eyebrow">Jenis belanja</div>
+        <h2 class="bl-serif">4 kelompok belanja daerah</h2>
+        <div class="bl-kel" id="kelompok-belanja-grid-list">
+          <!-- Diisi otomatis oleh js/belanja.js -->
         </div>
+      </div>
+    </section>
 
-        <!-- Info & 3 Angka Kunci Belanja -->
-        <div class="progress-ring-info">
-          <div class="ring-header-row">
+    <!-- 4. SIMULASI RP100 (WAFFLE 10x10 + ONDI PEMANDU #1) -->
+    <section class="bl-section" id="rp100" style="padding-top: 0;">
+      <div class="bl-wrap">
+        <article class="bl-card bl-rv">
+          <div class="bl-eyebrow">Simulasi</div>
+          <h2 class="bl-serif" style="max-width: 22ch;">Jika belanja APBD Jakarta Rp100</h2>
+
+          <div class="bl-wf">
             <div>
-              <span class="info-modal-code" style="font-size: 0.75rem; font-weight: 800; color: var(--color-muted);">AKUN 5 · BELANJA DAERAH</span>
-              <h2 class="ring-title">Total Anggaran &amp; Realisasi Penyerapan</h2>
+              <div class="bl-waffle" id="waffle" role="group" aria-label="Simulasi 100 kotak alokasi per Rp100 belanja APBD">
+                <!-- 100 kotak oleh js/belanja.js -->
+              </div>
+              <p class="bl-waffle-cap">100 kotak = Rp100 belanja APBD</p>
             </div>
-            <span class="stat-chip chip-success" id="stat-belanja-status-chip">Serapan Sangat Efektif</span>
+
+            <div class="bl-wf-right">
+              <div class="bl-ondi-guide" id="waffle-ondi-guide">
+                <div class="bl-ondi-figure" aria-hidden="true">
+                  <img src="public/assets/maskot-ondi/ondi-02-menyambut.svg" alt="" width="68" height="74">
+                </div>
+                <div class="bl-ondi-bubble" id="waffle-ondi-bubble" role="status" aria-live="polite">
+                  Coba sentuh salah satu kotak.
+                </div>
+              </div>
+
+              <div class="bl-leg" id="leg" role="group" aria-label="Legenda porsi Rp100 per dinas">
+                <!-- Diisi oleh js/belanja.js -->
+              </div>
+
+              <p class="bl-wf-note">Pembulatan proporsional ke bilangan bulat terdekat.</p>
+            </div>
           </div>
-
-          <div class="exec-metrics-row">
-            <div class="exec-metric-col">
-              <span class="exec-metric-label">Pagu Anggaran Belanja</span>
-              <span class="exec-metric-val" id="stat-belanja-anggaran">Rp 84,30 T</span>
-            </div>
-            <div class="exec-metric-col">
-              <span class="exec-metric-label">Belanja Terserap</span>
-              <span class="exec-metric-val text-blue font-bold" id="stat-belanja-terpakai">Rp 80,50 T</span>
-            </div>
-            <div class="exec-metric-col">
-              <span class="exec-metric-label">Tingkat Penyerapan</span>
-              <span class="exec-metric-val text-blue font-bold" id="stat-belanja-persen">95,5%</span>
-            </div>
-          </div>
-
-          <!-- Progress Bar Penyerapan -->
-          <div>
-            <div class="comp-bar-track" style="height: 12px;" aria-hidden="true">
-              <div class="comp-bar-fill" id="stat-belanja-progress-bar" style="width: 95.5%; background: #1D6FA5;"></div>
-            </div>
-            <p style="font-size: 0.8125rem; color: var(--color-muted); margin: 6px 0 0 0;" id="stat-belanja-progress-label">
-              Dari pagu Rp 84,30 T, sebesar Rp 80,50 T telah dibelanjakan untuk melayani warga kota (95,5%).
-            </p>
-          </div>
-        </div>
-      </article>
-    </section>
-
-    <!-- Section 2: 4 Kelompok Belanja Menurut Jenis Pengeluaran (Dataset 05) -->
-    <section class="container" id="kelompok-belanja">
-      <header class="detail-section-header">
-        <div class="detail-section-tag">DATASET 05 • KLASIFIKASI PERMENDAGRI</div>
-        <h2 class="detail-section-title">4 Kelompok Belanja Daerah</h2>
-        <p class="detail-section-lead">
-          Penyaluran anggaran belanja dikelompokkan ke dalam empat pilar utama pengeluaran pemerintah provinsi.
-        </p>
-      </header>
-
-      <div class="kelompok-belanja-grid" id="kelompok-belanja-grid-list">
-        <!-- Diisi otomatis oleh js/belanja.js -->
+        </article>
       </div>
     </section>
 
-    <!-- Section 3: Waffle Chart 10x10 "Jika Belanja Rp100" -->
-    <section class="container" id="waffle-section">
-      <article class="waffle-card-wrapper">
-        <header class="detail-section-header" style="margin-bottom: 0.5rem;">
-          <div class="detail-section-tag">SIMULASI PROPORSI BELANJA WARGA</div>
-          <h2 class="detail-section-title">Jika Belanja APBD Jakarta Rp100</h2>
-          <p class="detail-section-lead">
-            Sentuh atau arahkan kursor ke sel kotak atau legenda untuk melihat bagaimana setiap seratus rupiah uang belanja kota dialokasikan ke layanan publik.
-          </p>
-        </header>
+    <!-- 5. DINAS & PROGRAM (TAB + ONDI POJOK #2) -->
+    <section class="bl-section" id="opd" style="padding-top: 0;">
+      <div class="bl-wrap">
+        <div class="bl-eyebrow">Dinas</div>
+        <h2 class="bl-serif">Alokasi &amp; program dinas prioritas</h2>
 
-        <div class="waffle-layout">
-          <!-- Grid Waffle 10x10 -->
-          <div class="waffle-grid-container">
-            <div class="waffle-grid-cells" id="waffle-grid-cells" aria-label="Simulasi Waffle 10x10 Belanja Rp100">
-              <!-- 100 sel kotak di-generate oleh js/belanja.js -->
+        <article class="bl-card bl-rv" style="margin-top: 26px;">
+          <div class="bl-opd-top">
+            <div class="bl-tabs" id="dinas-tabs" role="tablist" aria-label="Pilih dinas prioritas">
+              <!-- Tab dinas oleh js/belanja.js -->
             </div>
-            <span class="waffle-grid-caption">100 Kotak = Rp100 Belanja APBD</span>
+
+            <div class="bl-opd-ondi-corner">
+              <div class="bl-opd-ondi-av" id="opd-ondi-av" aria-hidden="true">
+                <img src="public/assets/maskot-ondi/ondi-02-menyambut.svg" alt="" width="44" height="48">
+              </div>
+              <p class="bl-opd-ondi-bubble" id="opd-ondi-bubble" role="status" aria-live="polite">
+                Dinas Pendidikan menerima Rp24 per Rp100 dengan serapan 95,7% untuk KJP Plus hingga sekolah Net Zero.
+              </p>
+            </div>
           </div>
 
-          <!-- Keterangan Dinamis & Legenda -->
-          <div class="waffle-content-col">
-            <div class="waffle-sentence-box" id="waffle-sentence-box">
-              Arahkan kursor atau sentuh kotak legenda untuk melihat rincian alokasi setiap Rp100 belanja APBD Jakarta.
+          <div class="bl-opd-wrap" id="dinas-tabpanel" role="tabpanel" tabindex="0">
+            <div class="bl-opd-stage" id="dinas-panel-stage">
+              <!-- Isi dinas oleh js/belanja.js -->
             </div>
-
-            <div class="waffle-legend-grid" id="waffle-legend-container">
-              <!-- Legenda warna di-generate oleh js/belanja.js -->
-            </div>
-
-            <p style="font-size: 0.75rem; color: var(--color-muted); margin: 4px 0 0 0;">
-              * Pembulatan proporsional ke bilangan bulat terdekat demi kemudahan pemahaman masyarakat awam.
-            </p>
           </div>
-        </div>
-      </article>
+        </article>
+      </div>
     </section>
 
-    <!-- Section 4: Alokasi & Program Prioritas Dinas / OPD Utama -->
-    <section class="container" id="dinas">
-      <header class="detail-section-header">
-        <div class="detail-section-tag">DETAIL DINAS &amp; ORGANISASI PERANGKAT DAERAH (OPD)</div>
-        <h2 class="detail-section-title">Alokasi &amp; Program Dinas Prioritas</h2>
-        <p class="detail-section-lead">
-          Pilih dinas atau instansi teknis untuk menelusuri besaran anggaran, realisasi penyerapan, dan program pembangunan nyata yang dibiayai.
-        </p>
-      </header>
+    <!-- 6. SILPA & NERACA + 8. CATATAN ONDI & CTA -->
+    <section class="bl-section bl-section-last" id="silpa" style="padding-top: 0;">
+      <div class="bl-wrap">
+        <div class="bl-eyebrow">Pembiayaan</div>
+        <h2 class="bl-serif">Pemanfaatan SiLPA &amp; neraca APBD</h2>
 
-      <article class="opd-detail-card">
-        <!-- Pemilih Dinas Cepat & Dropdown -->
-        <div class="opd-picker-row">
-          <div class="dinas-tabs-nav" id="dinas-tabs-container">
-            <!-- Tab cepat di-generate oleh js/belanja.js -->
+        <article class="bl-card bl-rv" style="margin-top: 26px;">
+          <div class="bl-eyebrow">Neraca &amp; investasi BUMD</div>
+
+          <div class="bl-sil">
+            <div class="bl-sil-item">
+              <small>SILPA DAERAH DIMANFAATKAN</small>
+              <div class="bl-sil-v" id="silpa-val">Rp 5,12 T</div>
+              <p>Sisa lebih perhitungan anggaran tahun lalu untuk menambal defisit belanja modal.</p>
+            </div>
+
+            <div class="bl-sil-item">
+              <small>PENYERTAAN MODAL BUMD</small>
+              <div class="bl-sil-v" id="bumd-val">Rp 4,85 T</div>
+              <p id="bumd-desc">MRT Jakarta Fase 2, LRT Jabodebek Jakpro, PAM Jaya 100% air bersih.</p>
+            </div>
+
+            <div class="bl-sil-item">
+              <small>NERACA PENDAPATAN VS BELANJA</small>
+              <div class="bl-sil-v" id="neraca-val">Rp 79,70 T <span class="bl-sil-vs">vs</span> Rp 80,50 T</div>
+              <p id="neraca-desc">Defisit terencana Rp 800 M ditutup pembiayaan netto +Rp 3,20 T.</p>
+            </div>
           </div>
 
-          <div style="display: flex; align-items: center; gap: 8px;">
-            <label for="dinas-picker-select" style="font-size: 0.8125rem; font-weight: 700; color: var(--color-muted);">Pilih OPD Lengkap:</label>
-            <select id="dinas-picker-select" class="dinas-select-picker" aria-label="Pilih Dinas dan Instansi">
-              <!-- Opsi dinas di-generate oleh js/belanja.js -->
-            </select>
-          </div>
-        </div>
+          <!-- Dua batang pendek perbandingan Pendapatan vs Belanja -->
+          <div class="bl-neraca-bars" aria-label="Perbandingan visual pendapatan dan belanja APBD">
+            <div>
+              <div class="bl-neraca-row">
+                <span>Pendapatan APBD</span>
+                <span id="neraca-pendapatan-val">Rp 79,70 T</span>
+              </div>
+              <div class="bl-track" aria-hidden="true">
+                <div class="bl-fill" id="neraca-pendapatan-bar" style="width: 99%; background: var(--gold);"></div>
+              </div>
+            </div>
 
-        <!-- Detail Konten Dinas Terpilih -->
-        <div id="dinas-content-display">
-          <div class="opd-content-head">
-            <h3 class="opd-head-title" id="dinas-page-title">🎓 Dinas Pendidikan</h3>
-            <span class="stat-chip chip-success" id="dinas-page-tag">PENDIDIKAN &amp; KJP</span>
+            <div>
+              <div class="bl-neraca-row">
+                <span>Belanja APBD</span>
+                <span id="neraca-belanja-val">Rp 80,50 T</span>
+              </div>
+              <div class="bl-track" aria-hidden="true">
+                <div class="bl-fill" id="neraca-belanja-bar" style="width: 100%; background: var(--grn);"></div>
+              </div>
+            </div>
           </div>
-          <p class="opd-fokus-desc" id="dinas-page-desc">
-            Penyaluran Kartu Jakarta Pintar (KJP Plus), Kartu Jakarta Mahasiswa Unggul (KJMU), Bantuan Operasional Sekolah (BOS), dan Revitalisasi Sekolah Net Zero.
+        </article>
+
+        <!-- 8. Catatan Ondi (kutipan dengan garis merah di kiri, tanpa avatar) -->
+        <blockquote class="bl-quote bl-rv">
+          <b>Catatan Ondi</b>
+          <p class="bl-sub" id="belanja-ondi-narrative">
+            Pada 2026, Pemprov DKI merealisasikan Rp 80,50 T (95,5% pagu). Pendidikan dan sarana pengendali banjir menjadi alokasi terbesar.
           </p>
+        </blockquote>
 
-          <!-- 3 Angka Kunci OPD -->
-          <div class="exec-metrics-row">
-            <div class="exec-metric-col">
-              <span class="exec-metric-label">Pagu Anggaran OPD</span>
-              <span class="exec-metric-val" id="dinas-kpi-anggaran">Rp 19,80 T</span>
+        <!-- Dua Kartu Ajakan -->
+        <div class="bl-next">
+          <a href="penerimaan.html" class="bl-next-card bl-rv">
+            <div>
+              <h3>Dari mana sumber dana belanja ini?</h3>
+              <p>Telusuri target dan realisasi pajak daerah di halaman Penerimaan.</p>
             </div>
-            <div class="exec-metric-col">
-              <span class="exec-metric-label">Belanja Terealisasi</span>
-              <span class="exec-metric-val text-blue font-bold" id="dinas-kpi-realisasi">Rp 18,95 T</span>
+            <span class="bl-next-cta">Analisis Penerimaan Pajak Lengkap →</span>
+          </a>
+
+          <a href="buat-kartu.html" class="bl-next-card is-red bl-rv">
+            <div>
+              <h3>Cetak kartu fakta belanja wilayahmu</h3>
+              <p>Pilih wilayahmu, lalu bagikan kartu fakta belanja fasilitas umum.</p>
             </div>
-            <div class="exec-metric-col">
-              <span class="exec-metric-label">Tingkat Penyerapan</span>
-              <span class="exec-metric-val text-blue font-bold" id="dinas-kpi-serapan">95,7%</span>
-            </div>
-          </div>
-
-          <!-- Rincian Program Utama Terverifikasi -->
-          <h4 class="opd-programs-title">Program &amp; Manfaat Nyata untuk Warga:</h4>
-          <div class="opd-programs-list" id="dinas-programs-list">
-            <!-- Diisi otomatis oleh js/belanja.js -->
-          </div>
-        </div>
-      </article>
-    </section>
-
-    <!-- Section 5: Transparansi Pembiayaan Daerah & Neraca Fiskal (Dataset 04 & 07) -->
-    <section class="container" id="pembiayaan">
-      <header class="detail-section-header">
-        <div class="detail-section-tag">DATASET 04 &amp; 07 • TRANSPARANSI PEMBIAYAAN DAERAH</div>
-        <h2 class="detail-section-title">Pemanfaatan SiLPA &amp; Neraca APBD</h2>
-        <p class="detail-section-lead">
-          Pemerintah Provinsi DKI Jakarta mengelola sisa lebih riil anggaran (SiLPA) tahun sebelumnya dan penyertaan modal BUMD guna menjaga postur fiskal tetap berimbang.
-        </p>
-      </header>
-
-      <div class="exec-pembiayaan-card" style="margin-bottom: 2.5rem;">
-        <div class="pembiayaan-head">
-          <div class="pembiayaan-tag-wrap">
-            <span class="pembiayaan-badge">DATASET 04 &amp; 07</span>
-            <span class="pembiayaan-title">NERACA FISKAL &amp; INVESTASI BUMD</span>
-          </div>
-          <span class="pembiayaan-status-pill">Fiskal Terkendali &amp; Sehat</span>
-        </div>
-
-        <div class="pembiayaan-grid">
-          <div class="pembiayaan-item">
-            <span class="pembiayaan-label">SiLPA Daerah Dimanfaatkan</span>
-            <span class="pembiayaan-val text-primary">Rp 5,12 T</span>
-            <span class="pembiayaan-sub">Sisa lebih perhitungan anggaran tahun lalu untuk menambal defisit belanja modal.</span>
-          </div>
-
-          <div class="pembiayaan-item">
-            <span class="pembiayaan-label">Penyertaan Modal BUMD</span>
-            <span class="pembiayaan-val text-blue">Rp 4,85 T</span>
-            <span class="pembiayaan-sub">Investasi produktif: PT MRT Jakarta Fase 2, LRT Jabodebek Jakpro, dan PAM Jaya 100% air bersih.</span>
-          </div>
-
-          <div class="pembiayaan-item">
-            <span class="pembiayaan-label">Neraca Pendapatan vs Belanja</span>
-            <span class="pembiayaan-val text-dark">Rp 79,70 T vs Rp 80,50 T</span>
-            <span class="pembiayaan-sub">Defisit murni terencana (Rp 800 M) ditutup berimbang oleh pembiayaan netto (+Rp 3,20 T).</span>
-          </div>
+            <span class="bl-next-cta">Buat Kartu Insight Warga →</span>
+          </a>
         </div>
       </div>
     </section>
 
-    <!-- Section 6: Catatan Edukasi Maskot Ondi Belanja -->
-    <section class="container">
-      <aside class="ondi-callout-banner">
-        <div class="ondi-callout-avatar">
-          <img src="public/assets/maskot-ondi/ondi-02-menyambut.svg" alt="Maskot Ondi Menyambut Warga" aria-hidden="true">
-        </div>
-        <div class="ondi-callout-body">
-          <h3 class="ondi-callout-title">Catatan Ondi: Memahami Siklus Belanja Kota</h3>
-          <p class="ondi-callout-text" id="belanja-ondi-narrative">
-            Di tahun anggaran <strong>2026</strong>, Pemprov DKI Jakarta telah merealisasikan <strong>Rp 80,50 T</strong> (95,5% dari pagu). Belanja modal untuk proyek fisik seperti waduk dan MRT biasanya mengalami percepatan serapan di kuartal IV setelah serah terima proyek selesai. Akuntabilitas tetap nomor satu!
-          </p>
-        </div>
-      </aside>
-    </section>
-
-    <!-- Section 7: Navigasi Lanjutan (Penerimaan & Generator Kartu) -->
-    <section class="container">
-      <div class="subpage-cta-grid">
-        <a href="penerimaan.html" class="subpage-cta-card">
-          <div>
-            <span class="cta-card-tag">PILAR 01 · SUMBER DANA KOTA</span>
-            <h3 class="cta-card-title">Dari Mana Sumber Dana Belanja Ini?</h3>
-            <p class="cta-card-desc">
-              Telusuri target dan realisasi pajak daerah, 12 jenis pajak, pola musiman bulanan, hingga kepatuhan wajib pajak di halaman Penerimaan Pajak.
-            </p>
-          </div>
-          <span class="cta-card-action">Analisis Penerimaan Pajak Lengkap →</span>
-        </a>
-
-        <a href="buat-kartu.html" class="subpage-cta-card">
-          <div>
-            <span class="cta-card-tag">FITUR WARGA · KARTU INSIGHT</span>
-            <h3 class="cta-card-title">Cetak Kartu Fakta Belanja Wilayahmu</h3>
-            <p class="cta-card-desc">
-              Pilih wilayah kotamu dan cetak kartu ringkasan belanja fasilitas umum yang siap dibagikan ke media sosial dalam sekejap.
-            </p>
-          </div>
-          <span class="cta-card-action">Buat Kartu Insight Warga →</span>
-        </a>
-      </div>
-    </section>
+    <!-- Pemisah Bawah: Motif Kain Betawi -->
+    <div class="motif-band bl-motif-band" aria-hidden="true">
+      <div class="motif-pattern" style="background-image: url('public/assets/motifs/kain-betawi-strip.svg');"></div>
+    </div>
   </main>
 
   <!-- =========================================================================
@@ -618,7 +656,7 @@
   </footer>
 
   <!-- Scripts -->
-  <script type="module" src="js/main.js?v=13"></script>
-  <script type="module" src="js/belanja.js"></script>
+  <script type="module" src="js/main.js?v=19"></script>
+  <script type="module" src="js/belanja.js?v=4"></script>
 </body>
 </html>

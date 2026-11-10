@@ -84,42 +84,42 @@ function initHeroMotion() {
       );
     }
   } else {
-    // Native Web Animations API fallback
+    // Native Web Animations API fallback (tanpa fill: 'forwards' agar tidak mengunci transform navbar & hover)
     const ease = 'cubic-bezier(0.2, 0.8, 0.2, 1)';
 
     if (header) {
       header.animate([
         { opacity: 0, transform: 'translateY(-16px)' },
         { opacity: 1, transform: 'translateY(0)' }
-      ], { duration: 600, easing: ease, fill: 'forwards' });
+      ], { duration: 600, easing: ease, fill: 'backwards' });
     }
 
     headlineLines.forEach((line, idx) => {
       line.animate([
         { opacity: 0, transform: 'translateY(24px)' },
         { opacity: 1, transform: 'translateY(0)' }
-      ], { duration: 700, delay: 150 + idx * 120, easing: ease, fill: 'forwards' });
+      ], { duration: 700, delay: 150 + idx * 120, easing: ease, fill: 'backwards' });
     });
 
     if (heroSubline) {
       heroSubline.animate([
         { opacity: 0, transform: 'translateY(18px)' },
         { opacity: 1, transform: 'translateY(0)' }
-      ], { duration: 600, delay: 420, easing: ease, fill: 'forwards' });
+      ], { duration: 600, delay: 420, easing: ease, fill: 'backwards' });
     }
 
     if (heroCard) {
       heroCard.animate([
         { opacity: 0, transform: 'translateX(36px)' },
         { opacity: 1, transform: 'translateX(0)' }
-      ], { duration: 700, delay: 500, easing: ease, fill: 'forwards' });
+      ], { duration: 700, delay: 500, easing: ease, fill: 'backwards' });
     }
 
     if (heroBtn) {
       heroBtn.animate([
         { opacity: 0, transform: 'translateY(16px)' },
         { opacity: 1, transform: 'translateY(0)' }
-      ], { duration: 550, delay: 620, easing: ease, fill: 'forwards' });
+      ], { duration: 550, delay: 620, easing: ease, fill: 'backwards' });
     }
   }
 }
@@ -150,7 +150,7 @@ function initSectionScrollMotion() {
           entry.target.animate([
             { opacity: 0, transform: 'translateY(24px)' },
             { opacity: 1, transform: 'translateY(0)' }
-          ], { duration: 650, easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)', fill: 'forwards' });
+          ], { duration: 650, easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)', fill: 'backwards' });
           observer.unobserve(entry.target);
         }
       });

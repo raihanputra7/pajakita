@@ -1,0 +1,1303 @@
+/* ============================================================================
+   paJAK-Kita — Redesign Halaman Penerimaan Pajak Daerah (penerimaan.html)
+   Scoped di bawah .pr-main agar tidak mengganggu navbar, footer, & halaman lain
+   ============================================================================ */
+
+/* Tokens Warna & Dark Mode Ready Tokens */
+:root,
+.pr-main {
+  --bg: #F6ECDE;
+  --card: #FFFAF2;
+  --ink: #1F1A17;
+  --mut: #6B5E55;
+  --line: #E4D5C0;
+  --red: #B71C1C;
+  --gold: #E0A526;
+  --grn: #1F7A57;
+  --sand: #EFE0CB;
+  --pr-big-ink: #FFF4DC;
+  --pr-tag-bg: #FFF4DC;
+  --pr-por-ink: #6B4A00;
+  --pr-shadow: 0 22px 40px -22px rgba(120, 30, 20, 0.45);
+}
+
+/* Token siap untuk mode gelap */
+:root[data-theme="dark"] .pr-main,
+.pr-main[data-theme="dark"],
+.pr-main.theme-dark {
+  --bg: #17120F;
+  --card: #221B17;
+  --ink: #F6ECDE;
+  --mut: #B8A898;
+  --line: #3A2E27;
+  --red: #E5484D;
+  --gold: #F0B83A;
+  --grn: #3DBE8B;
+  --sand: #2D231E;
+  --pr-big-ink: #FFF4DC;
+  --pr-tag-bg: #17120F;
+  --pr-por-ink: #F7D47A;
+  --pr-shadow: 0 22px 40px -22px rgba(0, 0, 0, 0.65);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-color-scheme="auto"] .pr-main {
+    --bg: #17120F;
+    --card: #221B17;
+    --ink: #F6ECDE;
+    --mut: #B8A898;
+    --line: #3A2E27;
+    --red: #E5484D;
+    --gold: #F0B83A;
+    --grn: #3DBE8B;
+    --sand: #2D231E;
+    --pr-big-ink: #FFF4DC;
+    --pr-tag-bg: #17120F;
+    --pr-por-ink: #F7D47A;
+    --pr-shadow: 0 22px 40px -22px rgba(0, 0, 0, 0.65);
+  }
+}
+
+.pr-main {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  padding-top: 54px; /* Tinggi .site-header.header-solid */
+  overflow-x: clip;
+  position: relative;
+  z-index: 2;
+  display: flow-root;
+}
+
+.pr-main *,
+.pr-main *::before,
+.pr-main *::after {
+  box-sizing: border-box;
+}
+
+.pr-serif {
+  font-family: 'Fraunces', Georgia, serif;
+  letter-spacing: -0.02em;
+}
+
+.pr-wrap {
+  width: 100%;
+  max-width: 1240px;
+  margin-inline: auto;
+  padding-inline: clamp(16px, 4vw, 48px);
+}
+
+/* ============================================================================
+   MOTIF KAIN BETAWI (KONSISTEN DENGAN INDEX.HTML, ATAS & BAWAH HALAMAN)
+   ============================================================================ */
+.pr-motif-band {
+  height: 34px;
+  border-block: 2.5px solid var(--gold);
+  background: var(--red);
+  z-index: 4;
+}
+
+.pr-motif-band .motif-pattern {
+  background-repeat: repeat-x;
+  background-position: center;
+  background-size: auto 100%;
+}
+
+/* ============================================================================
+   BREADCRUMB & ANCHOR SUBNAV INTERNAL
+   ============================================================================ */
+.pr-subbar {
+  padding-top: 12px;
+  padding-bottom: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 24px;
+}
+
+.pr-quick-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--mut);
+}
+
+.pr-quick-links a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.pr-quick-links a:hover,
+.pr-quick-links a:focus-visible {
+  color: var(--red);
+}
+
+@media (max-width: 640px) {
+  .pr-quick-links {
+    display: none;
+  }
+}
+
+/* ============================================================================
+   HERO EDITORIAL
+   ============================================================================ */
+.pr-hero {
+  padding: clamp(10px, 1.8vw, 18px) 0 36px;
+  position: relative;
+}
+
+.pr-eyebrow {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--red);
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.pr-eyebrow::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--gold);
+  flex: none;
+}
+
+.pr-hero h1 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: clamp(38px, 8.6vw, 122px);
+  line-height: 0.96;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  margin: 10px 0 18px;
+  max-width: 14ch;
+  color: var(--ink);
+  overflow-wrap: break-word;
+}
+
+.pr-hero h1 em {
+  color: var(--red);
+  font-weight: 600;
+  font-style: italic;
+}
+
+.pr-lead {
+  max-width: 58ch;
+  color: var(--mut);
+  font-size: clamp(15px, 1.55vw, 18.5px);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Chips / Pills */
+.pr-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 26px;
+  align-items: center;
+}
+
+.pr-chips-label {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mut);
+  margin-right: 6px;
+}
+
+.pr-year-group {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pr-chip {
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--ink);
+  font: 600 13px/1.2 'Plus Jakarta Sans', system-ui, sans-serif;
+  padding: 9px 16px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background-color 0.22s ease, border-color 0.22s ease, color 0.22s ease, transform 0.2s ease;
+}
+
+.pr-chip:hover {
+  border-color: var(--red);
+  transform: translateY(-1px);
+}
+
+.pr-chip.is-active,
+.pr-chip.active {
+  background: var(--red);
+  color: #ffffff;
+  border-color: var(--red);
+}
+
+.pr-chip:focus-visible {
+  outline: 2px solid var(--red);
+  outline-offset: 2px;
+}
+
+.pr-trust-note {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  margin-top: 18px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  font-size: 12.5px;
+  color: var(--mut);
+}
+
+.pr-trust-tag {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--grn);
+}
+
+/* ============================================================================
+   HERO KPI GRID (BLOK MERAH COUNT-UP + 3 KPI TUMPUK)
+   ============================================================================ */
+.pr-kpi {
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  gap: 20px;
+  margin-top: 40px;
+  align-items: stretch;
+}
+
+@media (max-width: 900px) {
+  .pr-kpi {
+    grid-template-columns: 1fr;
+  }
+}
+
+.pr-big {
+  background: var(--red);
+  color: var(--pr-big-ink);
+  border-radius: 32px;
+  padding: clamp(24px, 4vw, 48px);
+  position: relative;
+  overflow: hidden;
+  min-height: 340px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.35s ease;
+}
+
+.pr-big:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--pr-shadow);
+}
+
+.pr-big::after {
+  content: "";
+  position: absolute;
+  right: -90px;
+  top: -90px;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: var(--gold);
+  opacity: 0.94;
+  pointer-events: none;
+}
+
+.pr-tag {
+  display: inline-block;
+  background: var(--pr-tag-bg);
+  color: var(--grn);
+  font-weight: 800;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 6px 13px;
+  border-radius: 999px;
+  position: relative;
+  z-index: 1;
+  width: max-content;
+  max-width: 100%;
+}
+
+.pr-tag.is-warn {
+  color: var(--red);
+}
+
+.pr-big-mid {
+  position: relative;
+  z-index: 1;
+}
+
+.pr-big small {
+  display: block;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  font-size: 12px;
+  opacity: 0.92;
+  margin-bottom: 10px;
+}
+
+.pr-big-num {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: clamp(68px, 13.5vw, 188px);
+  line-height: 0.88;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.03em;
+  position: relative;
+  z-index: 1;
+  word-break: keep-all;
+}
+
+.pr-big-num sup {
+  font-size: 0.4em;
+  vertical-align: top;
+  font-weight: 600;
+  margin-left: 2px;
+}
+
+.pr-big p {
+  position: relative;
+  z-index: 1;
+  max-width: 38ch;
+  font-weight: 500;
+  font-size: clamp(14px, 1.3vw, 16px);
+  line-height: 1.5;
+  margin: 0;
+  opacity: 0.96;
+}
+
+.pr-stack {
+  display: grid;
+  gap: 16px;
+}
+
+.pr-stat {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  padding: 22px 26px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s ease, opacity 0.8s ease;
+}
+
+.pr-stat:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--pr-shadow);
+}
+
+.pr-stat small {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mut);
+}
+
+.pr-stat-val {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: clamp(30px, 4.4vw, 52px);
+  font-weight: 800;
+  line-height: 1.08;
+  margin-top: 6px;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.pr-stat.is-green .pr-stat-val {
+  color: var(--grn);
+}
+
+.pr-stat.is-red .pr-stat-val {
+  color: var(--red);
+}
+
+/* ============================================================================
+   SECTIONS & CARDS
+   ============================================================================ */
+.pr-section {
+  padding: clamp(28px, 4.5vw, 56px) 0;
+}
+
+.pr-section-last {
+  padding-bottom: clamp(48px, 7vw, 84px);
+}
+
+.pr-section h2 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: clamp(30px, 4.8vw, 62px);
+  line-height: 1.02;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 12px 0 14px;
+  max-width: 18ch;
+  color: var(--ink);
+}
+
+.pr-sub {
+  color: var(--mut);
+  max-width: 64ch;
+  font-size: clamp(14.5px, 1.35vw, 16.5px);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.pr-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  padding: clamp(20px, 3vw, 36px);
+}
+
+/* ============================================================================
+   SECTION 1: PAJAK VS RETRIBUSI
+   ============================================================================ */
+.pr-cmp {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(20px, 4vw, 56px);
+  margin-top: 26px;
+}
+
+@media (max-width: 760px) {
+  .pr-cmp {
+    grid-template-columns: 1fr;
+  }
+}
+
+.pr-cmp-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  font-size: 15px;
+}
+
+.pr-cmp-note {
+  margin-top: 20px;
+}
+
+/* Tracks & Growing Fill Bars */
+.pr-track {
+  height: 14px;
+  background: var(--sand);
+  border-radius: 99px;
+  overflow: hidden;
+  position: relative;
+}
+
+.pr-fill {
+  height: 100%;
+  border-radius: 99px;
+  transform-origin: left center;
+  transform: scaleX(0);
+  transition: transform 1.25s cubic-bezier(0.2, 0.8, 0.2, 1), width 0.5s ease;
+}
+
+.in .pr-fill,
+.pr-fill.in {
+  transform: scaleX(1);
+}
+
+/* ============================================================================
+   SECTION 2: BAR PORSI KAS 12 JENIS PAJAK + TOOLTIP + GRID KARTU
+   ============================================================================ */
+.pr-share-wrap {
+  position: relative;
+  margin-top: 30px;
+}
+
+.pr-share {
+  display: flex;
+  height: 58px;
+  border-radius: 18px;
+  overflow: hidden;
+  gap: 3px;
+  background: var(--sand);
+  padding: 2px;
+  border: 1px solid var(--line);
+}
+
+.pr-share-seg {
+  display: block;
+  flex: var(--w) 1 0%;
+  min-width: 5px;
+  border: 0;
+  padding: 0;
+  border-radius: 10px;
+  cursor: pointer;
+  position: relative;
+  transition: flex 0.38s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.22s ease, transform 0.2s ease;
+}
+
+.pr-share-seg:hover,
+.pr-share-seg:focus-visible,
+.pr-share-seg.is-hovered {
+  filter: brightness(1.12);
+  flex: calc(var(--w) * 1.55) 1 0%;
+  outline: 2px solid var(--ink);
+  outline-offset: -2px;
+  z-index: 2;
+}
+
+.pr-share-float {
+  position: absolute;
+  top: -46px;
+  left: 50%;
+  transform: translateX(-50%) translateY(6px);
+  background: var(--ink);
+  color: var(--bg);
+  font-size: 12.5px;
+  font-weight: 700;
+  padding: 7px 13px;
+  border-radius: 999px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  box-shadow: 0 10px 24px rgba(31, 26, 23, 0.22);
+  z-index: 10;
+  max-width: calc(100vw - 40px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pr-share-float.is-visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.pr-legend {
+  display: flex;
+  gap: 12px 20px;
+  flex-wrap: wrap;
+  margin: 14px 0 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--mut);
+}
+
+.pr-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.pr-legend b {
+  display: inline-block;
+  width: 11px;
+  height: 11px;
+  border-radius: 3px;
+  flex: none;
+}
+
+.pr-tip {
+  min-height: 24px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-top: 10px;
+}
+
+/* 12 Kartu Pajak */
+.pr-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.pr-jt {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  padding: 22px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.35s ease, opacity 0.4s ease;
+}
+
+.pr-jt:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--pr-shadow);
+}
+
+.pr-jt.is-hidden {
+  display: none;
+}
+
+.pr-jt-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.pr-jt-no {
+  font: 800 13px/1.2 'Plus Jakarta Sans', system-ui, sans-serif;
+  color: var(--red);
+  background: color-mix(in srgb, var(--red) 12%, transparent);
+  border-radius: 99px;
+  padding: 4px 11px;
+}
+
+.pr-jt-por {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--pr-por-ink);
+  background: color-mix(in srgb, var(--gold) 32%, transparent);
+  padding: 4px 11px;
+  border-radius: 99px;
+  white-space: nowrap;
+}
+
+.pr-jt h3 {
+  font-size: 17px;
+  line-height: 1.3;
+  margin: 14px 0 3px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.pr-jt-kode {
+  font-size: 12px;
+  color: var(--mut);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.pr-jt-rl {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 12px;
+  margin: 18px 0 12px;
+}
+
+.pr-jt-rl small {
+  display: block;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--mut);
+  margin-bottom: 3px;
+}
+
+.pr-jt-rl b {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.pr-jt-rl span {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--mut);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Marker garis target 100% (track skala 0-110% -> garis pada 100/110 = 90.909%) */
+.pr-track.pr-mk {
+  overflow: visible;
+}
+
+.pr-track.pr-mk .pr-fill-clip {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.pr-track.pr-mk::after {
+  content: "";
+  position: absolute;
+  left: calc(100 / 110 * 100%);
+  top: -4px;
+  bottom: -4px;
+  width: 2px;
+  background: var(--ink);
+  opacity: 0.6;
+  border-radius: 2px;
+  z-index: 2;
+}
+
+.pr-jt-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-top: 12px;
+}
+
+.pr-ok {
+  color: var(--grn);
+}
+
+.pr-warn {
+  color: var(--red);
+}
+
+/* ============================================================================
+   SECTION 3: GRAFIK MUSIMAN BULANAN (BATANG TUMBUH SAAT SCROLL)
+   ============================================================================ */
+.pr-bars {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: clamp(3px, 1.2vw, 14px);
+  align-items: stretch;
+  height: 300px;
+  margin-top: 12px;
+}
+
+.pr-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  gap: 6px;
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  padding: 4px 0 0;
+  color: inherit;
+  font: inherit;
+  min-width: 0;
+}
+
+.pr-bar em {
+  font-style: normal;
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--ink);
+  min-height: 16px;
+  line-height: 1;
+  white-space: nowrap;
+  opacity: 0.9;
+}
+
+.pr-bar:not(.is-peak):not(.is-max-peak):not(.is-selected):hover em {
+  opacity: 1;
+}
+
+.pr-bar-track {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+}
+
+.pr-bar i {
+  display: block;
+  width: 100%;
+  height: calc(var(--h) * 1%);
+  border-radius: 12px 12px 4px 4px;
+  background: var(--sand);
+  transform-origin: bottom center;
+  transform: scaleY(0);
+  transition: transform 1.05s cubic-bezier(0.2, 0.8, 0.2, 1), background-color 0.25s ease, outline-color 0.2s ease;
+}
+
+.in .pr-bar i {
+  transform: scaleY(1);
+}
+
+.pr-bar.is-peak i {
+  background: var(--gold);
+}
+
+.pr-bar.is-max-peak i {
+  background: var(--red);
+}
+
+.pr-bar.is-selected i {
+  outline: 2.5px solid var(--ink);
+  outline-offset: 2px;
+}
+
+.pr-bar:hover i,
+.pr-bar:focus-visible i {
+  background: var(--ink);
+}
+
+.pr-bar span {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--mut);
+  line-height: 1;
+}
+
+.pr-bar.is-max-peak span,
+.pr-bar.is-selected span {
+  color: var(--ink);
+  font-weight: 800;
+}
+
+.pr-peak {
+  background: var(--sand);
+  border-radius: 20px;
+  padding: 20px 24px;
+  margin-top: 24px;
+}
+
+.pr-peak small {
+  display: block;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--red);
+  font-size: 11px;
+}
+
+.pr-peak h4 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: clamp(18px, 2.2vw, 22px);
+  font-weight: 800;
+  margin: 6px 0;
+  color: var(--ink);
+}
+
+.pr-peak p {
+  font-size: 14px;
+  color: var(--mut);
+  line-height: 1.55;
+  margin: 0 0 8px;
+}
+
+.pr-peak p:last-child {
+  margin-bottom: 0;
+}
+
+/* ============================================================================
+   SECTION 4: WAJIB PAJAK & KEPATUHAN (3 KPI + GRAFIK BATANG TUMBUH)
+   ============================================================================ */
+.pr-wp {
+  display: grid;
+  grid-template-columns: 0.85fr 1.35fr;
+  gap: 20px;
+  margin-top: 28px;
+  align-items: stretch;
+}
+
+@media (max-width: 900px) {
+  .pr-wp {
+    grid-template-columns: 1fr;
+  }
+}
+
+.pr-cols-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.pr-cols-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pr-cols-head span {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mut);
+}
+
+.pr-cols-head strong {
+  font-size: 13px;
+  color: var(--ink);
+}
+
+.pr-cols {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: clamp(8px, 2vw, 16px);
+  align-items: stretch;
+  height: 250px;
+}
+
+.pr-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  gap: 6px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  background: transparent;
+  border: 0;
+  padding: 4px 0 0;
+  cursor: pointer;
+  color: inherit;
+  min-width: 0;
+}
+
+.pr-col-track {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+}
+
+.pr-col i {
+  display: block;
+  width: 100%;
+  height: calc(var(--h) * 1%);
+  border-radius: 14px 14px 4px 4px;
+  background: var(--grn);
+  transform-origin: bottom center;
+  transform: scaleY(0);
+  transition: transform 1.05s cubic-bezier(0.2, 0.8, 0.2, 1), background-color 0.25s ease;
+}
+
+.in .pr-col i {
+  transform: scaleY(1);
+}
+
+.pr-col.is-selected i {
+  background: var(--red);
+}
+
+.pr-col:hover i,
+.pr-col:focus-visible i {
+  filter: brightness(1.08);
+}
+
+.pr-col-val {
+  color: var(--ink);
+  font-weight: 800;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.pr-col small {
+  color: var(--mut);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.pr-col.is-selected small {
+  color: var(--red);
+  font-weight: 800;
+}
+
+/* ============================================================================
+   SECTION 5 & 6: CATATAN ONDI & KARTU NAVIGASI LANJUTAN
+   ============================================================================ */
+.pr-ondi {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  background: linear-gradient(100deg, color-mix(in srgb, var(--gold) 26%, var(--card)), var(--card));
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  padding: clamp(20px, 3.2vw, 30px);
+  margin-top: 32px;
+}
+
+.pr-ondi-av {
+  flex: none;
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  display: grid;
+  place-items: center;
+  border: 3px solid var(--gold);
+  box-shadow: 0 4px 12px rgba(31, 26, 23, 0.08);
+  overflow: hidden;
+  padding: 6px;
+}
+
+.pr-ondi-av img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.pr-ondi-body b {
+  display: block;
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+
+.pr-next {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 28px;
+}
+
+@media (max-width: 760px) {
+  .pr-next {
+    grid-template-columns: 1fr;
+  }
+}
+
+.pr-next-card {
+  background: var(--ink);
+  color: var(--bg);
+  border-radius: 28px;
+  padding: clamp(24px, 4vw, 44px);
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.35s ease, opacity 0.8s ease;
+}
+
+.pr-next-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--pr-shadow);
+}
+
+.pr-next-card.is-red {
+  background: var(--red);
+  color: #FFF4DC;
+}
+
+.pr-next-card small {
+  display: block;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.78;
+}
+
+.pr-next-card h3 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: clamp(24px, 3.3vw, 38px);
+  line-height: 1.08;
+  font-weight: 800;
+  margin: 10px 0 12px;
+  color: inherit;
+}
+
+.pr-next-card p {
+  font-size: 14.5px;
+  line-height: 1.55;
+  opacity: 0.9;
+  margin: 0;
+}
+
+.pr-next-card .pr-next-cta {
+  font-weight: 800;
+  font-size: 14.5px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ============================================================================
+   SCROLL REVEAL ANIMATION & PREFERS-REDUCED-MOTION
+   ============================================================================ */
+.pr-rv {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.85s ease, transform 0.85s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.pr-rv.in {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pr-main *,
+  .pr-main *::before,
+  .pr-main *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+
+  .pr-rv {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .pr-fill,
+  .pr-bar i,
+  .pr-col i {
+    transform: none !important;
+  }
+}
+
+/* ============================================================================
+   RESPONSIF MOBILE HINGGA 375px
+   ============================================================================ */
+@media (max-width: 600px) {
+  .pr-motif-band {
+    height: 28px;
+  }
+
+  .pr-hero {
+    padding: 10px 0 26px;
+  }
+
+  .pr-hero h1 {
+    font-size: clamp(36px, 10.5vw, 48px);
+    line-height: 0.98;
+    margin: 14px 0 16px;
+  }
+
+  .pr-big {
+    min-height: 270px;
+    border-radius: 24px;
+    padding: 22px;
+  }
+
+  .pr-big::after {
+    width: 200px;
+    height: 200px;
+    right: -75px;
+    top: -75px;
+  }
+
+  .pr-big-num {
+    font-size: clamp(58px, 16vw, 76px);
+  }
+
+  .pr-stat {
+    border-radius: 20px;
+    padding: 18px 20px;
+  }
+
+  .pr-stat-val {
+    font-size: clamp(26px, 7.5vw, 34px);
+  }
+
+  .pr-card {
+    border-radius: 22px;
+    padding: 18px 16px;
+  }
+
+  .pr-share {
+    height: 44px;
+    border-radius: 14px;
+    gap: 2px;
+  }
+
+  .pr-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pr-jt {
+    padding: 18px;
+    border-radius: 20px;
+  }
+
+  .pr-bars {
+    height: 240px;
+    gap: 3px;
+  }
+
+  .pr-bar em {
+    font-size: 9px;
+  }
+
+  .pr-bar span {
+    font-size: 9.5px;
+  }
+
+  .pr-bar i {
+    border-radius: 6px 6px 3px 3px;
+  }
+
+  .pr-peak {
+    padding: 16px 18px;
+    border-radius: 16px;
+  }
+
+  .pr-cols {
+    height: 210px;
+    gap: 6px;
+  }
+
+  .pr-col-val {
+    font-size: 11px;
+  }
+
+  .pr-col small {
+    font-size: 9.5px;
+  }
+
+  .pr-ondi {
+    flex-direction: column;
+    align-items: flex-start;
+    border-radius: 22px;
+    padding: 20px;
+  }
+
+  .pr-next-card {
+    border-radius: 22px;
+    padding: 22px;
+  }
+}
+
+@media (max-width: 390px) {
+  .pr-wrap {
+    padding-inline: 14px;
+  }
+
+  .pr-chip {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+
+  .pr-trust-note {
+    border-radius: 16px;
+    font-size: 11.5px;
+    padding: 8px 12px;
+  }
+
+  .pr-bar em {
+    font-size: 8.5px;
+  }
+}
+

@@ -187,14 +187,14 @@ header.nav-dark-mode {
   gap: 5px;
   background: transparent !important;
   border: none;
-  padding: 6px 4px;
+  padding: 6px 12px;
   font: inherit;
   font-size: 0.8125rem;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.85);
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
   cursor: pointer;
-  border-radius: var(--radius-sm);
-  transition: color 0.18s ease;
+  border-radius: 999px;
+  transition: color 0.18s ease, background 0.18s ease;
 }
 
 .site-header.is-scrolled .nav-dropdown-trigger {
@@ -205,13 +205,15 @@ header.nav-dark-mode {
 .nav-dropdown-trigger:hover,
 .nav-dropdown-wrapper.is-open .nav-dropdown-trigger {
   color: #ffffff;
-  background: transparent !important;
+  background: rgba(255, 255, 255, 0.14) !important;
 }
 
 .site-header.is-scrolled .nav-dropdown-trigger:hover,
-.site-header.is-scrolled .nav-dropdown-wrapper.is-open .nav-dropdown-trigger {
+.site-header.is-scrolled .nav-dropdown-wrapper.is-open .nav-dropdown-trigger,
+.site-header.header-solid .nav-dropdown-trigger:hover,
+.site-header.header-solid .nav-dropdown-wrapper.is-open .nav-dropdown-trigger {
   color: var(--color-primary);
-  background: transparent !important;
+  background: #F8ECD6 !important;
 }
 
 .chevron-icon {
@@ -227,139 +229,192 @@ header.nav-dark-mode {
   transform: rotate(180deg);
 }
 
-/* Dropdown Panel: Frosted Glassmorphism */
+/* Dropdown Panel: Solid Editorial Panel (Minimalist Compact Sizing) */
 .nav-dropdown-panel {
   position: absolute;
-  top: calc(100% + 8px);
-  left: 50%;
-  transform: translateX(-50%) translateY(6px);
-  min-width: 310px;
-  max-width: 540px;
-  background: rgba(255, 255, 255, 0.75);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  border-radius: 1.25rem;
-  padding: 12px;
-  box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.15);
+  top: calc(100% + 10px);
+  left: var(--dd-left, 50%);
+  transform: translateX(var(--dd-tx, -50%)) translateY(-5px);
+  width: min(560px, calc(100vw - 32px));
+  background: #FFFAF0;
+  border: 1px solid #E4D1B0;
+  border-radius: 16px;
+  padding: 0;
+  box-shadow: 0 22px 44px -18px rgba(70, 25, 10, 0.34), 0 6px 14px -6px rgba(70, 25, 10, 0.16);
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transition: opacity 0.22s cubic-bezier(0.2, 0.8, 0.2, 1),
-              transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1),
-              visibility 0.22s;
-  z-index: 1010;
+  transition: opacity 0.18s ease-out,
+              transform 0.18s ease-out,
+              visibility 0.18s;
+  z-index: 1200;
+}
+
+.nav-dropdown-panel.is-narrow {
+  width: min(520px, calc(100vw - 32px));
+}
+
+.nav-dropdown-panel::before {
+  content: "";
+  position: absolute;
+  top: -7px;
+  left: var(--caret, 50%);
+  width: 12px;
+  height: 12px;
+  background: #FFFAF0;
+  border-left: 1px solid #E4D1B0;
+  border-top: 1px solid #E4D1B0;
+  border-top-left-radius: 3px;
+  transform: translateX(-50%) rotate(45deg);
+  pointer-events: none;
 }
 
 .nav-dropdown-wrapper.is-open .nav-dropdown-panel {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
-  transform: translateX(-50%) translateY(0);
+  transform: translateX(var(--dd-tx, -50%)) translateY(0);
 }
 
-/* Dropdown Grid Layout */
+/* Dropdown Grid Layout: Item kiri + Feature Card kanan */
 .nav-dropdown-panel.has-sidecard {
-  min-width: 500px;
   display: grid;
-  grid-template-columns: 1fr 185px;
-  gap: 12px;
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+
+.dropdown-panel-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
+  gap: 8px;
+  padding: 9px;
   align-items: stretch;
 }
 
 .dropdown-items-group {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
+  display: grid;
+  gap: 2px;
+  align-content: start;
 }
 
 .dropdown-item-link {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  padding: 9px 11px;
-  border-radius: 12px;
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr);
+  gap: 11px;
+  align-items: start;
+  padding: 8px 9px;
+  border-radius: 11px;
   text-decoration: none;
-  color: #111827;
-  transition: background 0.18s ease, transform 0.18s ease;
+  color: #1C1514;
+  transition: background 0.16s ease, color 0.16s ease;
 }
 
-.dropdown-item-link:hover {
-  background: rgba(255, 255, 255, 0.6);
-  transform: translateX(2px);
+a.dropdown-item-link:hover,
+a.dropdown-item-link:focus-visible {
+  background: #F8ECD6;
+  outline: none;
+}
+
+.dropdown-item-link.is-soon {
+  cursor: default;
+  pointer-events: none;
 }
 
 .dropdown-item-icon {
-  width: 30px;
-  height: 30px;
-  border-radius: 8px;
-  background: rgba(242, 232, 218, 0.65);
-  color: var(--color-primary);
-  display: inline-grid;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: #F8ECD6;
+  border: 1px solid #E4D1B0;
+  color: #B51C1C;
+  display: grid;
   place-items: center;
-  font-size: 13px;
   flex-shrink: 0;
-  margin-top: 1px;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.dropdown-item-icon svg {
+  width: 18px;
+  height: 18px;
+  display: block;
+}
+
+a.dropdown-item-link:hover .dropdown-item-icon,
+a.dropdown-item-link:focus-visible .dropdown-item-icon {
+  background: #B51C1C;
+  border-color: #B51C1C;
+  color: #FFFFFF;
+}
+
+.dropdown-item-link.is-soon .dropdown-item-icon {
+  color: #65554A;
 }
 
 .dropdown-item-text {
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .dropdown-item-head {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 6px;
+  gap: 4px 6px;
 }
 
 .dropdown-item-title {
   font-size: 0.8125rem;
-  font-weight: 600;
-  line-height: 1.3;
-  color: #111827;
+  font-weight: 700;
+  line-height: 1.28;
+  color: #1C1514;
+  transition: color 0.15s ease;
 }
 
-.dropdown-item-link:hover .dropdown-item-title {
-  color: var(--color-primary);
+a.dropdown-item-link:hover .dropdown-item-title,
+a.dropdown-item-link:focus-visible .dropdown-item-title {
+  color: #B51C1C;
 }
 
 .badge-coming-soon {
-  font-size: 0.625rem;
-  font-weight: 700;
-  padding: 2px 6px;
+  font-size: 0.6rem;
+  font-weight: 800;
+  padding: 2px 7px;
   border-radius: 9999px;
-  background: rgba(107, 97, 89, 0.12);
-  color: var(--color-muted);
+  background: #EEDDBF;
+  color: #5A4630;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.08em;
   white-space: nowrap;
 }
 
 .dropdown-item-desc {
+  display: block;
   font-size: 0.725rem;
-  color: #4B5563;
+  color: #65554A;
   margin-top: 2px;
-  line-height: 1.35;
+  line-height: 1.38;
 }
 
-/* Side Card: Data Terbaru di dalam Dropdown Penerimaan */
+/* Feature Side Card di sebelah kanan setiap panel dropdown */
 .dropdown-side-card {
-  background: rgba(251, 246, 238, 0.85);
-  border: 1px solid rgba(220, 205, 185, 0.4);
-  border-radius: 1rem;
-  padding: 13px 11px;
+  background: #F8ECD6;
+  border: 1px solid #E4D1B0;
+  border-radius: 12px;
+  padding: 14px 15px;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  gap: 8px;
 }
 
 .dropdown-side-card-tag {
-  font-size: 0.65rem;
+  font-size: 0.625rem;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: #6B7280;
+  letter-spacing: 0.13em;
+  color: #65554A;
   display: flex;
   align-items: center;
   gap: 6px;
@@ -370,21 +425,137 @@ header.nav-dark-mode {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--color-success);
+  background: #2E8B57;
+  flex-shrink: 0;
+}
+
+.dropdown-side-card-tag.is-gold::before {
+  background: #E0A12B;
 }
 
 .dropdown-side-card-date {
-  font-size: 0.875rem;
-  font-weight: 700;
-  color: #111827;
-  line-height: 1.25;
-  margin: 6px 0 3px;
+  font-family: var(--font-family-display);
+  font-size: 1.125rem;
+  font-weight: 900;
+  color: #1C1514;
+  line-height: 1.15;
+  margin: 0;
 }
 
 .dropdown-side-card-source {
-  font-size: 0.6875rem;
-  color: #4B5563;
-  line-height: 1.3;
+  font-size: 0.725rem;
+  color: #65554A;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.dropdown-side-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+  margin-top: 2px;
+}
+
+.dropdown-side-stat {
+  padding: 7px 6px;
+  background: #FFFAF0;
+  border: 1px solid #E4D1B0;
+  border-radius: 9px;
+}
+
+.dropdown-side-stat b {
+  display: block;
+  font-family: var(--font-family-display);
+  font-weight: 900;
+  font-size: 1.05rem;
+  line-height: 1.1;
+  color: #1C1514;
+  font-variant-numeric: tabular-nums;
+}
+
+.dropdown-side-stat span {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.625rem;
+  line-height: 1.2;
+  color: #65554A;
+}
+
+.dropdown-side-rp {
+  font-family: var(--font-family-display);
+  font-weight: 900;
+  font-size: 2.25rem;
+  line-height: 1;
+  color: #B51C1C;
+}
+
+.dropdown-coins {
+  display: grid;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  gap: 3px;
+  margin-top: 2px;
+}
+
+.dropdown-coins i {
+  display: block;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #E0A12B;
+  box-shadow: inset 0 0 0 1.5px rgba(0, 0, 0, 0.14);
+}
+
+.dropdown-side-ondi-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dropdown-side-ondi-img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.dropdown-side-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: 700;
+  font-size: 0.78rem;
+  color: #B51C1C;
+  text-decoration: none;
+  margin-top: 2px;
+}
+
+.dropdown-side-link svg {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.15s ease;
+}
+
+.dropdown-side-link:hover svg {
+  transform: translateX(3px);
+}
+
+/* Strip tumpal kecil di tepi bawah setiap panel dropdown */
+.dropdown-panel-foot {
+  height: 6px;
+  border-radius: 0 0 15px 15px;
+  background-color: #E0A12B;
+  background-image: conic-gradient(from 135deg at 50% 0, #B51C1C 0 90deg, transparent 0);
+  background-size: 12px 6px;
+  background-repeat: repeat-x;
+}
+
+@media (max-width: 720px) {
+  .nav-dropdown-panel,
+  .nav-dropdown-panel.is-narrow {
+    width: calc(100vw - 32px);
+  }
+  .dropdown-panel-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 
 /* Tombol CTA Header: Buat Kartu Insight */
@@ -1271,9 +1442,14 @@ h2 { margin-bottom: 0; font-size: clamp(28px, 3vw, 38px); line-height: 1.2; lett
 }
 
 @media (max-width: 1024px) {
+  .trust-editorial-section {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+
   .trust-editorial-container {
-    grid-template-columns: 1fr;
-    gap: 2.5rem;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2.25rem;
   }
 }
 
@@ -1282,12 +1458,14 @@ h2 { margin-bottom: 0; font-size: clamp(28px, 3vw, 38px); line-height: 1.2; lett
   grid-column: span 5 / span 5;
   position: sticky;
   top: 7rem;
+  min-width: 0;
 }
 
 @media (max-width: 1024px) {
   .trust-editorial-statement {
-    grid-column: span 12 / span 12;
+    grid-column: 1 / -1;
     position: static;
+    width: 100%;
   }
 }
 
@@ -1363,6 +1541,7 @@ h2 { margin-bottom: 0; font-size: clamp(28px, 3vw, 38px); line-height: 1.2; lett
   display: flex;
   flex-direction: column;
   gap: 4px;
+  min-width: 0;
 }
 
 .trust-ondi-speaker {
@@ -1384,11 +1563,17 @@ h2 { margin-bottom: 0; font-size: clamp(28px, 3vw, 38px); line-height: 1.2; lett
 /* Kolom Kanan: Minimalist Ledger Rows */
 .trust-ledger-column {
   grid-column: span 7 / span 7;
+  min-width: 0;
 }
 
 @media (max-width: 1024px) {
+  .trust-editorial-subtext {
+    max-width: 100%;
+  }
+
   .trust-ledger-column {
-    grid-column: span 12 / span 12;
+    grid-column: 1 / -1;
+    width: 100%;
   }
 }
 
@@ -1418,10 +1603,46 @@ h2 { margin-bottom: 0; font-size: clamp(28px, 3vw, 38px); line-height: 1.2; lett
 }
 
 @media (max-width: 640px) {
+  .trust-editorial-section {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+
+  .trust-editorial-container {
+    gap: 1.75rem;
+  }
+
+  .trust-editorial-kicker {
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+  }
+
+  .trust-editorial-headline {
+    font-size: clamp(1.85rem, 8vw, 2.35rem);
+  }
+
+  .trust-ondi-quote-badge {
+    padding: 14px 16px;
+    gap: 14px;
+    margin-top: 1.5rem;
+    max-width: 100%;
+    border-radius: 16px;
+  }
+
+  .trust-ondi-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 12px;
+  }
+
   .trust-ledger-row {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 8px;
-    padding: 1.5rem 0.5rem;
+    padding: 1.25rem 0.25rem;
+  }
+
+  .trust-ledger-row:hover {
+    padding-left: 0.5rem;
   }
 }
 
@@ -1477,8 +1698,9 @@ h2 { margin-bottom: 0; font-size: clamp(28px, 3vw, 38px); line-height: 1.2; lett
 main,
 .page-content-wrapper {
   position: relative;
+  display: flow-root;
   z-index: 2;
-  background-color: #FDFBF7;
+  background-color: var(--color-cream, #F8F1E7);
   box-shadow: 0 25px 50px -12px rgba(13, 17, 23, 0.25); /* Subtle shadow dropping onto the footer */
   min-height: 100vh;
 }
@@ -1509,6 +1731,42 @@ footer.site-footer,
   background-position: center bottom;
   background-size: cover;
   color: #0D1117;
+  --ft-p: 1;
+}
+
+footer.site-footer.has-parallax-bg,
+.site-footer.has-parallax-bg {
+  background-image: none;
+}
+
+/* Layer 1 Parallax: Lukisan Monas, Langit & Taman (bergerak & zoom-settle halus saat tirai terbuka) */
+.footer-scenic-backdrop {
+  position: absolute;
+  inset: -6% -2%;
+  background-image: url('../public/assets/footer-monas-taman-jakarta.jpg');
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-size: cover;
+  pointer-events: none;
+  z-index: 0;
+  will-change: transform;
+  transform: translate3d(0, calc((1 - var(--ft-p, 1)) * -46px), 0)
+             scale(calc(1.08 - var(--ft-p, 1) * 0.08));
+  transform-origin: center 72%;
+}
+
+/* Layer 2 Parallax: Cahaya matahari pagi & kabut kedalaman di depan cakrawala */
+.footer-sunlight-layer {
+  position: absolute;
+  inset: -4% 0;
+  pointer-events: none;
+  z-index: 1;
+  background:
+    radial-gradient(ellipse 68% 44% at 50% 34%, rgba(255, 243, 209, 0.42) 0%, transparent 72%),
+    linear-gradient(to bottom, rgba(255, 250, 240, 0.22) 0%, transparent 48%);
+  will-change: transform, opacity;
+  opacity: calc(0.2 + var(--ft-p, 1) * 0.8);
+  transform: translate3d(0, calc((1 - var(--ft-p, 1)) * -18px), 0);
 }
 
 /* Atmospheric top gradient overlay for crystal clear brand & nav link contrast */
@@ -1584,6 +1842,9 @@ footer.site-footer::after,
 .footer-brand-link {
   display: inline-block;
   text-decoration: none;
+  opacity: var(--ft-logo-p, 1);
+  transform: translate3d(0, calc((1 - var(--ft-logo-p, 1)) * 22px), 0);
+  will-change: transform, opacity;
 }
 
 .footer-brand-logo {
@@ -1605,6 +1866,9 @@ footer.site-footer::after,
   color: #0D1117;
   line-height: 1.45;
   text-shadow: 0 1px 3px rgba(255, 255, 255, 0.95);
+  opacity: var(--ft-tag-p, 1);
+  transform: translate3d(0, calc((1 - var(--ft-tag-p, 1)) * 20px), 0);
+  will-change: transform, opacity;
 }
 
 .footer-subtagline {
@@ -1614,6 +1878,9 @@ footer.site-footer::after,
   color: #334155;
   line-height: 1.5;
   text-shadow: 0 1px 2px rgba(255, 255, 255, 0.9);
+  opacity: var(--ft-sub-p, 1);
+  transform: translate3d(0, calc((1 - var(--ft-sub-p, 1)) * 18px), 0);
+  will-change: transform, opacity;
 }
 
 .footer-links-grid {
@@ -1642,6 +1909,9 @@ footer.site-footer::after,
   text-shadow: 0 1px 2px rgba(255, 255, 255, 0.85);
   transition: color 0.2s ease, text-decoration-color 0.2s ease, text-underline-offset 0.2s ease;
   white-space: nowrap;
+  opacity: var(--nav-p, 1);
+  transform: translate3d(0, calc((1 - var(--nav-p, 1)) * 18px), 0);
+  will-change: transform, opacity;
 }
 
 .footer-link:hover {
@@ -1671,6 +1941,8 @@ footer.site-footer::after,
   height: 100%;
   z-index: 3;
   pointer-events: none;
+  will-change: transform;
+  transform: translate3d(0, calc((1 - var(--ft-p, 1)) * 26px), 0);
 }
 
 .ondi-patrol-walker {
@@ -1699,6 +1971,18 @@ footer.site-footer::after,
   }
 }
 
+/* Wrapper scroll-emergence terpisah dari patroli horizontal agar bebas bentrok transform */
+.ondi-walker-reveal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform-origin: bottom center;
+  opacity: var(--walker-p, 1);
+  transform: translate3d(0, calc((1 - var(--walker-p, 1)) * 34px), 0)
+             scale(calc(0.84 + 0.16 * var(--walker-p, 1)));
+  will-change: transform, opacity;
+}
+
 .ondi-speech-bubble {
   position: relative;
   background: rgba(13, 17, 23, 0.92);
@@ -1710,14 +1994,23 @@ footer.site-footer::after,
   max-width: 220px;
   box-shadow: 0 10px 28px rgba(0, 0, 0, 0.38);
   opacity: 0;
-  transform: translateY(6px) scale(0.96);
-  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(10px) scale(0.9);
+  transition: opacity 0.42s cubic-bezier(0.34, 1.56, 0.64, 1),
+              transform 0.42s cubic-bezier(0.34, 1.56, 0.64, 1);
   pointer-events: none;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   text-align: left;
   z-index: 25;
 }
+
+.ondi-speech-bubble.is-visible {
+  opacity: var(--ft-bubble-p, 1);
+  transform: translateY(calc((1 - var(--ft-bubble-p, 1)) * 12px))
+             scale(calc(0.88 + 0.12 * var(--ft-bubble-p, 1)));
+}
+
+/* Hapus aturan lama duplikat .ondi-speech-bubble.is-visible di bawah */
 
 .ondi-speech-bubble::after {
   content: "";
@@ -1747,12 +2040,6 @@ footer.site-footer::after,
 .ondi-speech-bubble.bubble-align-right::after {
   left: auto;
   right: 28px;
-}
-
-/* Pesan insight langsung tampil tanpa hover kursor */
-.ondi-speech-bubble.is-visible {
-  opacity: 1;
-  transform: translateY(0) scale(1);
 }
 
 .bubble-tag {
@@ -1813,9 +2100,9 @@ footer.site-footer::after,
   to   { background-position: -576px 0px; }
 }
 
-/* --- 3. Bottom Bar: Legal, Civic Metadata, & Action --- */
+/* --- 3. Bottom Bar: Legal, Civic Metadata, & Action (Settle cleanly at scroll end) --- */
 .footer-bottom-strip {
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  border-top: 1px solid rgba(255, 255, 255, calc(0.2 * var(--ft-bottom-p, 1)));
   padding-top: 1.25rem;
   font-size: 0.825rem;
   color: #FDFBF7;
@@ -1830,6 +2117,39 @@ footer.site-footer::after,
   position: relative;
   z-index: 2;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.75);
+  opacity: var(--ft-bottom-p, 1);
+  transform: translate3d(0, calc((1 - var(--ft-bottom-p, 1)) * 16px), 0);
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  footer.site-footer,
+  .site-footer {
+    --ft-p: 1 !important;
+    --ft-logo-p: 1 !important;
+    --ft-tag-p: 1 !important;
+    --ft-sub-p: 1 !important;
+    --ft-bubble-p: 1 !important;
+    --ft-bottom-p: 1 !important;
+  }
+
+  .footer-scenic-backdrop,
+  .footer-sunlight-layer,
+  .footer-ondi-baseline-stage,
+  .footer-brand-link,
+  .footer-tagline,
+  .footer-subtagline,
+  .footer-link,
+  .ondi-walker-reveal,
+  .footer-bottom-strip {
+    transform: none !important;
+    opacity: 1 !important;
+  }
+
+  .ondi-patrol-walker,
+  .ondi-avatar.ondi-walk-sprite {
+    animation: none !important;
+  }
 }
 
 .footer-copyright {
@@ -6908,7 +7228,8 @@ footer.site-footer::after,
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1.5rem;
-  margin-bottom: 4rem;
+  margin-bottom: 0;
+  padding-bottom: clamp(4.5rem, 8vw, 6.5rem);
 }
 
 .subpage-cta-card {
@@ -7882,3 +8203,222 @@ footer.site-footer::after,
 
 
 
+/* =========================================================================
+   SCROLL-DRIVEN ANIMATION & SCROLLYTELLING SYSTEM (AWWWARDS-GRADE 60FPS)
+   Hybrid: Native CSS animation-timeline: view() + IntersectionObserver + rAF
+   ========================================================================= */
+
+/* Pengaman horizontal overflow per-section (tanpa memutus position: sticky pada html/body/main) */
+section.hero-section,
+section.ondi-intro-section,
+section.peta-jakarta-section,
+section.exec-summary-section,
+section.card-story-hero,
+section.card-community,
+main > section.container:not(#tentang-data) {
+  overflow-x: clip;
+}
+
+/* 1. Editorial Eyebrow & Pill Reveals (Slide-Up + Blur-to-Clear) */
+html.scrolly-ready .scrolly-eyebrow {
+  opacity: 0;
+  filter: blur(4px);
+  transform: translateY(12px);
+  transition:
+    opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform, filter;
+}
+
+html.scrolly-ready .scrolly-eyebrow.is-revealed {
+  opacity: 1;
+  filter: blur(0px);
+  transform: translateY(0);
+}
+
+/* 3. Main Section Headlines (Masked Kinetic Clip-Path Reveal) */
+html.scrolly-ready .scrolly-headline {
+  clip-path: inset(0 0 100% 0);
+  transform: translateY(24px);
+  opacity: 0.01;
+  transition:
+    clip-path 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.06s,
+    transform 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.06s,
+    opacity 0.6s ease 0.06s;
+  will-change: clip-path, transform, opacity;
+}
+
+html.scrolly-ready .scrolly-headline.is-revealed {
+  clip-path: inset(-12% -6% -20% -6%);
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* 4. Editorial Subtitles & Narrative Fade-Up */
+html.scrolly-ready .scrolly-fade-up {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.14s,
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.14s;
+  will-change: opacity, transform;
+}
+
+html.scrolly-ready .scrolly-fade-up.is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 5. Meet Ondi Springy Insight Badges */
+html.scrolly-ready .scrolly-spring-pop {
+  opacity: 0;
+  transform: translateY(18px) scale(0.86);
+  transition:
+    opacity 0.5s ease calc(var(--badge-index, 0) * 90ms),
+    transform 0.72s cubic-bezier(0.34, 1.56, 0.64, 1) calc(var(--badge-index, 0) * 90ms);
+  will-change: opacity, transform;
+}
+
+html.scrolly-ready .scrolly-spring-pop.is-revealed {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* 6. Staggered 3D Cascade Grid Cards (Peta, Pilar Belanja, Kamus) */
+html.scrolly-ready .scrolly-cascade-card {
+  opacity: 0;
+  transform: perspective(900px) translateY(36px) rotateX(8deg) scale(0.96);
+  transform-origin: center top;
+  transition:
+    opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1) calc(var(--card-index, 0) * 90ms),
+    transform 0.78s cubic-bezier(0.16, 1, 0.3, 1) calc(var(--card-index, 0) * 90ms),
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+  will-change: opacity, transform;
+}
+
+html.scrolly-ready .scrolly-cascade-card.is-revealed {
+  opacity: 1;
+  transform: perspective(900px) translateY(0) rotateX(0deg) scale(1);
+}
+
+html.scrolly-ready .kamus-card.scrolly-cascade-card.is-revealed:hover {
+  transform: translateY(-4px);
+  transition-delay: 0ms;
+}
+
+/* 7. Scroll-Triggered Allocation Progress Meters */
+html.scrolly-ready .pilar2-progress-bar,
+html.scrolly-ready .pilar2-kelompok-fill {
+  transform-origin: left center;
+  transform: scaleX(0);
+  transition: transform 0.95s cubic-bezier(0.16, 1, 0.3, 1) 0.16s;
+  will-change: transform;
+}
+
+html.scrolly-ready .pilar2-progress-bar.is-revealed,
+html.scrolly-ready .pilar2-kelompok-fill.is-revealed {
+  transform: scaleX(1);
+}
+
+/* 8. Tabular APBD Metric Pop Emphasis */
+.scrolly-metric-pop {
+  display: inline-block;
+  transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.scrolly-metric-pop.is-counting {
+  transform: scale(1.045);
+}
+
+/* 9. Cerita Data Jakarta Marquee Window Reveal (Marquee Track Untouched) */
+html.scrolly-ready #cerita-warga .card-community-window {
+  opacity: 0;
+  transform: scale(0.97) translateY(20px);
+  transition:
+    opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+html.scrolly-ready #cerita-warga .card-community-window.is-revealed {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+/* 10. Transparency Ledger Rows & Floating Parallax Ondi Badge */
+html.scrolly-ready #tentang-data .trust-ledger-row {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1) calc(var(--card-index, 0) * 90ms),
+    transform 0.65s cubic-bezier(0.16, 1, 0.3, 1) calc(var(--card-index, 0) * 90ms),
+    background 0.2s ease,
+    padding-left 0.2s ease;
+  will-change: opacity, transform;
+}
+
+html.scrolly-ready #tentang-data .trust-ledger-row.is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.trust-ondi-quote-badge[data-parallax-speed],
+.ondi-intro-media[data-parallax-speed],
+.ondi-intro-content[data-parallax-speed] {
+  will-change: transform;
+}
+
+/* 11. Native CSS Scroll-Driven Animations (view() Timeline Enhancement) */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes scrollyViewElevate {
+      0% {
+        opacity: 0.4;
+        transform: perspective(1100px) translateY(32px) rotateX(4deg) scale(0.97);
+      }
+      100% {
+        opacity: 1;
+        transform: perspective(1100px) translateY(0px) rotateX(0deg) scale(1);
+      }
+    }
+
+    .pilar2-green-banner,
+    .kartu-peta,
+    .peta-info-panel {
+      animation: scrollyViewElevate linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 32%;
+    }
+  }
+}
+
+/* 12. Strict Reduced Motion Accessibility Guardrail */
+@media (prefers-reduced-motion: reduce) {
+  html.scrolly-ready .scrolly-eyebrow,
+  html.scrolly-ready .scrolly-headline,
+  html.scrolly-ready .scrolly-fade-up,
+  html.scrolly-ready .scrolly-spring-pop,
+  html.scrolly-ready .scrolly-cascade-card,
+  html.scrolly-ready .pilar2-progress-bar,
+  html.scrolly-ready .pilar2-kelompok-fill,
+  html.scrolly-ready #cerita-warga .card-community-window,
+  html.scrolly-ready #tentang-data .trust-ledger-row {
+    opacity: 1 !important;
+    filter: none !important;
+    clip-path: none !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .pilar2-green-banner,
+  .kartu-peta,
+  .peta-info-panel {
+    animation: none !important;
+  }
+
+  #card-experience .card-story-fan {
+    --fan-spread: 1 !important;
+  }
+}

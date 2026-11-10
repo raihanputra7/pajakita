@@ -12,7 +12,7 @@
  * 7. Inisialisasi Hero Slideshow dan Framer Motion.
  */
 
-import { initSiteMotion } from './animations.js';
+import { initSiteMotion } from './animations.js?v=2';
 import { getRealisasiMeta } from './dataClient.js';
 import { formatTanggalIndonesia } from './format.js';
 import {
@@ -56,11 +56,14 @@ function boot() {
   try { initExecutiveSummary(2026); } catch (err) { console.error('Executive summary error:', err); }
   try { initWelcomeGreeting(); } catch (err) { /* silent fail */ }
   try { initFooterMascot(); } catch (err) { /* silent fail */ }
+  try { initFooterChoreography(); } catch (err) { /* silent fail */ }
+  try { initScrollStorytelling(); } catch (err) { console.error('Scroll storytelling error:', err); }
 
   // Non-blocking background fetch untuk sinkronisasi gateway Satu Data
   fetchAllTaxData().then(() => {
     try { initExecutiveSummary(2026); } catch (e) {}
     try { initDynamicOndi(2026); } catch (e) {}
+    try { refreshScrollyTargets(); } catch (e) {}
   }).catch(() => {});
 }
 
@@ -161,14 +164,47 @@ function initNavbar() {
   handleScroll(); // run once on load
 
   // =========================================================================
-  // 2. DROPDOWNS DENGAN HOVER INTENT & KLIK
+  // 2. DROPDOWNS DENGAN HOVER INTENT, KLIK, POSISI CARET & KEYBOARD
   // =========================================================================
+  const canHoverDevice = Boolean(window.matchMedia && window.matchMedia('(hover: hover)').matches);
+
+  function positionDropdownPanel(wrapper, trigger, panel) {
+    if (!wrapper || !trigger || !panel) return;
+
+    const vw = window.innerWidth;
+    const panelWidth = panel.offsetWidth || Math.min(560, vw - 32);
+    const wrapRect = wrapper.getBoundingClientRect();
+    const trigRect = trigger.getBoundingClientRect();
+
+    const triggerCenterX = trigRect.left + trigRect.width / 2;
+    const desiredViewportLeft = triggerCenterX - panelWidth / 2;
+    const clampedViewportLeft = Math.max(16, Math.min(desiredViewportLeft, vw - panelWidth - 16));
+
+    const offsetLeft = clampedViewportLeft - wrapRect.left;
+    const caretX = Math.max(24, Math.min(triggerCenterX - clampedViewportLeft, panelWidth - 24));
+
+    panel.style.setProperty('--dd-tx', '0px');
+    panel.style.setProperty('--dd-left', `${offsetLeft.toFixed(1)}px`);
+    panel.style.setProperty('--caret', `${caretX.toFixed(1)}px`);
+  }
+
   function closeAllDropdowns() {
     dropdownWrappers.forEach((wrapper) => {
       wrapper.classList.remove('is-open');
       const trigger = wrapper.querySelector('.nav-dropdown-trigger');
       if (trigger) trigger.setAttribute('aria-expanded', 'false');
     });
+  }
+
+  function openDropdown(wrapper) {
+    const trigger = wrapper.querySelector('.nav-dropdown-trigger');
+    const panel = wrapper.querySelector('.nav-dropdown-panel');
+    if (!trigger || !panel) return;
+
+    closeAllDropdowns();
+    positionDropdownPanel(wrapper, trigger, panel);
+    wrapper.classList.add('is-open');
+    trigger.setAttribute('aria-expanded', 'true');
   }
 
   dropdownWrappers.forEach((wrapper) => {
@@ -178,36 +214,36 @@ function initNavbar() {
 
     if (!trigger || !panel) return;
 
-    // Hover intent ~120ms
-    wrapper.addEventListener('mouseenter', () => {
-      clearTimeout(hoverTimeout);
-      hoverTimeout = setTimeout(() => {
-        closeAllDropdowns();
-        wrapper.classList.add('is-open');
-        trigger.setAttribute('aria-expanded', 'true');
-      }, 120);
-    });
+    if (canHoverDevice) {
+      wrapper.addEventListener('mouseenter', () => {
+        clearTimeout(hoverTimeout);
+        hoverTimeout = setTimeout(() => openDropdown(wrapper), 90);
+      });
 
-    wrapper.addEventListener('mouseleave', () => {
-      clearTimeout(hoverTimeout);
-      hoverTimeout = setTimeout(() => {
-        wrapper.classList.remove('is-open');
-        trigger.setAttribute('aria-expanded', 'false');
-      }, 150);
-    });
+      wrapper.addEventListener('mouseleave', () => {
+        clearTimeout(hoverTimeout);
+        hoverTimeout = setTimeout(() => {
+          wrapper.classList.remove('is-open');
+          trigger.setAttribute('aria-expanded', 'false');
+        }, 140);
+      });
+    }
 
-    // Klik/tap toggle
+    // Klik/tap toggle (di desktop klik langsung buka jika tertutup; di sentuh toggle buka/tutup)
     trigger.addEventListener('click', (e) => {
       e.stopPropagation();
       const isOpen = wrapper.classList.contains('is-open');
-      closeAllDropdowns();
-      if (!isOpen) {
-        wrapper.classList.add('is-open');
-        trigger.setAttribute('aria-expanded', 'true');
+      if (isOpen && !canHoverDevice) {
+        closeAllDropdowns();
+      } else if (isOpen && e.detail === 0) {
+        // Keyboard Enter/Space toggle
+        closeAllDropdowns();
+      } else {
+        openDropdown(wrapper);
       }
     });
 
-    // Tutup saat item link diklik
+    // Tutup saat link di dalam panel diklik (pindah bagian / pindah halaman)
     panel.querySelectorAll('a').forEach((link) => {
       link.addEventListener('click', () => {
         closeAllDropdowns();
@@ -222,15 +258,31 @@ function initNavbar() {
     }
   });
 
-  // Tombol Escape menutup dropdown
+  // Tombol Escape menutup dropdown dan mengembalikan fokus ke tombol pemicu
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
+      const activeOpenTrigger = document.querySelector('.nav-dropdown-wrapper.is-open .nav-dropdown-trigger');
       closeAllDropdowns();
+      if (activeOpenTrigger) activeOpenTrigger.focus();
       if (mobileNav && mobileNav.classList.contains('is-open')) {
         toggleMobileNav(false);
       }
     }
   });
+
+  // Reposisi caret saat resize/font ready & tutup otomatis saat pindah hash/halaman
+  window.addEventListener('resize', () => {
+    const openWrapper = document.querySelector('.nav-dropdown-wrapper.is-open');
+    if (openWrapper) openDropdown(openWrapper);
+  });
+  window.addEventListener('hashchange', closeAllDropdowns);
+  window.addEventListener('pagehide', closeAllDropdowns);
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(() => {
+      const openWrapper = document.querySelector('.nav-dropdown-wrapper.is-open');
+      if (openWrapper) openDropdown(openWrapper);
+    });
+  }
 
   // =========================================================================
   // 3. MOBILE NAVIGATION SHEET (FULLSCREEN ACCORDION & FOCUS TRAP)
@@ -806,8 +858,11 @@ function initFooterMascot() {
     avatar.style.backgroundImage = `url('${expr.file}')`;
     avatar.setAttribute('aria-label', expr.label);
 
-    walker.appendChild(bubble);
-    walker.appendChild(avatar);
+    const revealWrap = document.createElement('div');
+    revealWrap.className = 'ondi-walker-reveal';
+    revealWrap.appendChild(bubble);
+    revealWrap.appendChild(avatar);
+    walker.appendChild(revealWrap);
     stage.appendChild(walker);
 
     if (isVisibleByDefault) {
@@ -1069,3 +1124,392 @@ function initOndiBelanjaArmTracking() {
 }
 
 
+
+// =========================================================================
+// SCROLL-DRIVEN ANIMATION & SCROLLYTELLING SYSTEM (HYBRID 60FPS ENGINE)
+// Combines IntersectionObserver, Tabular Count-Up, and rAF Scroll-Scrubbing
+// =========================================================================
+let scrollyObserver = null;
+let metricObserver = null;
+
+function isReducedMotionPreferred() {
+  return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+
+function animateMetricNumber(el) {
+  if (!el || el.dataset.metricAnimated === 'true') return;
+  const rawText = (el.textContent || '').trim();
+  const match = rawText.match(/^([^\d-]*)(-?\d+(?:[.,]\d+)?)(.*)$/);
+  if (!match) return;
+
+  const prefix = match[1];
+  const numToken = match[2];
+  const suffix = match[3];
+  const useComma = numToken.includes(',');
+  const normalized = parseFloat(numToken.replace(',', '.'));
+  if (!Number.isFinite(normalized) || normalized === 0) return;
+
+  const decimalMatch = numToken.match(/[.,](\d+)/);
+  const decimals = decimalMatch ? decimalMatch[1].length : 0;
+
+  el.dataset.metricAnimated = 'true';
+  el.classList.add('scrolly-metric-pop', 'is-counting');
+
+  const duration = 850;
+  const startTime = performance.now();
+  let lastRendered = rawText;
+
+  function step(now) {
+    // Batalkan jika teks diubah secara dinamis oleh interaksi user (misal klik wilayah peta)
+    if (el.textContent.trim() !== lastRendered) {
+      el.classList.remove('is-counting');
+      return;
+    }
+
+    const elapsed = now - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const current = normalized * eased;
+
+    let formatted = current.toFixed(decimals);
+    if (useComma) formatted = formatted.replace('.', ',');
+
+    const nextText = `${prefix}${formatted}${suffix}`;
+    el.textContent = nextText;
+    lastRendered = nextText;
+
+    if (progress < 1) {
+      window.requestAnimationFrame(step);
+    } else {
+      el.textContent = rawText;
+      el.classList.remove('is-counting');
+    }
+  }
+
+  window.requestAnimationFrame(step);
+}
+
+function registerRevealGroup(selectors, className, indexVarName) {
+  const nodes = [];
+  selectors.forEach((sel) => {
+    document.querySelectorAll(sel).forEach((el) => nodes.push(el));
+  });
+
+  nodes.forEach((el) => {
+    if (el.dataset.scrollyBound === 'true') return;
+    el.dataset.scrollyBound = 'true';
+    if (className) el.classList.add(className);
+
+    if (indexVarName && el.parentElement) {
+      const siblings = Array.from(el.parentElement.children).filter((child) =>
+        child.matches(selectors.join(','))
+      );
+      const idx = siblings.indexOf(el);
+      el.style.setProperty(indexVarName, String(idx >= 0 ? idx : 0));
+    }
+
+    // Jika sudah terlihat di viewport saat refresh / render ulang, langsung reveal
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight * 0.96 && rect.bottom > 0) {
+      window.requestAnimationFrame(() => el.classList.add('is-revealed'));
+    } else if (scrollyObserver) {
+      scrollyObserver.observe(el);
+    } else {
+      el.classList.add('is-revealed');
+    }
+  });
+}
+
+function refreshScrollyTargets() {
+  if (isReducedMotionPreferred()) return;
+
+  // 1. Eyebrows, kickers, dan badges
+  registerRevealGroup(
+    [
+      '#kenalan-ondi .editorial-ondi-kicker',
+      '#peta-wilayah .exec-kicker-wrap',
+      '#pilar-belanja .exec-kicker-wrap',
+      '#card-experience .card-story-pill',
+      '#cerita-warga .eyebrow',
+      '#kamus .eyebrow',
+      '#tentang-data .trust-editorial-kicker'
+    ],
+    'scrolly-eyebrow'
+  );
+
+  // 2. Headline utama per section (Masked Kinetic Clip-Path)
+  registerRevealGroup(
+    [
+      '#kenalan-ondi h2',
+      '#peta-wilayah h2',
+      '#pilar-belanja h2',
+      '#card-experience .card-story-copy h2',
+      '#cerita-warga h2',
+      '#kamus h2',
+      '#tentang-data h2'
+    ],
+    'scrolly-headline'
+  );
+
+  // 3. Subjudul & narasi editorial
+  registerRevealGroup(
+    [
+      '#ondi-narrative-text',
+      '#peta-wilayah .exec-lead',
+      '#pilar-belanja .exec-lead',
+      '#card-experience .card-story-description',
+      '#cerita-warga .card-community-subtitle',
+      '#kamus .section-intro',
+      '#tentang-data .trust-editorial-subtext'
+    ],
+    'scrolly-fade-up'
+  );
+
+  // 4. Springy insight badges di section Kenalan Ondi
+  registerRevealGroup(['#kenalan-ondi .editorial-badge-pill'], 'scrolly-spring-pop', '--badge-index');
+
+  // 5. Staggered 3D cascade grid cards
+  registerRevealGroup(['#peta-wilayah .peta-kpi-box'], 'scrolly-cascade-card', '--card-index');
+  registerRevealGroup(['#pilar-belanja .pilar2-banner-col'], 'scrolly-cascade-card', '--card-index');
+  registerRevealGroup(['#pilar-belanja .pilar2-kelompok-item'], 'scrolly-cascade-card', '--card-index');
+  registerRevealGroup(['#pilar-belanja .pilar2-sector-row'], 'scrolly-cascade-card', '--card-index');
+  registerRevealGroup(['#kamus .kamus-card'], 'scrolly-cascade-card', '--card-index');
+
+  // 6. Allocation meters & Cerita Warga marquee window & Transparency ledger rows
+  registerRevealGroup(['#pilar-belanja .pilar2-progress-bar', '#pilar-belanja .pilar2-kelompok-fill'], '');
+  registerRevealGroup(['#cerita-warga .card-community-window'], '');
+  registerRevealGroup(['#tentang-data .trust-ledger-row'], '', '--card-index');
+
+  // 7. Metric count-up numbers
+  const metricSelectors = [
+    '#metric-total-belanja',
+    '#metric-realisasi-belanja',
+    '#metric-persen-belanja',
+    '.pilar2-kelompok-pct',
+    '.pilar2-kelompok-nom',
+    '.pilar2-sector-val',
+    '#peta-kpi-pajak',
+    '#peta-kpi-anggaran',
+    '#peta-kpi-realisasi'
+  ];
+  metricSelectors.forEach((sel) => {
+    document.querySelectorAll(sel).forEach((el) => {
+      if (el.dataset.metricBound === 'true') return;
+      el.dataset.metricBound = 'true';
+      if (metricObserver) {
+        metricObserver.observe(el);
+      }
+    });
+  });
+}
+
+function initScrollStorytelling() {
+  const fanEl = document.querySelector('#card-experience .card-story-fan');
+
+  if (isReducedMotionPreferred()) {
+    if (fanEl) fanEl.style.setProperty('--fan-spread', '1');
+    return;
+  }
+
+  document.documentElement.classList.add('scrolly-ready');
+
+  // Observer untuk reveal editorial & kartu
+  scrollyObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-revealed');
+          scrollyObserver.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.12, rootMargin: '0px 0px -6% 0px' }
+  );
+
+  // Observer khusus untuk angka metrik APBD (count-up saat masuk layar)
+  metricObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          animateMetricNumber(entry.target);
+          metricObserver.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.25 }
+  );
+
+  // Tandai elemen parallax untuk Kenalan Ondi & Catatan Ondi Transparansi
+  const ondiMedia = document.querySelector('#kenalan-ondi .ondi-intro-media');
+  const ondiContent = document.querySelector('#kenalan-ondi .ondi-intro-content');
+  const trustOndiBadge = document.querySelector('#tentang-data .trust-ondi-quote-badge');
+
+  if (ondiMedia) ondiMedia.dataset.parallaxSpeed = '-0.06';
+  if (ondiContent) ondiContent.dataset.parallaxSpeed = '0.035';
+  if (trustOndiBadge) trustOndiBadge.dataset.parallaxSpeed = '-0.05';
+
+  const parallaxNodes = [ondiMedia, ondiContent, trustOndiBadge].filter(Boolean);
+  const heroSection = document.getElementById('beranda');
+  const heroContent = heroSection?.querySelector('.hero-content-wrap');
+  const cardExpSection = document.getElementById('card-experience');
+
+  // Inisialisasi posisi awal kipas 3 kartu sebelum masuk layar
+  if (fanEl) fanEl.style.setProperty('--fan-spread', '0');
+
+  refreshScrollyTargets();
+
+  // Unified 60fps rAF Scroll-Scrubbing Engine
+  let scrubRafId = 0;
+  function updateScrollScrub() {
+    scrubRafId = 0;
+    const vh = window.innerHeight || 800;
+
+    // A. Hero subtle depth fade on scroll down
+    if (heroSection && heroContent) {
+      const heroRect = heroSection.getBoundingClientRect();
+      if (heroRect.bottom > 0 && heroRect.top <= 0) {
+        const passed = Math.min(Math.max(-heroRect.top / (vh * 0.85), 0), 1);
+        heroContent.style.transform = `translate3d(0, ${(passed * -28).toFixed(1)}px, 0)`;
+        heroContent.style.opacity = String((1 - passed * 0.45).toFixed(3));
+      } else if (heroRect.top > 0) {
+        heroContent.style.transform = '';
+        heroContent.style.opacity = '';
+      }
+    }
+
+    // B. Meet Ondi & Trust Badge continuous parallax storytelling (Desktop 2-kolom saja agar mobile tetap presisi)
+    if (window.innerWidth > 1024) {
+      parallaxNodes.forEach((node) => {
+        const speed = parseFloat(node.dataset.parallaxSpeed || '0');
+        if (!speed) return;
+        const rect = node.getBoundingClientRect();
+        if (rect.bottom < -120 || rect.top > vh + 120) return;
+        const centerOffset = rect.top + rect.height * 0.5 - vh * 0.5;
+        const shift = Math.max(Math.min(centerOffset * speed, 34), -34);
+        node.style.transform = `translate3d(0, ${shift.toFixed(1)}px, 0)`;
+      });
+    } else {
+      parallaxNodes.forEach((node) => {
+        if (node.style.transform) node.style.transform = '';
+      });
+    }
+
+    // C. Scroll-Scrubbed 3-Card Fan Spread (#card-experience)
+    if (cardExpSection && fanEl) {
+      const rect = cardExpSection.getBoundingClientRect();
+      const rawProgress = (vh * 0.92 - rect.top) / (vh * 0.56);
+      const clamped = Math.min(Math.max(rawProgress, 0), 1);
+      const eased = 1 - Math.pow(1 - clamped, 3);
+      fanEl.style.setProperty('--fan-spread', eased.toFixed(4));
+    }
+  }
+
+  function scheduleScrub() {
+    if (!scrubRafId) {
+      scrubRafId = window.requestAnimationFrame(updateScrollScrub);
+    }
+  }
+
+  window.addEventListener('scroll', scheduleScrub, { passive: true });
+  window.addEventListener('resize', scheduleScrub, { passive: true });
+  updateScrollScrub();
+}
+
+// =========================================================================
+// FOOTER PARALLAX & SCROLL-SCRUBBED CHOREOGRAPHY (REVERSIBLE 60FPS ENGINE)
+// =========================================================================
+function initFooterChoreography() {
+  const footer = document.querySelector('footer.site-footer');
+  const mainEl = document.querySelector('main') || document.querySelector('.page-content-wrapper');
+  if (!footer || !mainEl) return;
+
+  // Pasang layer latar parallax multi-bidang tanpa mengubah HTML tiap halaman
+  if (!footer.querySelector('.footer-scenic-backdrop')) {
+    const skyBackdrop = document.createElement('div');
+    skyBackdrop.className = 'footer-scenic-backdrop';
+    skyBackdrop.setAttribute('aria-hidden', 'true');
+
+    const sunlightMist = document.createElement('div');
+    sunlightMist.className = 'footer-sunlight-layer';
+    sunlightMist.setAttribute('aria-hidden', 'true');
+
+    footer.insertBefore(sunlightMist, footer.firstChild);
+    footer.insertBefore(skyBackdrop, footer.firstChild);
+    footer.classList.add('has-parallax-bg');
+  }
+
+  const navLinks = Array.from(footer.querySelectorAll('.footer-links-grid .footer-link'));
+  const walkerReveals = Array.from(footer.querySelectorAll('.ondi-walker-reveal'));
+
+  const setStaticComplete = () => {
+    footer.style.setProperty('--ft-p', '1');
+    footer.style.setProperty('--ft-logo-p', '1');
+    footer.style.setProperty('--ft-tag-p', '1');
+    footer.style.setProperty('--ft-sub-p', '1');
+    footer.style.setProperty('--ft-bubble-p', '1');
+    footer.style.setProperty('--ft-bottom-p', '1');
+    navLinks.forEach((link) => link.style.setProperty('--nav-p', '1'));
+    walkerReveals.forEach((w) => w.style.setProperty('--walker-p', '1'));
+  };
+
+  if (isReducedMotionPreferred()) {
+    setStaticComplete();
+    return;
+  }
+
+  const clamp01 = (v) => (v <= 0 ? 0 : v >= 1 ? 1 : v);
+  const band = (p, start, end) => clamp01((p - start) / (end - start));
+  const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
+  const WAVE_OFFSETS = [0.06, 0.14, 0.09, 0.19, 0.12, 0.22, 0.1, 0.17, 0.07, 0.21];
+
+  let footerRafId = 0;
+
+  function updateFooterScroll() {
+    footerRafId = 0;
+    const vh = window.innerHeight || 800;
+    const footerH = footer.offsetHeight || vh;
+    const mainBottom = mainEl.getBoundingClientRect().bottom;
+    const docMaxH = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
+    const atBottom = Math.ceil(window.scrollY + vh) >= docMaxH - 3;
+
+    const rawP = atBottom ? 1 : clamp01((vh - mainBottom) / footerH);
+    const p = rawP;
+
+    footer.style.setProperty('--ft-p', p.toFixed(4));
+
+    // Top Row (Logo, Tagline, Subtagline & Tautan Navigasi tersingkap beruntun saat tirai mencapai atas)
+    footer.style.setProperty('--ft-logo-p', easeOutCubic(band(p, 0.68, 0.88)).toFixed(4));
+    footer.style.setProperty('--ft-tag-p', easeOutCubic(band(p, 0.73, 0.92)).toFixed(4));
+    footer.style.setProperty('--ft-sub-p', easeOutCubic(band(p, 0.78, 0.96)).toFixed(4));
+
+    navLinks.forEach((link, idx) => {
+      const start = 0.72 + idx * 0.036;
+      const end = Math.min(start + 0.16, 0.99);
+      const navP = easeOutCubic(band(p, start, end));
+      link.style.setProperty('--nav-p', navP.toFixed(4));
+    });
+
+    // Ondi Walkers & Insight Bubbles muncul organik seiring panggung bawah terbuka
+    walkerReveals.forEach((wrap, idx) => {
+      const start = WAVE_OFFSETS[idx % WAVE_OFFSETS.length];
+      const end = start + 0.34;
+      const wp = easeOutCubic(band(p, start, end));
+      wrap.style.setProperty('--walker-p', wp.toFixed(4));
+    });
+
+    footer.style.setProperty('--ft-bubble-p', easeOutCubic(band(p, 0.24, 0.6)).toFixed(4));
+
+    // Bottom copyright bar settle rapih di penghujung scroll
+    footer.style.setProperty('--ft-bottom-p', easeOutCubic(band(p, 0.52, 0.96)).toFixed(4));
+  }
+
+  function scheduleFooterUpdate() {
+    if (!footerRafId) {
+      footerRafId = window.requestAnimationFrame(updateFooterScroll);
+    }
+  }
+
+  window.addEventListener('scroll', scheduleFooterUpdate, { passive: true });
+  window.addEventListener('resize', scheduleFooterUpdate, { passive: true });
+  updateFooterScroll();
+}

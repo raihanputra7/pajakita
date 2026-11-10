@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#F8F1E7">
+  <meta name="theme-color" content="#F6ECDE">
   <meta name="description" content="Penerimaan Pajak Daerah DKI Jakarta 2022–2026: target anggaran, realisasi penerimaan, 12 jenis pajak, pola musiman bulanan, dan kepatuhan wajib pajak. Sumber resmi API Gateway Satu Data Jakarta.">
 
   <title>Penerimaan Pajak Daerah — paJAK-Kita</title>
@@ -12,11 +12,15 @@
   <link rel="icon" type="image/png" href="public/assets/favicon-pajakkita.png">
   <link rel="shortcut icon" type="image/png" href="public/assets/favicon-pajakkita.png">
 
-  <!-- Self-hosted Fonts -->
+  <!-- Fonts: Fraunces (dengan variasi italic 600/800) & Plus Jakarta Sans + fallback self-hosted -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,800;1,9..144,600;1,9..144,800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/card-fonts.css">
 
-  <!-- CSS utama -->
-  <link rel="stylesheet" href="css/styles.css?v=23">
+  <!-- CSS utama & CSS khusus redesign halaman Penerimaan -->
+  <link rel="stylesheet" href="css/styles.css?v=32">
+  <link rel="stylesheet" href="css/penerimaan-redesign.css?v=2">
   <link rel="stylesheet" href="css/welcome-notification.css?v=1">
 </head>
 
@@ -34,152 +38,199 @@
       <nav class="main-nav" id="mainNav" aria-label="Navigasi utama">
         <!-- Dropdown 1: Penerimaan Pajak -->
         <div class="nav-dropdown-wrapper">
-          <button type="button" class="nav-dropdown-trigger" aria-expanded="false" aria-haspopup="true">
+          <button type="button" class="nav-dropdown-trigger" aria-expanded="false" aria-haspopup="true" aria-controls="panel-penerimaan">
             <span>Penerimaan Pajak</span>
             <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </button>
-          <div class="nav-dropdown-panel has-sidecard" role="menu">
-            <div class="dropdown-items-group">
-              <a class="dropdown-item-link" href="penerimaan.html" role="menuitem">
-                <div class="dropdown-item-icon">📊</div>
-                <div class="dropdown-item-text">
-                  <div class="dropdown-item-head">
-                    <span class="dropdown-item-title">Ringkasan Pajak Daerah</span>
+          <div class="nav-dropdown-panel has-sidecard" id="panel-penerimaan" role="region" aria-label="Menu Penerimaan Pajak">
+            <div class="dropdown-panel-grid">
+              <div class="dropdown-items-group">
+                <a class="dropdown-item-link" href="penerimaan.html">
+                  <div class="dropdown-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 20v-8M12 20V5M19 20v-5"/></svg></div>
+                  <div class="dropdown-item-text">
+                    <div class="dropdown-item-head">
+                      <span class="dropdown-item-title">Ringkasan Pajak Daerah</span>
+                    </div>
+                    <span class="dropdown-item-desc">Target anggaran, realisasi terkumpul, dan porsi capaian.</span>
                   </div>
-                  <span class="dropdown-item-desc">Target anggaran, realisasi terkumpul, dan porsi capaian</span>
-                </div>
-              </a>
+                </a>
 
-              <a class="dropdown-item-link" href="penerimaan.html#rincian-jenis" role="menuitem">
-                <div class="dropdown-item-icon">🏷️</div>
-                <div class="dropdown-item-text">
-                  <div class="dropdown-item-head">
-                    <span class="dropdown-item-title">Per Jenis Pajak</span>
-                    <span class="badge-coming-soon">Segera hadir</span>
+                <a class="dropdown-item-link" href="penerimaan.html#rincian-jenis">
+                  <div class="dropdown-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12V4h8l9 9-8 8-9-9z"/><circle cx="7.5" cy="8.5" r="1.2"/></svg></div>
+                  <div class="dropdown-item-text">
+                    <div class="dropdown-item-head">
+                      <span class="dropdown-item-title">Rincian 12 Jenis Pajak</span>
+                    </div>
+                    <span class="dropdown-item-desc">Porsi PBB-P2, PKB, BPHTB, pajak restoran, hotel, dan lainnya.</span>
                   </div>
-                  <span class="dropdown-item-desc">Rincian pajak restoran, PBB-P2, BPHTB, PKB, dan lainnya</span>
-                </div>
-              </a>
+                </a>
 
-              <a class="dropdown-item-link" href="penerimaan.html#wajib-pajak" role="menuitem">
-                <div class="dropdown-item-icon">🗺️</div>
-                <div class="dropdown-item-text">
-                  <div class="dropdown-item-head">
-                    <span class="dropdown-item-title">Per Wilayah</span>
-                    <span class="badge-coming-soon">Segera hadir</span>
+                <a class="dropdown-item-link" href="penerimaan.html#musiman-bulanan">
+                  <div class="dropdown-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></div>
+                  <div class="dropdown-item-text">
+                    <div class="dropdown-item-head">
+                      <span class="dropdown-item-title">Pola Bulanan &amp; Pembayar Pajak</span>
+                    </div>
+                    <span class="dropdown-item-desc">Bulan puncak pemasukan dan tren 5 tahun pembayar pajak.</span>
                   </div>
-                  <span class="dropdown-item-desc">Sebaran penerimaan pajak 5 kota administrasi & 1 kabupaten</span>
-                </div>
-              </a>
-            </div>
+                </a>
 
-            <!-- Side Card: Data Terbaru -->
-            <div class="dropdown-side-card" id="nav-data-date-card">
-              <div>
-                <span class="dropdown-side-card-tag">Data Gateway</span>
-                <div class="dropdown-side-card-date">Horizon 2022–2026</div>
+                <a class="dropdown-item-link" href="index.html#peta-wilayah">
+                  <div class="dropdown-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2zM9 4v14M15 6v14"/></svg></div>
+                  <div class="dropdown-item-text">
+                    <div class="dropdown-item-head">
+                      <span class="dropdown-item-title">Per Wilayah</span>
+                    </div>
+                    <span class="dropdown-item-desc">Sebaran penerimaan 5 kota administrasi dan 1 kabupaten.</span>
+                  </div>
+                </a>
               </div>
-              <div class="dropdown-side-card-source">11 Dataset Resmi Satu Data Jakarta &amp; BPKD DKI</div>
+
+              <!-- Side Card: Data Gateway -->
+              <aside class="dropdown-side-card" id="nav-data-date-card">
+                <div>
+                  <span class="dropdown-side-card-tag">Data Gateway</span>
+                  <div class="dropdown-side-card-date" style="margin-top: 8px;">Horizon 2022–2026</div>
+                  <p class="dropdown-side-card-source" style="margin-top: 6px;">Dataset resmi Satu Data Jakarta &amp; BPKD DKI, siap ditelusuri langsung.</p>
+                </div>
+                <div class="dropdown-side-stats">
+                  <div class="dropdown-side-stat"><b>11</b><span>dataset</span></div>
+                  <div class="dropdown-side-stat"><b>5</b><span>tahun</span></div>
+                  <div class="dropdown-side-stat"><b>2</b><span>sumber</span></div>
+                </div>
+                <a class="dropdown-side-link" href="penerimaan.html">Telusuri dataset <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+              </aside>
             </div>
+            <div class="dropdown-panel-foot" aria-hidden="true"></div>
           </div>
         </div>
 
         <!-- Dropdown 2: Belanja APBD -->
         <div class="nav-dropdown-wrapper">
-          <button type="button" class="nav-dropdown-trigger" aria-expanded="false" aria-haspopup="true">
+          <button type="button" class="nav-dropdown-trigger" aria-expanded="false" aria-haspopup="true" aria-controls="panel-belanja">
             <span>Belanja APBD</span>
             <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </button>
-          <div class="nav-dropdown-panel" role="menu">
-            <div class="dropdown-items-group">
-              <a class="dropdown-item-link" href="belanja.html" role="menuitem">
-                <div class="dropdown-item-icon">🏛️</div>
-                <div class="dropdown-item-text">
-                  <div class="dropdown-item-head">
-                    <span class="dropdown-item-title">Ringkasan Belanja</span>
+          <div class="nav-dropdown-panel is-narrow has-sidecard" id="panel-belanja" role="region" aria-label="Menu Belanja APBD">
+            <div class="dropdown-panel-grid">
+              <div class="dropdown-items-group">
+                <a class="dropdown-item-link" href="belanja.html">
+                  <div class="dropdown-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-5 9 5H3zM5 9v8M9.5 9v8M14.5 9v8M19 9v8M3 20h18"/></svg></div>
+                  <div class="dropdown-item-text">
+                    <div class="dropdown-item-head">
+                      <span class="dropdown-item-title">Ringkasan Belanja</span>
+                    </div>
+                    <span class="dropdown-item-desc">Total pagu anggaran belanja dan realisasi terpakai 2022–2026.</span>
                   </div>
-                  <span class="dropdown-item-desc">Total pagu anggaran belanja dan realisasi terpakai</span>
-                </div>
-              </a>
+                </a>
 
-              <a class="dropdown-item-link" href="belanja.html#dinas" role="menuitem">
-                <div class="dropdown-item-icon">🏢</div>
-                <div class="dropdown-item-text">
-                  <div class="dropdown-item-head">
-                    <span class="dropdown-item-title">Per Dinas dan Instansi</span>
+                <a class="dropdown-item-link" href="belanja.html#kelompok">
+                  <div class="dropdown-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l9 5-9 5-9-5 9-5zM3 13l9 5 9-5"/></svg></div>
+                  <div class="dropdown-item-text">
+                    <div class="dropdown-item-head">
+                      <span class="dropdown-item-title">4 Kelompok &amp; Pembiayaan SiLPA</span>
+                    </div>
+                    <span class="dropdown-item-desc">Belanja operasi, modal, tak terduga, dan neraca pembiayaan.</span>
                   </div>
-                  <span class="dropdown-item-desc">Alokasi anggaran dinas teknis dan badan daerah</span>
-                </div>
-              </a>
+                </a>
 
-              <a class="dropdown-item-link" href="belanja.html#waffle-section" role="menuitem">
-                <div class="dropdown-item-icon">🪙</div>
-                <div class="dropdown-item-text">
-                  <div class="dropdown-item-head">
-                    <span class="dropdown-item-title">Jika Belanja Rp100</span>
+                <a class="dropdown-item-link" href="belanja.html#opd">
+                  <div class="dropdown-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V4h9v17M14 9h5v12M3 21h18M8.5 8h2M8.5 12h2M8.5 16h2"/></svg></div>
+                  <div class="dropdown-item-text">
+                    <div class="dropdown-item-head">
+                      <span class="dropdown-item-title">Per Dinas &amp; Program Prioritas</span>
+                    </div>
+                    <span class="dropdown-item-desc">Alokasi anggaran 5 dinas teknis dan program untuk warga.</span>
                   </div>
-                  <span class="dropdown-item-desc">Simulasi pembagian setiap seratus rupiah belanja APBD</span>
+                </a>
+              </div>
+
+              <!-- Side Card: Simulasi Rp100 -->
+              <aside class="dropdown-side-card">
+                <div>
+                  <span class="dropdown-side-card-tag is-gold">Simulasi</span>
+                  <div class="dropdown-side-rp" style="margin-top: 6px;">Rp100</div>
+                  <div class="dropdown-side-card-date">Jika Belanja Rp100</div>
+                  <p class="dropdown-side-card-source" style="margin-top: 4px;">Lihat ke mana setiap seratus rupiah belanja APBD mengalir.</p>
                 </div>
-              </a>
+                <div class="dropdown-coins" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+                <a class="dropdown-side-link" href="belanja.html#rp100">Coba simulasi <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+              </aside>
             </div>
+            <div class="dropdown-panel-foot" aria-hidden="true"></div>
           </div>
         </div>
 
         <!-- Dropdown 3: Pelajari -->
         <div class="nav-dropdown-wrapper">
-          <button type="button" class="nav-dropdown-trigger" aria-expanded="false" aria-haspopup="true">
+          <button type="button" class="nav-dropdown-trigger" aria-expanded="false" aria-haspopup="true" aria-controls="panel-pelajari">
             <span>Pelajari</span>
             <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </button>
-          <div class="nav-dropdown-panel" role="menu">
-            <div class="dropdown-items-group">
-              <a class="dropdown-item-link" href="index.html#tentang-data" role="menuitem">
-                <div class="dropdown-item-icon">💡</div>
-                <div class="dropdown-item-text">
-                  <div class="dropdown-item-head">
-                    <span class="dropdown-item-title">Tentang paJAK-Kita</span>
+          <div class="nav-dropdown-panel has-sidecard" id="panel-pelajari" role="region" aria-label="Menu Pelajari">
+            <div class="dropdown-panel-grid">
+              <div class="dropdown-items-group">
+                <a class="dropdown-item-link" href="index.html#tentang-data">
+                  <div class="dropdown-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8v.01"/></svg></div>
+                  <div class="dropdown-item-text">
+                    <div class="dropdown-item-head">
+                      <span class="dropdown-item-title">Tentang paJAK-Kita</span>
+                    </div>
+                    <span class="dropdown-item-desc">Inisiatif independen memahami keterbukaan anggaran daerah.</span>
                   </div>
-                  <span class="dropdown-item-desc">Inisiatif independen memahami keterbukaan anggaran daerah</span>
-                </div>
-              </a>
+                </a>
 
-              <a class="dropdown-item-link" href="index.html#tentang-data" role="menuitem">
-                <div class="dropdown-item-icon">🔍</div>
-                <div class="dropdown-item-text">
-                  <div class="dropdown-item-head">
-                    <span class="dropdown-item-title">Cara Kami Menyajikan Data</span>
+                <a class="dropdown-item-link" href="index.html#tentang-data">
+                  <div class="dropdown-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l5 5"/></svg></div>
+                  <div class="dropdown-item-text">
+                    <div class="dropdown-item-head">
+                      <span class="dropdown-item-title">Cara Kami Menyajikan Data</span>
+                    </div>
+                    <span class="dropdown-item-desc">Prinsip kejujuran data dan metodologi perhitungan.</span>
                   </div>
-                  <span class="dropdown-item-desc">Prinsip kejujuran data dan metodologi perhitungan</span>
-                </div>
-              </a>
+                </a>
 
-              <a class="dropdown-item-link" href="kamus.html" role="menuitem">
-                <div class="dropdown-item-icon">📖</div>
-                <div class="dropdown-item-text">
-                  <div class="dropdown-item-head">
-                    <span class="dropdown-item-title">Kamus Pajak</span>
-                    <span class="badge-coming-soon">Segera hadir</span>
+                <a class="dropdown-item-link" href="kamus.html">
+                  <div class="dropdown-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5C4 4.7 4.7 4 5.5 4H11v16H5.5C4.7 20 4 19.3 4 18.5v-13zM20 5.5c0-.8-.7-1.5-1.5-1.5H13v16h5.5c.8 0 1.5-.7 1.5-1.5v-13z"/></svg></div>
+                  <div class="dropdown-item-text">
+                    <div class="dropdown-item-head">
+                      <span class="dropdown-item-title">Kamus Pajak</span>
+                    </div>
+                    <span class="dropdown-item-desc">Glosarium istilah pajak dan keuangan daerah resmi.</span>
                   </div>
-                  <span class="dropdown-item-desc">Glosarium 158 istilah keuangan daerah resmi</span>
-                </div>
-              </a>
+                </a>
 
-              <a class="dropdown-item-link" href="index.html#kenalan-ondi" role="menuitem">
-                <div class="dropdown-item-icon">👋</div>
-                <div class="dropdown-item-text">
-                  <div class="dropdown-item-head">
-                    <span class="dropdown-item-title">Kenalan dengan Ondi</span>
+                <a class="dropdown-item-link" href="index.html#kenalan-ondi">
+                  <div class="dropdown-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 015 .5c0 1.7-2.5 2-2.5 3.5M12 17v.01"/></svg></div>
+                  <div class="dropdown-item-text">
+                    <div class="dropdown-item-head">
+                      <span class="dropdown-item-title">Kenalan dengan Ondi</span>
+                    </div>
+                    <span class="dropdown-item-desc">Temui maskot pemandu data paJAK-Kita.</span>
                   </div>
-                  <span class="dropdown-item-desc">Temui maskot pemandu data paJAK-Kita</span>
+                </a>
+              </div>
+
+              <!-- Side Card: Maskot Ondi -->
+              <aside class="dropdown-side-card">
+                <div>
+                  <span class="dropdown-side-card-tag">Maskot</span>
+                  <div class="dropdown-side-ondi-row" style="margin-top: 10px;">
+                    <img class="dropdown-side-ondi-img" src="public/assets/maskot-ondi/ondi-02-menyambut.svg" alt="Ondi, maskot paJAK-Kita">
+                    <div class="dropdown-side-card-date">Kenalan dengan Ondi</div>
+                  </div>
+                  <p class="dropdown-side-card-source" style="margin-top: 8px;">Temui maskot pemandu yang menemani kamu membaca data paJAK-Kita.</p>
                 </div>
-              </a>
+                <a class="dropdown-side-link" href="index.html#kenalan-ondi">Temui Ondi <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+              </aside>
             </div>
+            <div class="dropdown-panel-foot" aria-hidden="true"></div>
           </div>
         </div>
       </nav>
@@ -222,10 +273,13 @@
             <div class="dropdown-item-title">Ringkasan Pajak Daerah</div>
           </a>
           <a class="dropdown-item-link" href="penerimaan.html#rincian-jenis">
-            <div class="dropdown-item-title">Per Jenis Pajak <span class="badge-coming-soon">Segera hadir</span></div>
+            <div class="dropdown-item-title">Rincian 12 Jenis Pajak</div>
           </a>
-          <a class="dropdown-item-link" href="penerimaan.html#wajib-pajak">
-            <div class="dropdown-item-title">Per Wilayah <span class="badge-coming-soon">Segera hadir</span></div>
+          <a class="dropdown-item-link" href="penerimaan.html#musiman-bulanan">
+            <div class="dropdown-item-title">Pola Bulanan &amp; Pembayar Pajak</div>
+          </a>
+          <a class="dropdown-item-link" href="index.html#peta-wilayah">
+            <div class="dropdown-item-title">Per Wilayah</div>
           </a>
         </div>
       </div>
@@ -242,10 +296,13 @@
           <a class="dropdown-item-link" href="belanja.html">
             <div class="dropdown-item-title">Ringkasan Belanja</div>
           </a>
-          <a class="dropdown-item-link" href="belanja.html#dinas">
-            <div class="dropdown-item-title">Per Dinas dan Instansi</div>
+          <a class="dropdown-item-link" href="belanja.html#kelompok">
+            <div class="dropdown-item-title">4 Kelompok &amp; Pembiayaan SiLPA</div>
           </a>
-          <a class="dropdown-item-link" href="belanja.html#waffle-section">
+          <a class="dropdown-item-link" href="belanja.html#opd">
+            <div class="dropdown-item-title">Per Dinas &amp; Program Prioritas</div>
+          </a>
+          <a class="dropdown-item-link" href="belanja.html#rp100">
             <div class="dropdown-item-title">Jika Belanja Rp100</div>
           </a>
         </div>
@@ -267,7 +324,7 @@
             <div class="dropdown-item-title">Cara Kami Menyajikan Data</div>
           </a>
           <a class="dropdown-item-link" href="kamus.html">
-            <div class="dropdown-item-title">Kamus Pajak <span class="badge-coming-soon">Segera hadir</span></div>
+            <div class="dropdown-item-title">Kamus Pajak</div>
           </a>
           <a class="dropdown-item-link" href="index.html#kenalan-ondi">
             <div class="dropdown-item-title">Kenalan dengan Ondi</div>
@@ -282,259 +339,252 @@
   </aside>
 
   <!-- Main Content -->
-  <main id="main">
-    <!-- Breadcrumb -->
-    <div class="container subpage-breadcrumb-bar">
+  <main id="main" class="pr-main">
+    <!-- Pemisah Atas: Motif Kain Betawi (konsisten dengan beranda) -->
+    <div class="motif-band pr-motif-band" role="img" aria-label="Motif kain Betawi sebagai pemisah visual">
+      <div class="motif-pattern" style="background-image: url('public/assets/motifs/kain-betawi-strip.svg');" aria-hidden="true"></div>
+    </div>
+
+    <!-- Breadcrumb & Tautan Seksi Cepat -->
+    <div class="pr-wrap pr-subbar">
       <nav class="breadcrumb-nav" aria-label="Breadcrumb">
         <a href="index.html" class="breadcrumb-link">Beranda</a>
         <span class="breadcrumb-sep" aria-hidden="true">/</span>
         <span class="breadcrumb-current" aria-current="page">Penerimaan Pajak Daerah</span>
       </nav>
+      <div class="pr-quick-links" aria-label="Navigasi bagian halaman">
+        <a href="#kinerja">Capaian</a>
+        <a href="#rincian-jenis">12 Jenis Pajak</a>
+        <a href="#musiman-bulanan">Waktu Bayar</a>
+        <a href="#wajib-pajak">Pembayar Pajak</a>
+      </div>
     </div>
 
-    <!-- Header Halaman & Horizon 5 Tahun (2022–2026) -->
-    <section class="container subpage-hero">
-      <div class="subpage-eyebrow">TOPIK 01 • SUMBER PENDAPATAN DAERAH</div>
-      <h1 class="subpage-title">
-        Penerimaan <span>Pajak Daerah</span> DKI Jakarta
-      </h1>
-      <p class="subpage-lead">
-        Pajak daerah merupakan tulang punggung pendapatan DKI Jakarta. Pantau target APBD, realisasi penerimaan, perbandingan dengan retribusi daerah, rincian 12 jenis pajak, pola musiman bulanan, hingga tingkat kepatuhan wajib pajak ibu kota.
-      </p>
+    <!-- Hero Editorial + Pilih Tahun (2022–2026) + Blok Merah Count-Up + 3 KPI Tumpuk -->
+    <section class="pr-hero" aria-labelledby="pr-hero-title">
+      <div class="pr-wrap">
+        <div class="pr-eyebrow">Uang Kas Daerah DKI Jakarta</div>
+        <h1 class="pr-serif" id="pr-hero-title">
+          Penerimaan <em>Pajak Daerah</em> DKI Jakarta
+        </h1>
+        <p class="pr-lead">
+          Uang pajak warga dipakai membiayai transportasi, sekolah, taman, dan layanan publik di Jakarta. Pantau target, uang yang sudah masuk, 12 jenis pajak, hingga kebiasaan bayar warga sepanjang tahun.
+        </p>
 
-      <!-- Horizon 5 Tahun Filter Bar -->
-      <div class="horizon-filter-bar">
-        <span class="horizon-filter-label">Horizon Tahun Data:</span>
-        <div id="penerimaan-year-selector" style="display: inline-flex; flex-wrap: wrap; gap: 6px;">
-          <!-- Tombol tahun (2022–2026) di-generate oleh js/penerimaan.js -->
-        </div>
-      </div>
-
-      <!-- Trust Badge Gateway Resmi Satu Data Jakarta -->
-      <div class="subpage-trust-badge" role="note" aria-label="Status Sumber Data">
-        <span class="trust-tag-official">[11 DATASET RESMI]</span>
-        <span>Gateway <strong>ws.jakarta.go.id</strong> · BPKD &amp; Bapenda DKI Jakarta</span>
-        <span style="opacity: 0.5;">•</span>
-        <span>Horizon Lengkap <strong>2022–2026</strong></span>
-      </div>
-    </section>
-
-    <!-- Section 1: Ringkasan Capaian & Cincin Progres (Dataset 08 & 02) -->
-    <section class="container">
-      <div class="progress-ring-card">
-        <!-- Cincin Progres Lingkaran -->
-        <div class="progress-ring-box">
-          <svg class="progress-ring-svg" viewBox="0 0 110 110" aria-hidden="true">
-            <circle class="progress-ring-circle-bg" cx="55" cy="55" r="45"></circle>
-            <circle class="progress-ring-circle-val" id="progress-ring-pajak-val" cx="55" cy="55" r="45" style="stroke-dasharray: 282.743; stroke-dashoffset: 0;"></circle>
-          </svg>
-          <div class="progress-ring-text">
-            <span class="progress-ring-percent" id="progress-ring-pajak-text">102,8%</span>
-            <span class="progress-ring-label">Tercapai</span>
+        <!-- Pilihan Tahun Data (2022–2026) -->
+        <div class="pr-chips">
+          <span class="pr-chips-label">Pilih Tahun</span>
+          <div class="pr-year-group" id="penerimaan-year-selector" role="group" aria-label="Pilih Tahun Data">
+            <!-- Di-generate dinamis oleh js/penerimaan.js -->
           </div>
         </div>
 
-        <!-- Info & 3 Angka Kunci -->
-        <div class="progress-ring-info">
-          <div class="ring-header-row">
+        <!-- KPI Utama: Blok Merah Count-Up + 3 KPI Tumpuk -->
+        <div class="pr-kpi" id="kinerja">
+          <article class="pr-big pr-rv">
+            <span class="pr-tag" id="stat-pajak-status">Melampaui Target</span>
+            <div class="pr-big-mid">
+              <small>CAPAIAN TARGET TAHUN INI</small>
+              <div class="pr-big-num pr-serif" aria-live="polite">
+                <span id="hero-kpi-capaian">0,0</span><sup>%</sup>
+              </div>
+            </div>
+            <p id="hero-kpi-desc">
+              Uang pajak yang masuk melampaui target tahun 2026, lebih Rp 1,70 T.
+            </p>
+          </article>
+
+          <div class="pr-stack">
+            <div class="pr-stat pr-rv">
+              <small>TARGET TAHUN INI</small>
+              <div class="pr-stat-val pr-serif" id="stat-pajak-anggaran">Rp 59,80 T</div>
+            </div>
+            <div class="pr-stat pr-rv">
+              <small>UANG PAJAK MASUK</small>
+              <div class="pr-stat-val pr-serif" id="stat-pajak-realisasi">Rp 61,50 T</div>
+            </div>
+            <div class="pr-stat is-green pr-rv">
+              <small>KELEBIHAN DARI TARGET</small>
+              <div class="pr-stat-val pr-serif" id="stat-pajak-surplus-val">+Rp 1,70 T</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 1: Perbandingan Pajak Daerah vs Retribusi -->
+    <section class="pr-section" style="padding-top: 0;">
+      <div class="pr-wrap">
+        <article class="pr-card pr-rv" id="cmp-card">
+          <div class="pr-eyebrow">Pajak &amp; Retribusi Daerah</div>
+          <div class="pr-cmp">
             <div>
-              <span class="info-modal-code" style="font-size: 0.75rem; font-weight: 800; color: var(--color-muted);">AKUN 4.1.01 · PAJAK DAERAH</span>
-              <h2 class="ring-title">Kinerja Realisasi Pajak Daerah</h2>
+              <div class="pr-cmp-row">
+                <span>Pajak Daerah</span>
+                <span class="pr-ok" id="metric-comp-pajak-val">102,8%</span>
+              </div>
+              <div class="pr-track" aria-hidden="true">
+                <div class="pr-fill" id="metric-comp-pajak-bar" style="width: 100%; background: var(--red);"></div>
+              </div>
             </div>
-            <span class="stat-chip chip-success" id="stat-pajak-status">Surplus Anggaran</span>
-          </div>
 
-          <div class="exec-metrics-row">
-            <div class="exec-metric-col">
-              <span class="exec-metric-label">Target Anggaran</span>
-              <span class="exec-metric-val" id="stat-pajak-anggaran">Rp 59,80 T</span>
-            </div>
-            <div class="exec-metric-col">
-              <span class="exec-metric-label">Pajak Terkumpul</span>
-              <span class="exec-metric-val highlight-pajak" id="stat-pajak-realisasi">Rp 61,50 T</span>
-            </div>
-            <div class="exec-metric-col">
-              <span class="exec-metric-label">Selisih Target / Surplus</span>
-              <span class="exec-metric-val highlight-pajak" id="stat-pajak-surplus-val">+Rp 1,70 T</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Dataset 01 & 02: Komparasi Pajak Daerah vs Retribusi Daerah -->
-      <article class="comp-pajak-retribusi-box">
-        <div class="comp-box-head">
-          <span class="comp-box-title">DATASET 01 &amp; 02 • KOMPARASI CAPAIAN PAJAK VS RETRIBUSI DAERAH</span>
-          <span style="font-size: 0.75rem; font-weight: 700; color: var(--color-muted);">Satu Data Jakarta</span>
-        </div>
-
-        <div class="comp-bars-grid">
-          <!-- Bar 1: Pajak Daerah Murni -->
-          <div class="comp-bar-item">
-            <div class="comp-bar-meta">
-              <span>Pajak Daerah (Murni)</span>
-              <span class="text-primary font-bold" id="metric-comp-pajak-val">102,8%</span>
-            </div>
-            <div class="comp-bar-track" aria-hidden="true">
-              <div class="comp-bar-fill fill-pajak" id="metric-comp-pajak-bar" style="width: 100%;"></div>
+            <div>
+              <div class="pr-cmp-row">
+                <span>Retribusi (Parkir, Izin Usaha, dll.)</span>
+                <span style="color: var(--gold);" id="metric-comp-retribusi-val">89,5%</span>
+              </div>
+              <div class="pr-track" aria-hidden="true">
+                <div class="pr-fill" id="metric-comp-retribusi-bar" style="width: 89.5%; background: var(--gold);"></div>
+              </div>
             </div>
           </div>
 
-          <!-- Bar 2: Retribusi Daerah -->
-          <div class="comp-bar-item">
-            <div class="comp-bar-meta">
-              <span>Retribusi Daerah</span>
-              <span class="text-gold font-bold" id="metric-comp-retribusi-val">89,5%</span>
-            </div>
-            <div class="comp-bar-track" aria-hidden="true">
-              <div class="comp-bar-fill fill-retribusi" id="metric-comp-retribusi-bar" style="width: 89.5%;"></div>
-            </div>
-          </div>
-        </div>
-
-        <p class="comp-insight-text" id="pajak-retribusi-insight-text">
-          Pajak Daerah murni mencapai <strong>102,8%</strong> dari target APBD, sedangkan Retribusi Daerah (retribusi jasa umum, usaha, dan perizinan tertentu) mencapai <strong>89,5%</strong>.
-        </p>
-      </article>
-    </section>
-
-    <!-- Section 2: Rincian 12 Jenis Pajak Daerah (Dataset 10 & 03) -->
-    <section class="container" id="rincian-jenis">
-      <header class="detail-section-header">
-        <div class="detail-section-tag">DATASET 10 &amp; 03 • KLASIFIKASI BAPENDA DKI JAKARTA</div>
-        <h2 class="detail-section-title">Rincian Lengkap 12 Jenis Pajak Daerah</h2>
-        <p class="detail-section-lead">
-          Pajak Bumi &amp; Bangunan (PBB-P2) dan Pajak Kendaraan Bermotor (PKB) menjadi kontributor terbesar yang menopang lebih dari 39% dari seluruh penerimaan pajak ibu kota.
-        </p>
-      </header>
-
-      <!-- Category Filter Tabs -->
-      <div class="jenis-filter-tabs">
-        <button type="button" class="jenis-filter-tab active" data-cat="all">Semua Jenis (12)</button>
-        <button type="button" class="jenis-filter-tab" data-cat="kendaraan">Kendaraan &amp; BBM (3)</button>
-        <button type="button" class="jenis-filter-tab" data-cat="properti">Properti &amp; Tanah (2)</button>
-        <button type="button" class="jenis-filter-tab" data-cat="pbjt">Konsumsi &amp; Jasa PBJT (7)</button>
-      </div>
-
-      <!-- Grid 12 Kartu Jenis Pajak -->
-      <div class="jenis-pajak-grid" id="jenis-pajak-grid-list">
-        <!-- Diisi otomatis oleh js/penerimaan.js -->
+          <p class="pr-sub pr-cmp-note" id="pajak-retribusi-insight-text">
+            Pajak daerah mencapai <strong>102,8%</strong> dari target 2026, sementara retribusi daerah (seperti parkir, biaya layanan, dan izin usaha) mencapai <strong>89,5%</strong>.
+          </p>
+        </article>
       </div>
     </section>
 
-    <!-- Section 3: Grafik Musiman Bulanan (Dataset 09) -->
-    <section class="container" id="musiman-bulanan">
-      <header class="detail-section-header">
-        <div class="detail-section-tag">DATASET 09 • ANALISIS POLA MUSIMAN (SEASONALITY)</div>
-        <h2 class="detail-section-title">Kapan Warga Paling Banyak Bayar Pajak?</h2>
-        <p class="detail-section-lead">
-          Penerimaan pajak tidak terbagi rata setiap bulan. Terdapat 3 periode puncak utama: diskon PKB pada Mei–Juni saat HUT Jakarta, jatuh tempo massal PBB-P2 di Agustus–September, dan penutupan buku BPHTB di Desember.
+    <!-- Section 2: Porsi Kas & Rincian 12 Jenis Pajak Daerah -->
+    <section class="pr-section" id="rincian-jenis">
+      <div class="pr-wrap">
+        <div class="pr-eyebrow">Sumber Pemasukan Pajak</div>
+        <h2 class="pr-serif">Rincian 12 jenis pajak</h2>
+        <p class="pr-sub">
+          Pajak Bumi &amp; Bangunan (PBB-P2) dan Pajak Kendaraan Bermotor (PKB) menjadi penyumbang terbesar yang mengisi lebih dari 39% total pemasukan pajak Jakarta.
         </p>
-      </header>
 
-      <div class="seasonality-wrap-card">
-        <!-- 12 Bar Bulanan Interaktif -->
-        <div class="season-bars-row" id="seasonality-bars-container">
+        <!-- Bar Porsi Kas Proporsional + Tooltip -->
+        <div class="pr-share-wrap pr-rv">
+          <div class="pr-share-float" id="pr-share-float" role="tooltip" aria-hidden="true"></div>
+          <div class="pr-share" id="share-porsi-bar" role="group" aria-label="Porsi 12 jenis pajak terhadap total pemasukan">
+            <!-- Diisi dinamis oleh js/penerimaan.js -->
+          </div>
+        </div>
+
+        <div class="pr-legend" aria-label="Legenda kategori pajak">
+          <span><b style="background: var(--red);"></b>Kendaraan &amp; BBM</span>
+          <span><b style="background: var(--gold);"></b>Properti &amp; Tanah</span>
+          <span><b style="background: var(--grn);"></b>Belanja, Makan &amp; Hiburan</span>
+        </div>
+
+        <div class="pr-tip" id="pr-share-tip" aria-live="polite">
+          Arahkan kursor atau sentuh blok warna di atas untuk melihat besarannya.
+        </div>
+
+        <!-- Filter Kategori -->
+        <div class="pr-chips" role="group" aria-label="Filter kategori pajak">
+          <button type="button" class="pr-chip jenis-filter-tab is-active active" data-cat="all" aria-pressed="true">Semua Jenis (12)</button>
+          <button type="button" class="pr-chip jenis-filter-tab" data-cat="kendaraan" aria-pressed="false">Kendaraan &amp; BBM (3)</button>
+          <button type="button" class="pr-chip jenis-filter-tab" data-cat="properti" aria-pressed="false">Properti &amp; Tanah (2)</button>
+          <button type="button" class="pr-chip jenis-filter-tab" data-cat="pbjt" aria-pressed="false">Belanja &amp; Hiburan (7)</button>
+        </div>
+
+        <!-- Grid 12 Kartu Pajak -->
+        <div class="pr-grid" id="jenis-pajak-grid-list">
           <!-- Diisi otomatis oleh js/penerimaan.js -->
         </div>
-
-        <!-- Detail Bulan Terpilih -->
-        <div class="season-detail-card" id="seasonality-month-detail-card">
-          <!-- Diisi otomatis saat kolom bulan diklik -->
-        </div>
       </div>
     </section>
 
-    <!-- Section 4: Analisis Wajib Pajak & Kepatuhan Warga (Dataset 11) -->
-    <section class="container" id="wajib-pajak">
-      <header class="detail-section-header">
-        <div class="detail-section-tag">DATASET 11 • POPULASI &amp; RASIO KEPATUHAN</div>
-        <h2 class="detail-section-title">Perkembangan Wajib Pajak Jakarta</h2>
-        <p class="detail-section-lead">
-          Menilai partisipasi warga Jakarta dalam menyokong pembiayaan publik kota melalui tren kepatuhan pelaporan dan pembayaran pajak aktif.
+    <!-- Section 3: Grafik Musiman Bulanan -->
+    <section class="pr-section" id="musiman-bulanan">
+      <div class="pr-wrap">
+        <div class="pr-eyebrow">Waktu Ramai Bayar Pajak</div>
+        <h2 class="pr-serif">Kapan warga paling banyak bayar pajak?</h2>
+        <p class="pr-sub">
+          Pemasukan pajak punya 3 waktu tersibuk: diskon pajak kendaraan saat ulang tahun Jakarta (Mei–Juni), batas akhir bayar PBB-P2 (Agustus–September), dan akhir tahun (Desember).
         </p>
-      </header>
 
-      <div class="wp-section-grid">
-        <!-- Metrik Ringkas Kiri -->
-        <div class="wp-stats-col">
-          <div class="wp-stat-box">
-            <div class="wp-stat-lbl">Total Wajib Pajak Terdaftar</div>
-            <div class="wp-stat-val text-primary" id="stat-wp-total-val">5,86 Juta WP</div>
+        <div class="pr-card pr-rv" style="margin-top: 28px;">
+          <div class="pr-bars" id="seasonality-bars-container" role="group" aria-label="Grafik pemasukan bulanan Januari hingga Desember">
+            <!-- Diisi otomatis oleh js/penerimaan.js -->
           </div>
 
-          <div class="wp-stat-box">
-            <div class="wp-stat-lbl">Pertumbuhan Tahunan</div>
-            <div class="wp-stat-val text-success" id="stat-wp-growth-val">+5,0% YoY</div>
-          </div>
-
-          <div class="wp-stat-box">
-            <div class="wp-stat-lbl">Tingkat Kepatuhan Aktif</div>
-            <div class="wp-stat-val text-gold" id="stat-wp-patuh-val">86,4%</div>
+          <div class="pr-peak" id="seasonality-month-detail-card" aria-live="polite">
+            <!-- Diisi otomatis saat bulan dipilih -->
           </div>
         </div>
+      </div>
+    </section>
 
-        <!-- Tabel Tren 5 Tahun Kanan -->
-        <div class="wp-table-col">
-          <table class="wp-table">
-            <thead>
-              <tr>
-                <th>Tahun</th>
-                <th>Total Terdaftar</th>
-                <th>Pertumbuhan</th>
-                <th>Kepatuhan</th>
-                <th>Visualisasi Rasio</th>
-              </tr>
-            </thead>
-            <tbody id="table-wp-history-body">
+    <!-- Section 4: Perkembangan Pembayar Pajak -->
+    <section class="pr-section pr-section-last" id="wajib-pajak">
+      <div class="pr-wrap">
+        <div class="pr-eyebrow">Partisipasi Warga</div>
+        <h2 class="pr-serif">Perkembangan pembayar pajak Jakarta</h2>
+        <p class="pr-sub">
+          Lihat berapa banyak warga dan pelaku usaha di Jakarta yang terdaftar serta rutin membayar pajak untuk ikut membangun kota.
+        </p>
+
+        <div class="pr-wp">
+          <div class="pr-stack">
+            <div class="pr-stat pr-rv">
+              <small>WARGA &amp; USAHA TERDAFTAR</small>
+              <div class="pr-stat-val pr-serif" id="stat-wp-total-val">5,86 Juta</div>
+            </div>
+            <div class="pr-stat is-green pr-rv">
+              <small>KENAIKAN TIAP TAHUN</small>
+              <div class="pr-stat-val pr-serif" id="stat-wp-growth-val">+5,0% / tahun</div>
+            </div>
+            <div class="pr-stat is-red pr-rv">
+              <small>YANG RUTIN BAYAR</small>
+              <div class="pr-stat-val pr-serif" id="stat-wp-patuh-val">86,4%</div>
+            </div>
+          </div>
+
+          <div class="pr-card pr-cols-card pr-rv">
+            <div class="pr-cols-head">
+              <span>Tren 5 Tahun Terakhir (2022–2026)</span>
+              <strong>Ketuk tahun untuk lihat angkanya</strong>
+            </div>
+            <div class="pr-cols" id="wp-bars-chart" role="group" aria-label="Grafik jumlah pembayar pajak tahun 2022 hingga 2026">
               <!-- Diisi otomatis oleh js/penerimaan.js -->
-            </tbody>
-          </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 5: Catatan Ondi -->
+        <aside class="pr-ondi pr-rv">
+          <div class="pr-ondi-av">
+            <img src="public/assets/maskot-ondi/ondi-02-menyambut.svg" alt="Maskot Ondi Menyambut Warga" aria-hidden="true">
+          </div>
+          <div class="pr-ondi-body">
+            <b>Catatan Ondi untuk Warga</b>
+            <p class="pr-sub" id="penerimaan-ondi-narrative">
+              Pada tahun 2026, uang pajak Jakarta yang terkumpul mencapai Rp 61,50 T (102,8% dari target). Penyumbang terbesarnya tetap berasal dari pajak tanah/bangunan (PBB-P2) dan pajak kendaraan (PKB) yang mencakup hampir 40% total pemasukan.
+            </p>
+          </div>
+        </aside>
+
+        <!-- Section 6: Navigasi Lanjutan -->
+        <div class="pr-next">
+          <a href="belanja.html" class="pr-next-card pr-rv">
+            <div>
+              <small>BELANJA DAERAH</small>
+              <h3>Ke mana uang pajak ini dipakai?</h3>
+              <p>Lihat pembagian penggunaan anggaran belanja kota untuk fasilitas umum, layanan kesehatan, sekolah, dan kebutuhan warga Jakarta.</p>
+            </div>
+            <span class="pr-next-cta">Lihat Belanja Daerah →</span>
+          </a>
+
+          <a href="buat-kartu.html" class="pr-next-card is-red pr-rv">
+            <div>
+              <small>KARTU RINGKASAN WARGA</small>
+              <h3>Buat kartu info pajak wilayahmu</h3>
+              <p>Pilih wilayahmu di Jakarta dan buat kartu ringkasan fakta pajak yang siap dibagikan ke media sosial dalam sekejap.</p>
+            </div>
+            <span class="pr-next-cta">Buat Kartu Sekarang →</span>
+          </a>
         </div>
       </div>
     </section>
 
-    <!-- Section 5: Catatan Edukasi Maskot Ondi -->
-    <section class="container">
-      <aside class="ondi-callout-banner">
-        <div class="ondi-callout-avatar">
-          <img src="public/assets/maskot-ondi/ondi-02-menyambut.svg" alt="Maskot Ondi Menyambut Warga" aria-hidden="true">
-        </div>
-        <div class="ondi-callout-body">
-          <h3 class="ondi-callout-title">Catatan Ondi untuk Warga Kota</h3>
-          <p class="ondi-callout-text" id="penerimaan-ondi-narrative">
-            Realisasi pajak daerah DKI Jakarta secara konsisten ditopang oleh PBB-P2 dan PKB yang menyumbang hampir 40% kas masuk daerah! Saat warga taat membayar pajak tepat waktu di bulan Mei dan Agustus, Pemprov DKI langsung memiliki likuiditas untuk membiayai operasional TransJakarta, pemeliharaan pompa banjir, dan fasilitas puskesmas.
-          </p>
-        </div>
-      </aside>
-    </section>
-
-    <!-- Section 6: Navigasi Lanjutan (Belanja & Generator Kartu) -->
-    <section class="container">
-      <div class="subpage-cta-grid">
-        <a href="belanja.html" class="subpage-cta-card">
-          <div>
-            <span class="cta-card-tag">PILAR 02 · BELANJA DAERAH</span>
-            <h3 class="cta-card-title">Ke Mana Uang Pajak Ini Dialokasikan?</h3>
-            <p class="cta-card-desc">
-              Telusuri distribusi penyerapan anggaran belanja untuk pembangunan fasilitas, operasional dinas, dan layanan warga di halaman Belanja APBD.
-            </p>
-          </div>
-          <span class="cta-card-action">Eksplorasi Belanja APBD &amp; OPD →</span>
-        </a>
-
-        <a href="buat-kartu.html" class="subpage-cta-card">
-          <div>
-            <span class="cta-card-tag">FITUR WARGA · KARTU INSIGHT</span>
-            <h3 class="cta-card-title">Cetak Kartu Fakta Pajak Wilayahmu</h3>
-            <p class="cta-card-desc">
-              Pilih wilayah kotamu dan cetak kartu ringkasan fakta pajak yang siap dibagikan ke media sosial dalam sekejap.
-            </p>
-          </div>
-          <span class="cta-card-action">Buat Kartu Insight Warga →</span>
-        </a>
-      </div>
-    </section>
+    <!-- Pemisah Bawah: Motif Kain Betawi sebelum Curtain Footer -->
+    <div class="motif-band pr-motif-band pr-motif-bottom" role="img" aria-label="Motif kain Betawi sebagai pemisah visual">
+      <div class="motif-pattern" style="background-image: url('public/assets/motifs/kain-betawi-strip.svg');" aria-hidden="true"></div>
+    </div>
   </main>
 
   <!-- =========================================================================
@@ -593,7 +643,7 @@
   </footer>
 
   <!-- Scripts -->
-  <script type="module" src="js/main.js?v=13"></script>
-  <script type="module" src="js/penerimaan.js"></script>
+  <script type="module" src="js/main.js?v=19"></script>
+  <script type="module" src="js/penerimaan.js?v=3"></script>
 </body>
 </html>
