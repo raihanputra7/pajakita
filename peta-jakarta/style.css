@@ -1,0 +1,151 @@
+/* ===== Palet (ubah warna di sini) ===== */
+:root {
+  --merah: #b82025;      /* Betawi Brick Red */
+  --emas: #e5ad27;       /* Monas Gold */
+  --hijau: #207a5b;      /* Betawi Green */
+  --arang: #211f1d;      /* Editorial Charcoal */
+  --kertas: #f8f3e9;     /* Warm Paper (latar halaman) */
+  --kartu: #efe6d4;      /* kertas sedikit lebih tua untuk kartu peta */
+  --garis: #d9cdb6;
+  --netral: #d8cbb2;     /* warna wilayah sebelum di-hover */
+  --teks-redup: #716b64;
+
+  --font: "Fraunces", Georgia, "Times New Roman", serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--kertas);
+  color: var(--arang);
+  font-family: var(--font);
+  line-height: 1.5;
+}
+
+.halaman {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(20px, 4vw, 48px);
+  display: grid;
+  gap: 24px 48px;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas: "kepala" "peta" "panel";
+}
+
+/* ===== Kepala ===== */
+.kepala { grid-area: kepala; }
+.tumpal {
+  display: block;
+  width: 120px;
+  height: 10px;
+  margin-bottom: 16px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='10'%3E%3Cpath d='M0 0h20L10 10z' fill='%23e5ad27'/%3E%3C/svg%3E") repeat-x;
+}
+.kepala h1 {
+  margin: 0;
+  font-size: clamp(2.2rem, 5vw, 3.4rem);
+  font-weight: 600;
+  line-height: 1.05;
+  color: var(--arang);
+}
+.kepala p { margin: 12px 0 0; max-width: 52ch; color: var(--teks-redup); }
+
+/* ===== Peta ===== */
+.kartu-peta {
+  grid-area: peta;
+  position: relative;
+  background: var(--kartu);
+  border: 1px solid var(--garis);
+  border-radius: 12px;
+  padding: clamp(8px, 2vw, 20px);
+}
+#peta { display: block; width: 100%; height: auto; max-height: 82vh; }
+
+.kota { cursor: pointer; outline: none; }
+.kota .bentuk {
+  fill: var(--pudar); /* default: warna kota sendiri dengan saturasi rendah */
+  stroke: var(--arang);
+  stroke-width: 1;
+  stroke-linejoin: round;
+  transition: fill 0.25s ease;
+}
+/* hanya kota yang di-hover/disorot berwarna penuh; kota lain tetap pudar */
+#peta.aktif .kota.sorot .bentuk { fill: var(--warna); }
+
+.area-hit { fill: transparent; pointer-events: all; }
+.bingkai-inset { fill: none; stroke: var(--arang); stroke-opacity: 0.45; stroke-dasharray: 4 5; }
+.label-inset { font-family: var(--font); fill: var(--arang); pointer-events: none; }
+.label-inset .kecil { fill: var(--teks-redup); font-size: 12px; }
+#garis-sorot { fill: none; stroke: var(--arang); stroke-width: 2.6; stroke-linejoin: round; pointer-events: none; }
+
+.tooltip {
+  position: absolute;
+  z-index: 2;
+  padding: 7px 14px 7px 12px;
+  background: var(--arang);
+  color: var(--kertas);
+  border-left: 4px solid var(--emas);
+  border-radius: 4px;
+  font-size: 0.95rem;
+  white-space: nowrap;
+  pointer-events: none;
+  transform: translate(-50%, -150%);
+}
+
+/* ===== Panel ===== */
+.panel { grid-area: panel; display: grid; gap: 28px; align-content: start; }
+.info { min-height: 6rem; }
+.info-jenis { margin: 0; font-size: 0.95rem; color: var(--teks-redup); }
+.info-nama {
+  margin: 0;
+  font-size: clamp(1.7rem, 3.2vw, 2.4rem);
+  font-weight: 600;
+  line-height: 1.15;
+}
+
+.daftar { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.daftar button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 12px;
+  font: inherit;
+  color: var(--arang);
+  text-align: left;
+  background: transparent;
+  border: 0;
+  border-left: 3px solid var(--garis);
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+.daftar button:hover,
+.daftar button:focus-visible,
+.daftar button.sorot { background: var(--kartu); border-left-color: var(--warna); }
+.daftar button:focus-visible { outline: 2px solid var(--arang); outline-offset: 2px; }
+.daftar i {
+  width: 12px; height: 12px; border-radius: 50%;
+  background: var(--netral);
+  transition: background 0.2s ease;
+  flex: none;
+}
+.daftar button:hover i,
+.daftar button:focus-visible i,
+.daftar button.sorot i { background: var(--warna); }
+
+/* ===== Desktop ===== */
+@media (min-width: 960px) {
+  .halaman {
+    grid-template-columns: minmax(0, 1fr) 300px;
+    grid-template-areas:
+      "kepala kepala"
+      "peta   panel";
+    align-items: start;
+  }
+  .panel { position: sticky; top: 24px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kota .bentuk, .daftar button, .daftar i { transition: none; }
+}
