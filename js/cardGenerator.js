@@ -1,6 +1,6 @@
 
 import { getDynamicInsightFacts } from './dataEngine.js';
-import { saveExportProfile, getSavedProfile, clearSavedProfile } from './welcomeNotification.js';
+import { saveExportProfile, getSavedProfile, clearSavedProfile } from './welcomeNotification.js?v=2';
 
 function getInsight(region) {
   return getDynamicInsightFacts(region);
@@ -193,10 +193,8 @@ function showToast(message) {
 
 async function downloadCardPNG() {
   const cardEl = document.querySelector('#card-mount-point .card');
-  const scaleWrapper = document.getElementById('card-preview-scale-wrapper');
-  const viewport = document.getElementById('card-preview-viewport');
   const btn = document.getElementById('card-btn-download');
-  if (!cardEl || !scaleWrapper || !viewport || !btn) return;
+  if (!cardEl || !btn) return;
 
   const originalContent = btn.innerHTML;
   btn.innerHTML = '<span>Menyiapkan Gambar HD (3:4)...</span>';
@@ -208,25 +206,34 @@ async function downloadCardPNG() {
     if (!window.htmlToImage || typeof window.htmlToImage.toPng !== 'function') {
       throw new Error('The card image renderer is not available.');
     }
-    const cardWidth = cardEl.offsetWidth;
-    const cardHeight = cardEl.offsetHeight;
+    const cardWidth = cardEl.offsetWidth || 540;
+    const cardHeight = cardEl.offsetHeight || 760;
     if (!cardWidth || !cardHeight) {
       throw new Error('The card has no renderable dimensions.');
     }
 
-    const originalTransform = scaleWrapper.style.transform;
-    const originalOverflow = viewport.style.overflow;
-    scaleWrapper.style.transform = 'none';
-    viewport.style.overflow = 'visible';
+    // Render klon kartu di kontainer terisolasi 0x0 agar pratinjau mobile tidak melebar/zoom-out
+    const sandboxHost = document.createElement('div');
+    sandboxHost.setAttribute('aria-hidden', 'true');
+    sandboxHost.style.cssText =
+      'position:fixed;top:0;left:0;width:0;height:0;overflow:hidden;contain:strict;pointer-events:none;z-index:-9999;';
+
+    const cardClone = cardEl.cloneNode(true);
+    cardClone.style.transform = 'none';
+    cardClone.style.margin = '0';
+    sandboxHost.appendChild(cardClone);
+    document.body.appendChild(sandboxHost);
+
     let dataUrl;
     try {
-      dataUrl = await window.htmlToImage.toPng(cardEl, {
+      dataUrl = await window.htmlToImage.toPng(cardClone, {
+        width: cardWidth,
+        height: cardHeight,
         pixelRatio: 1080 / cardWidth,
         cacheBust: true
       });
     } finally {
-      scaleWrapper.style.transform = originalTransform;
-      viewport.style.overflow = originalOverflow;
+      sandboxHost.remove();
     }
 
     const link = document.createElement('a');
@@ -314,6 +321,18 @@ function initCardGenerator() {
     if (regionSelect) {
       curRegion = regionSelect.value || 'Seluruh DKI Jakarta';
     }
+  }
+
+  // Jika pengguna masuk dari tautan peta dengan parameter ?wilayah=..., prioritaskan wilayah tersebut
+  const requestedRegion = new URLSearchParams(window.location.search).get('wilayah');
+  if (
+    requestedRegion &&
+    regionSelect &&
+    Array.from(regionSelect.options).some((opt) => opt.value === requestedRegion)
+  ) {
+    regionSelect.value = requestedRegion;
+    curRegion = requestedRegion;
+    curIndex = 0;
   }
 
   if (nameInput) {

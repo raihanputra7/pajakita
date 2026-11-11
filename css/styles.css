@@ -588,32 +588,35 @@ a.dropdown-item-link:focus-visible .dropdown-item-title {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 5px;
-  width: 42px;
-  height: 42px;
-  background: rgba(255, 255, 255, 0.15);
+  gap: 4px;
+  width: 36px;
+  height: 36px;
+  background: rgba(255, 255, 255, 0.12);
   backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 9px;
   cursor: pointer;
   padding: 0;
-  transition: background 0.2s ease;
+  flex-shrink: 0;
+  transition: background 0.2s ease, border-color 0.2s ease;
 }
 
-.site-header.is-scrolled .menu-toggle {
-  background: var(--color-surface);
-  border-color: var(--color-border);
+.site-header.is-scrolled .menu-toggle,
+.site-header.header-solid .menu-toggle {
+  background: rgba(31, 26, 23, 0.04);
+  border-color: rgba(31, 26, 23, 0.14);
 }
 
 .menu-bar {
-  width: 20px;
-  height: 2px;
+  width: 16px;
+  height: 1.75px;
   background: #ffffff;
   border-radius: 2px;
   transition: transform 0.25s ease, opacity 0.25s ease, background 0.25s ease;
 }
 
-.site-header.is-scrolled .menu-bar {
+.site-header.is-scrolled .menu-bar,
+.site-header.header-solid .menu-bar {
   background: var(--color-ink);
 }
 
@@ -1043,6 +1046,19 @@ body.nav-locked {
   }
   .menu-toggle {
     display: flex;
+  }
+  .site-header .nav-wrap {
+    padding-inline: 16px;
+    gap: 8px;
+  }
+  .nav-cta {
+    margin-left: auto;
+    font-size: 0.75rem;
+    padding: 0.32rem 0.78rem;
+    box-shadow: 0 2px 8px rgba(185, 28, 28, 0.2);
+  }
+  .brand img {
+    height: 25px;
   }
   .hero-content-wrap,
   .hero-viewport-100 .hero-content-wrap,
@@ -4204,70 +4220,14 @@ footer.site-footer::after,
 
 @media (max-width: 899px) {
   .container { width: calc(100% - 32px); }
-  .site-header { height: 56px; }
-  .brand img { height: 30px; }
+  .site-header { height: 54px; }
+  .brand img { height: 24px; }
   .menu-toggle { display: flex; }
-  
-  /* Mobile Main Nav Overlay */
-  .main-nav {
-    display: none;
-    position: absolute;
-    top: 56px;
-    left: 0;
-    right: 0;
-    padding: 20px 24px;
-    background: rgba(255, 255, 255, 0.98);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--color-border);
-    box-shadow: 0 16px 32px rgba(33, 31, 29, 0.1);
-    flex-direction: column;
-    align-items: stretch;
-    gap: 8px;
-    max-height: calc(100vh - 56px);
-    overflow-y: auto;
-  }
-  
-  .main-nav.open {
-    display: flex;
-  }
-  
-  .nav-link,
-  .nav-dropdown-btn {
-    padding: 10px 8px;
-    font-size: 0.9375rem;
-    width: 100%;
-    justify-content: space-between;
-  }
-
-  .nav-dropdown {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .dropdown-menu {
-    position: static;
-    transform: none !important;
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-    box-shadow: none;
-    border: 1px solid var(--color-border);
-    background: var(--color-surface-warm);
-    margin-top: 4px;
-    margin-bottom: 8px;
-    display: none;
-  }
-
-  .nav-dropdown.is-open .dropdown-menu {
-    display: block;
-  }
 
   .nav-cta {
-    margin-top: 10px;
-    text-align: center;
-    justify-content: center;
-    padding: 10px 16px;
+    margin-top: 0;
+    font-size: 0.725rem;
+    padding: 0.3rem 0.72rem;
   }
 
   /* Unlock 100dvh for mobile so content stacks naturally without cut-offs */

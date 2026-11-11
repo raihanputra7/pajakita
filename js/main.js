@@ -21,7 +21,7 @@ import {
   getDynamicOndiNarrative,
   fetchAllTaxData
 } from './dataEngine.js';
-import { initWelcomeGreeting } from './welcomeNotification.js';
+import { initWelcomeGreeting } from './welcomeNotification.js?v=2';
 
 // Pastikan tiap refresh halaman selalu kembali ke landing page (bagian paling atas)
 if (typeof window !== 'undefined' && 'scrollRestoration' in history) {

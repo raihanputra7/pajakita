@@ -731,11 +731,12 @@
   flex: none;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  justify-content: flex-end;
+  gap: 10px;
   width: 220px;
   min-width: 220px;
   max-width: 220px;
-  height: 335px;
+  min-height: 338px;
   color: var(--color-muted);
   font-size: 0.76rem;
   font-weight: 600;
@@ -743,14 +744,19 @@
   transform: perspective(900px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
 }
 
+.card-community-caption {
+  width: 100%;
+  padding-inline: 4px;
+  line-height: 1.35;
+  overflow-wrap: break-word;
+}
+
 .card-community-artwork {
-  position: absolute;
-  top: 28px;
-  left: 50%;
+  position: relative;
+  flex: none;
   overflow: hidden;
   border-radius: 14px;
   box-shadow: 0 12px 28px rgba(31, 26, 23, 0.14);
-  transform: translateX(-50%);
   transition: transform 240ms ease, box-shadow 240ms ease;
 }
 
@@ -768,7 +774,7 @@
 
 .card-community-card.is-hovering .card-community-artwork {
   box-shadow: 0 20px 36px rgba(31, 26, 23, 0.2);
-  transform: translate(-50%, -8px);
+  transform: translateY(-8px);
 }
 
 /* --- Pill Action Button --- */

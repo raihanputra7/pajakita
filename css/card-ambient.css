@@ -132,7 +132,7 @@
 }
 
 .insight-gallery-unified .card-community-card.is-hovering .card-community-artwork {
-  transform: translate(-50%, -10px) rotate(-1.2deg);
+  transform: translateY(-8px) rotate(-1.2deg);
   box-shadow:
     0 22px 36px -14px rgba(120, 70, 20, 0.45),
     0 0 0 6px rgba(217, 166, 43, 0.14);

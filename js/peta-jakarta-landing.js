@@ -918,15 +918,10 @@
     if (elKpiRealisasi) elKpiRealisasi.textContent = prof.kpiUtama.realisasiVal;
     if (elKpiSerapan) elKpiSerapan.textContent = prof.kpiUtama.serapanSub;
 
-    // Sinkronisasi tombol "Buat Kartu Insight Wilayah Ini" dengan pemilih wilayah di Card Generator
+    // Sinkronisasi tautan "Buat Kartu Insight Wilayah Ini" ke halaman buat-kartu.html beserta parameter wilayah
     if (elBtnBuatKartu) {
-      elBtnBuatKartu.onclick = function () {
-        var regionSelect = document.getElementById("card-input-region");
-        if (regionSelect) {
-          regionSelect.value = prof.nama;
-          regionSelect.dispatchEvent(new Event("change", { bubbles: true }));
-        }
-      };
+      elBtnBuatKartu.setAttribute("href", "buat-kartu.html?wilayah=" + encodeURIComponent(prof.nama));
+      elBtnBuatKartu.onclick = null;
     }
 
     // 2. Susun 6 Kategori Accordion sesuai ketentuan

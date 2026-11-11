@@ -88,29 +88,17 @@ export function getSavedProfile() {
         } catch (e) {}
       }
 
-      // Default profil agar selalu menyapa saat refresh jika belum dihapus manual
-      return {
-        wilayah: 'Jakarta Barat',
-        nama: 'Raihan',
-        terakhir: Date.now()
-      };
+      // Tidak ada profil tersimpan -> kosong (non-user) sampai warga menyimpan/mengunduh kartu
+      return null;
     }
 
     const data = JSON.parse(raw);
     if (!data || typeof data !== 'object') {
-      return {
-        wilayah: 'Jakarta Barat',
-        nama: 'Raihan',
-        terakhir: Date.now()
-      };
+      return null;
     }
 
     if (!isValidRegion(data.wilayah)) {
-      return {
-        wilayah: 'Jakarta Barat',
-        nama: 'Raihan',
-        terakhir: Date.now()
-      };
+      return null;
     }
 
     return {
